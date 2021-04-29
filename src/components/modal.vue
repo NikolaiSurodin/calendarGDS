@@ -2,7 +2,7 @@
   <b-modal
       :title="currentId != null ? 'Edit event' : 'Add event'"
       ok-title="Save"
-      v-model="show"
+
       @ok="saveEvent">
     <form class="form-horizontal">
       <div class="form-group row">
@@ -36,18 +36,20 @@
 <script>
 export default {
   name: "modal",
-  props:{},
+  props:
+      ['show', 'currentId','currentStartDate','currentEndDate','currentName','currentLocation'],
+
   data() {
     return {
-      show: true,
-      currentId: null,
-      currentStartDate: null,
-      currentEndDate: null,
-      currentName: null,
-      currentLocation: null
+      //show: true,
+      // currentId: null,
+      // currentStartDate: null,
+      // currentEndDate: null,
+      // currentName: null,
+      // currentLocation: null
     }
   },
-  methods:{
+  methods: {
     saveEvent() {
       this.$emit('saveEvent')
     }
