@@ -40,9 +40,15 @@
       </Calendar>
     </div>
     <modal
-        v-if="show"
+       :show="show"
+       :current-end-date="currentEndDate"
+       :current-id="currentId"
+       :current-location="currentLocation"
+       :current-name="currentName"
+       :current-start-date="currentStartDate"
         @saveEvent="saveEvent"
     >
+
     </modal>
     <v-btn type="button" @click="showProfile = !showProfile">
       <i class="material-icons">account_circle</i>Profile
