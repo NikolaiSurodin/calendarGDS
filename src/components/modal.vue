@@ -1,9 +1,4 @@
 <template>
-  <b-modal
-      :title="currentId != null ? 'Edit event' : 'Add event'"
-      ok-title="Save"
-
-      @ok="saveEvent">
     <form class="form-horizontal">
       <div class="form-group row">
         <label for="event-name" class="col-sm-2 control-label">Name</label>
@@ -30,14 +25,13 @@
         </div>
       </div>
     </form>
-  </b-modal>
 </template>
 
 <script>
 export default {
   name: "modal",
   props:
-      ['show', 'currentId','currentStartDate','currentEndDate','currentName','currentLocation'],
+      ['show', 'currentId','currentStartDate','currentEndDate','currentName','currentLocation','visible',],
 
   data() {
     return {
