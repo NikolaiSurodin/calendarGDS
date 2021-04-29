@@ -1,30 +1,18 @@
 <template>
   <div>
     <div>
-      <v-toolbar
-          :height="64"
-      >
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>
-          <router-link type="button" depressed small to="/calendar">
-            <span class="material-icons">event</span>
-          </router-link>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn>Link Two</v-btn>
-          <v-btn @click="logout">
-            Выйти
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+     <my-navbar
+     :user="user.username"
+     @toProfile="showProfile = !showProfile"
+     />
     </div>
     <div>
       <div id="events-log">
         <h3>Events</h3>
         <div v-for="(event,id) in events"
-        :key="id"
-        >{{ event }}</div>
+             :key="id"
+        >{{ event }}
+        </div>
       </div>
       <Calendar language="ru"
                 :enable-range-selection="true"
@@ -39,20 +27,19 @@
       >
       </Calendar>
     </div>
-    <modal
-       :show="show"
-       :current-end-date="currentEndDate"
-       :current-id="currentId"
-       :current-location="currentLocation"
-       :current-name="currentName"
-       :current-start-date="currentStartDate"
-        @saveEvent="saveEvent"
-    >
-
-    </modal>
-    <v-btn type="button" @click="showProfile = !showProfile">
-      <i class="material-icons">account_circle</i>Profile
-    </v-btn>
+    <b-modal v-model="show"
+             :title="currentId != null ? 'Edit event' : 'Add event'"
+             ok-title="Save"
+             @ok="saveEvent">
+      <modal
+          :show="true"
+          :current-end-date="currentEndDate"
+          :current-id="currentEndDate"
+          :current-location="currentLocation"
+          :current-start-date="currentStartDate"
+          :current-name="currentName"
+      />
+    </b-modal>
     <template>
       <profile
           v-if="showProfile"
@@ -60,7 +47,6 @@
       >
       </profile>
     </template>
-
   </div>
 </template>
 
@@ -69,12 +55,14 @@ import Calendar from "v-year-calendar"
 import 'v-year-calendar/locales/v-year-calendar.ru'
 import profile from "@/view/profile"
 import modal from "@/components/modal";
+import MyNavbar from "@/components/myNavbar";
 
 console.log(Calendar)
 var currentYear = new Date().getFullYear();
 export default {
   name: "calendar",
   components: {
+    MyNavbar,
     modal,
     Calendar,
     profile,
@@ -93,7 +81,7 @@ export default {
       dataSource: [
         {
           id: 0,
-          name: 'Google I/O',
+          name: 'Отпуск Суродин Н.С.',
           location: 'San Francisco, CA',
           startDate: new Date(currentYear, 4, 28),
           endDate: new Date(currentYear, 4, 29)
@@ -156,16 +144,15 @@ export default {
         // this.dataSource[i].location = this.currentLocation;
       }
     }, clickDay(e) {
-     let ev = e.events.find((e) => e )
-      this.events.push(`В дату: ${e.date.toLocaleDateString()}  - ${ev?.name}`);
-
+      let ev = e.events.find((e) => e)
+      this.events =[]
+      this.events.push(`В дату: ${e.date.toLocaleDateString()}  - ${ev?.name ? ev.name : 'Нет событий'}`)
     },
     // dayContextMenu(e) {
     //   this.events.push(`Right-click on day: ${e.date.toLocaleDateString()} (${e.events.length} events)`);
     // },
     renderEnd(e) {
       this.events.push(`Render end: ${e.currentYear}`);
-
     },
     yearChanged(e) {
       this.events.push(`Year changed: ${e.currentYear}`);
