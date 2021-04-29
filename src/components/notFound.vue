@@ -1,13 +1,14 @@
 <template>
-$END$
+  <div class="not-found">
+    <h1 style="text-align: center">
+      Ничего не найдено
+    </h1>
+  </div>
 </template>
 
-<script>
-export default {
-name: "notFound"
-}
-</script>
-
 <style scoped>
+.not-found {
+  margin-top: 250px;
+}
 
 </style>
