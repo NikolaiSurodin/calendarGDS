@@ -1,18 +1,16 @@
 <template>
   <div>
     <div>
-     <my-navbar
-     :user="user.username"
-     @toProfile="showProfile = !showProfile"
-     />
+      <my-navbar
+          :user="user.username"
+          @toProfile="showProfile = !showProfile"
+      />
     </div>
     <div>
-      <div id="events-log">
-        <h3>Events</h3>
-        <div v-for="(event,id) in events"
-             :key="id"
-        >{{ event }}
-        </div>
+      <div>
+        <events-log
+            :events="events"
+        />
       </div>
       <Calendar language="ru"
                 :enable-range-selection="true"
@@ -23,7 +21,6 @@
                 id="calendar"
                 @click-day="clickDay"
                 @render-end="renderEnd"
-                @year-changed="yearChanged"
       >
       </Calendar>
     </div>
@@ -33,11 +30,12 @@
              @ok="saveEvent">
       <modal
           :show="true"
-          :current-end-date="currentEndDate"
-          :current-id="currentEndDate"
-          :current-location="currentLocation"
-          :current-start-date="currentStartDate"
-          :current-name="currentName"
+          :id="currentId"
+          :end-date="currentEndDate"
+          :location="currentLocation"
+          :start-date="currentStartDate"
+          :name="currentName"
+          @saveEvent="saveEvent"
       />
     </b-modal>
     <template>
@@ -56,18 +54,19 @@ import 'v-year-calendar/locales/v-year-calendar.ru'
 import profile from "@/view/profile"
 import modal from "@/components/modal";
 import MyNavbar from "@/components/myNavbar";
+import EventsLog from "@/components/eventsLog";
 
 console.log(Calendar)
 var currentYear = new Date().getFullYear();
 export default {
   name: "calendar",
   components: {
+    EventsLog,
     MyNavbar,
     modal,
     Calendar,
     profile,
   },
-  props: {},
   data() {
     return {
       showProfile: false,
@@ -85,12 +84,21 @@ export default {
           location: 'San Francisco, CA',
           startDate: new Date(currentYear, 4, 28),
           endDate: new Date(currentYear, 4, 29)
-        }],
+        },
+        {
+          id: 1,
+          name: 'Отпуск Старкова А.С',
+          location: 'San Francisco, CA',
+          startDate: new Date(currentYear, 4, 28),
+          endDate: new Date(currentYear, 4, 29)
+        }
+      ],
 
       contextMenuItems: [
         {
-          text: "Update",
+          text: "Редактировать",
           click: evt => {
+            console.log(evt.name)
             this.currentId = evt.id;
             this.currentStartDate = evt.startDate.toISOString().substring(0, 10);
             this.currentEndDate = evt.endDate.toISOString().substring(0, 10);
@@ -100,7 +108,7 @@ export default {
           }
         },
         {
-          text: "Delete",
+          text: "Удалить",
           click: evt => {
             this.dataSource = this.dataSource.filter(item => item.id !== evt.id);
           }
@@ -126,15 +134,26 @@ export default {
     saveEvent() {
       if (this.currentId == null) {
         // Add event
-        var id = Math.max(...this.state.dataSource.map(evt => evt.id)) + 1;
+        // var id = Math.max(...this.state.dataSource.map(evt => evt.id)) + 1;
+        // this.dataSource.push({
+        //   id: id,
+        //   startDate: this.currentStartDate,
+        //   endDate: this.currentEndDate,
+        //   name: this.currentName,
+        //   location: this.currentLocation,
+        this.$store.dispatch('saveRecords', {
+          user: this.user.id,
+          title: this.currentName,
+          comment: this.currentLocation,
+          status: 's',
+          //тип события (daysoff, vacation)
+          kind: 's',
+          busy: true,
+          request: true,
+          date_from: this.currentStartDate,
+          date_to: this.currentEndDate,
+        })
 
-        this.dataSource.push({
-          id: id,
-          startDate: this.currentStartDate,
-          endDate: this.currentEndDate,
-          name: this.currentName,
-          location: this.currentLocation,
-        });
       } else {
         // Update event
         // var index = this.dataSource.findIndex(c => c.id === this.currentId);
@@ -143,21 +162,19 @@ export default {
         // this.dataSource[i].name = this.currentName;
         // this.dataSource[i].location = this.currentLocation;
       }
-    }, clickDay(e) {
-      let ev = e.events.find((e) => e)
-      this.events =[]
-      this.events.push(`В дату: ${e.date.toLocaleDateString()}  - ${ev?.name ? ev.name : 'Нет событий'}`)
     },
-    // dayContextMenu(e) {
-    //   this.events.push(`Right-click on day: ${e.date.toLocaleDateString()} (${e.events.length} events)`);
-    // },
+    clickDay(e) {
+      let ev = e.events
+      this.events = []
+      if (!this.events.length) {
+        for (let i of ev) {
+          this.events.push(`В дату: ${e.date.toLocaleDateString()}  - ${i.name}`)
+        }
+      }
+    },
     renderEnd(e) {
-      this.events.push(`Render end: ${e.currentYear}`);
+      this.events.push(`Текущий год: ${e.currentYear}`);
     },
-    yearChanged(e) {
-      this.events.push(`Year changed: ${e.currentYear}`);
-    }
-
   },
   computed: {
     user() {
@@ -184,19 +201,19 @@ export default {
 
 
 <style scoped>
-#events-log {
-  display: inline-block;
-  vertical-align: top;
-  width: 340px;
-  background-color: #e5e5e5;
-  padding: 10px;
-  min-height: 200px;
-  border-radius: 10px;
-}
+/*#events-log {*/
+/*  display: inline-block;*/
+/*  vertical-align: top;*/
+/*  width: 340px;*/
+/*  background-color: #e5e5e5;*/
+/*  padding: 10px;*/
+/*  min-height: 200px;*/
+/*  border-radius: 10px;*/
+/*}*/
 
-#events-log div {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 14px;
-  line-height: 1.4;
-}
+/*#events-log div {*/
+/*  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;*/
+/*  font-size: 14px;*/
+/*  line-height: 1.4;*/
+/*}*/
 </style>
