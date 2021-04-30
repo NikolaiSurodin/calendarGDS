@@ -27,8 +27,9 @@
     <b-modal v-model="show"
              :title="currentId != null ? 'Edit event' : 'Add event'"
              ok-title="Save"
-             @ok="saveEvent">
+             @ok="fireFormSave">
       <modal
+          ref="form"
           :show="true"
           :id="currentId"
           :end-date="currentEndDate"
@@ -130,6 +131,9 @@ export default {
       this.currentStartDate = e.startDate.toISOString().substring(0, 10);
       this.currentEndDate = e.endDate.toISOString().substring(0, 10);
       this.show = true;
+    },
+    fireFormSave() {
+      this.$refs.form.fireSaveEvent()
     },
     saveEvent() {
       if (this.currentId == null) {

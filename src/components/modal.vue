@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    saveEvent() {
+    fireSaveEvent() {
       this.$emit('saveEvent', this.ev )
     }
   }
