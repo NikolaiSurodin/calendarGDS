@@ -12,9 +12,10 @@
             :events="events"
         />
       </div>
-      <Calendar language="ru"
+      <Calendar v-if="loggedIn"
+                language="ru"
                 :enable-range-selection="true"
-                :data-source="dataSource"
+                :data-source="getDataSource"
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
                 @select-range="selectRange"
@@ -25,17 +26,19 @@
       </Calendar>
     </div>
     <b-modal v-model="show"
-             :title="currentId != null ? 'Edit event' : 'Add event'"
-             ok-title="Save"
-             @ok="saveEvent">
+             :title="currentId != null ? 'Редактировать событие' : 'Добавьте событие'"
+             ok-title="Сохранить"
+             cancel-title="Отмена"
+             @ok="fireFormSave">
       <modal
           :show="true"
           :id="currentId"
           :end-date="currentEndDate"
-          :location="currentLocation"
+          :location="currentDescription"
           :start-date="currentStartDate"
           :name="currentName"
           @saveEvent="saveEvent"
+          ref="form"
       />
     </b-modal>
     <template>
@@ -45,6 +48,9 @@
       >
       </profile>
     </template>
+    <div>
+
+    </div>
   </div>
 </template>
 
@@ -56,7 +62,6 @@ import modal from "@/components/modal";
 import MyNavbar from "@/components/myNavbar";
 import EventsLog from "@/components/eventsLog";
 
-console.log(Calendar)
 var currentYear = new Date().getFullYear();
 export default {
   name: "calendar",
@@ -75,35 +80,33 @@ export default {
       currentStartDate: null,
       currentEndDate: null,
       currentName: null,
-      currentLocation: null,
+      currentDescription: null,
       events: [],
       dataSource: [
         {
           id: 0,
           name: 'Отпуск Суродин Н.С.',
-          location: 'San Francisco, CA',
+          description: 'San Francisco, CA',
           startDate: new Date(currentYear, 4, 28),
           endDate: new Date(currentYear, 4, 29)
         },
         {
           id: 1,
           name: 'Отпуск Старкова А.С',
-          location: 'San Francisco, CA',
+          description: 'San Francisco, CA',
           startDate: new Date(currentYear, 4, 28),
           endDate: new Date(currentYear, 4, 29)
         }
       ],
-
       contextMenuItems: [
         {
           text: "Редактировать",
           click: evt => {
-            console.log(evt.name)
             this.currentId = evt.id;
             this.currentStartDate = evt.startDate.toISOString().substring(0, 10);
             this.currentEndDate = evt.endDate.toISOString().substring(0, 10);
             this.currentName = evt.name;
-            this.currentLocation = evt.location;
+            this.currentDescription = evt.description;
             this.show = true;
           }
         },
@@ -126,34 +129,26 @@ export default {
     selectRange(e) {
       this.currentId = null;
       this.currentName = null;
-      this.currentLocation = null;
+      this.currentDescription = null;
       this.currentStartDate = e.startDate.toISOString().substring(0, 10);
       this.currentEndDate = e.endDate.toISOString().substring(0, 10);
       this.show = true;
     },
-    saveEvent() {
+    fireFormSave() {
+      this.$refs.form.fireSaveEvent()
+    },
+    //event - объект - событие
+    saveEvent(event) {
       if (this.currentId == null) {
-        // Add event
-        // var id = Math.max(...this.state.dataSource.map(evt => evt.id)) + 1;
-        // this.dataSource.push({
-        //   id: id,
-        //   startDate: this.currentStartDate,
-        //   endDate: this.currentEndDate,
-        //   name: this.currentName,
-        //   location: this.currentLocation,
+        // Добавление события
         this.$store.dispatch('saveRecords', {
           user: this.user.id,
-          title: this.currentName,
-          comment: this.currentLocation,
-          status: 's',
-          //тип события (daysoff, vacation)
-          kind: 's',
+          title: event.currentName,
+          comment: event.currentDescription,
           busy: true,
-          request: true,
           date_from: this.currentStartDate,
           date_to: this.currentEndDate,
         })
-
       } else {
         // Update event
         // var index = this.dataSource.findIndex(c => c.id === this.currentId);
@@ -163,18 +158,42 @@ export default {
         // this.dataSource[i].location = this.currentLocation;
       }
     },
-    clickDay(e) {
-      let ev = e.events
+    //event - объект - событие
+    clickDay(event) {
+      let ev = event.events
       this.events = []
       if (!this.events.length) {
         for (let i of ev) {
-          this.events.push(`В дату: ${e.date.toLocaleDateString()}  - ${i.name}`)
+          this.events.push(`В дату: ${event.date.toLocaleDateString()}  - ${i.name}`)
         }
       }
     },
-    renderEnd(e) {
-      this.events.push(`Текущий год: ${e.currentYear}`);
+    renderEnd(event) {
+      this.events.push(`Текущий год: ${event.currentYear}`);
     },
+    getEvents() {
+      this.$store.dispatch('getRecords')
+          .then(res => {
+            const events = res.data.data
+            console.log(events)
+          })
+    },
+    getDataSource: function (year) {
+      return fetch(`https://api.github.com/search/issues?q=repo:Paul-DS/bootstrap-year-calendar%20created:${year}-01-01..${year}-12-31`)
+          .then(result => result.json())
+          .then(result => {
+            console.log(result)
+            if (result.items) {
+              return result.items.map(r => ({
+                startDate: new Date(r.created_at),
+                endDate: new Date(r.created_at),
+                name: '#' + r.number + ' - ' + r.title,
+                details: r.comments + ' comments'
+              }));
+            }
+            return [];
+          });
+    }
   },
   computed: {
     user() {
@@ -188,11 +207,13 @@ export default {
     },
   },
   mounted() {
+    this.getEvents()
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')
     })
   },
+
   beforeMount() {
     this.$store.dispatch('isSuperUser')
   },
@@ -201,19 +222,5 @@ export default {
 
 
 <style scoped>
-/*#events-log {*/
-/*  display: inline-block;*/
-/*  vertical-align: top;*/
-/*  width: 340px;*/
-/*  background-color: #e5e5e5;*/
-/*  padding: 10px;*/
-/*  min-height: 200px;*/
-/*  border-radius: 10px;*/
-/*}*/
 
-/*#events-log div {*/
-/*  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;*/
-/*  font-size: 14px;*/
-/*  line-height: 1.4;*/
-/*}*/
 </style>

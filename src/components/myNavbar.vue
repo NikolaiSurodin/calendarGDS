@@ -2,11 +2,11 @@
   <div>
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item href="#" class="mr-auto">Home</b-nav-item>
+        <b-nav-item href="#" class="mr-auto" @click="toCalendar">Календарь</b-nav-item>
         <b-nav-item-dropdown text="Профиль" right>
           <b-dropdown-item @click="toProfile">{{ user.username }}</b-dropdown-item>
           <b-dropdown-item @click="toEditProfile">Настройки</b-dropdown-item>
-          <b-dropdown-item v-if="isSuperUser" to="/userList">Мои сотрудники</b-dropdown-item>
+          <b-dropdown-item v-if="isSuperUser" to="/all_users">Мои сотрудники</b-dropdown-item>
           <b-dropdown-item @click="logout">Выйти</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -26,6 +26,9 @@ export default {
     },
     toEditProfile(){
       this.$router.push(`/edit_profile/${this.user.id}`)
+    },
+    toCalendar() {
+      this.$emit('toCalendar')
     },
     logout() {
       this.$root.$emit('logout')

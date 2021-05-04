@@ -1,26 +1,26 @@
 <template>
   <form class="form-horizontal">
     <div class="form-group row">
-      <label for="event-name" class="col-sm-2 control-label">Name</label>
+      <label for="event-name" class="col-sm-2 control-label">ФИО Отупуск/Отгул</label>
       <div class="col-sm-10">
-        <input id="event-name" type="text" class="form-control" v-model="ev.currentName"/>
+        <input id="event-name" type="text" class="form-control" v-model="event.currentName"/>
       </div>
     </div>
     <div class="form-group row">
-      <label for="event-location" class="col-sm-2 control-label">Location</label>
+      <label for="event-location" class="col-sm-2 control-label">Описание</label>
       <div class="col-sm-10">
-        <input id="event-location" type="text" class="form-control" v-model="ev.currentLocation"/>
+        <input id="event-location" type="text" class="form-control" v-model="event.currentDescription"/>
       </div>
     </div>
     <div class="form-group row">
-      <label for="min-date" class="col-sm-2 control-label">Dates</label>
+      <label for="min-date" class="col-sm-2 control-label">Даты</label>
       <div class="col-sm-10">
         <div class="input-group input-daterange">
-          <input id="min-date" type="date" class="form-control" v-model="ev.currentStartDate"/>
+          <input id="min-date" type="date" class="form-control" v-model="event.currentStartDate"/>
           <div class="input-group-prepend input-group-append">
             <div class="input-group-text">to</div>
           </div>
-          <input type="date" class="form-control" v-model="ev.currentEndDate"/>
+          <input type="date" class="form-control" v-model="event.currentEndDate"/>
         </div>
       </div>
     </div>
@@ -30,22 +30,21 @@
 <script>
 export default {
   name: "modal",
-  props: ['id', 'startDate', 'endDate', 'name', 'location'],
+  props: ['id', 'startDate', 'endDate', 'name', 'descriprion'],
   data() {
     return {
-      ev : {
+      event: {
         currentId: this.id,
         currentStartDate: this.startDate,
         currentEndDate: this.endDate,
         currentName: this.name,
-        currentLocation: this.location,
+        currentDescription: this.descriprion,
       },
-
     }
   },
   methods: {
-    saveEvent() {
-      this.$emit('saveEvent', this.ev )
+    fireSaveEvent() {
+      this.$emit('saveEvent', this.event)
     }
   }
 }

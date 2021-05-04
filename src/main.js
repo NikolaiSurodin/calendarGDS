@@ -9,6 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.css'
 
 
+
 import router from '@/router'
 
 Vue.prototype.$http = axios
