@@ -175,13 +175,14 @@ export default {
       this.$store.dispatch('getRecords')
           .then(res => {
             const events = res.data.data
-            if (events){
-              return events.map(r => ({
+            if (events) {
+               let calendarEvent = events.map(r => ({
                 startDate: r.date_to,
                 endDate: r.date_from,
                 name: r.title,
                 details: r.comment
               }))
+              console.log(calendarEvent)
             }
           })
 
