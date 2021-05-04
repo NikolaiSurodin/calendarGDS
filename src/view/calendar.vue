@@ -15,7 +15,7 @@
       <Calendar v-if="loggedIn"
                 language="ru"
                 :enable-range-selection="true"
-                :data-source="getDataSource"
+                :data-source="getEvents"
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
                 @select-range="selectRange"
@@ -175,25 +175,35 @@ export default {
       this.$store.dispatch('getRecords')
           .then(res => {
             const events = res.data.data
-            console.log(events)
-          })
-    },
-    getDataSource: function (year) {
-      return fetch(`https://api.github.com/search/issues?q=repo:Paul-DS/bootstrap-year-calendar%20created:${year}-01-01..${year}-12-31`)
-          .then(result => result.json())
-          .then(result => {
-            console.log(result)
-            if (result.items) {
-              return result.items.map(r => ({
-                startDate: new Date(r.created_at),
-                endDate: new Date(r.created_at),
-                name: '#' + r.number + ' - ' + r.title,
-                details: r.comments + ' comments'
-              }));
+            if (events){
+              return events.map(r => ({
+                startDate: r.date_to,
+                endDate: r.date_from,
+                name: r.title,
+                details: r.comment
+              }))
             }
-            return [];
-          });
-    }
+          })
+
+    },
+    //автор :
+    // getDataSource: function (year) {
+    //   return fetch(`https://api.github.com/search/issues?q=repo:Paul-DS/bootstrap-year-calendar%20created:${year}-01-01..${year}-12-31`)
+    //       .then(result =>
+    //
+    //           console.log(result.json()))
+    //       .then(result => {
+    //         if (result.items) {
+    //           return result.items.map(r => ({
+    //             startDate: new Date(r.created_at),
+    //             endDate: new Date(r.created_at),
+    //             name: '#' + r.number + ' - ' + r.title,
+    //             details: r.comments + ' comments'
+    //           }));
+    //         }
+    //         return [];
+    //       });
+    // }
   },
   computed: {
     user() {
@@ -207,7 +217,6 @@ export default {
     },
   },
   mounted() {
-    this.getEvents()
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')
@@ -215,6 +224,7 @@ export default {
   },
 
   beforeMount() {
+
     this.$store.dispatch('isSuperUser')
   },
 }
