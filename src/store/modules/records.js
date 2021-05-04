@@ -12,7 +12,7 @@ export default {
         getRecords({commit}) {
             return new Promise((resolve) => {
                 axios
-                    .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?page=4')
+                    .get('https://vacation-api.thirty3.tools/api/v1/frontend/events')
                     .then(response => {
                         const events = response.data.data
                         commit('getEvents', events)
@@ -20,6 +20,17 @@ export default {
                     })
             })
 
+        },
+        deleteRecords({commit}, payload) {
+            return new Promise(resolve => {
+                axios
+                    .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
+                    .then(res => {
+                        const events = res
+                        commit('deleteEvents',events)
+                        resolve()
+                    })
+            })
         }
     },
     mutations: {
@@ -51,7 +62,11 @@ export default {
         },
         getEvents(state, events) {
             state.savedState = events
+        },
+        deleteEvents(state, events) {
+            state.savedState = events
         }
+
     },
     getters: {
         calendarState(state) {

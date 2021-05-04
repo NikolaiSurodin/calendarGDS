@@ -34,7 +34,7 @@
           :show="true"
           :id="currentId"
           :end-date="currentEndDate"
-          :location="currentDescription"
+          :description="currentDescription"
           :start-date="currentStartDate"
           :name="currentName"
           @saveEvent="saveEvent"
@@ -62,7 +62,7 @@ import modal from "@/components/modal";
 import MyNavbar from "@/components/myNavbar";
 import EventsLog from "@/components/eventsLog";
 
-var currentYear = new Date().getFullYear();
+//var currentYear = new Date().getFullYear();
 export default {
   name: "calendar",
   components: {
@@ -82,22 +82,7 @@ export default {
       currentName: null,
       currentDescription: null,
       events: [],
-      dataSource: [
-        {
-          id: 0,
-          name: 'Отпуск Суродин Н.С.',
-          description: 'San Francisco, CA',
-          startDate: new Date(currentYear, 4, 28),
-          endDate: new Date(currentYear, 4, 29)
-        },
-        {
-          id: 1,
-          name: 'Отпуск Старкова А.С',
-          description: 'San Francisco, CA',
-          startDate: new Date(currentYear, 4, 28),
-          endDate: new Date(currentYear, 4, 29)
-        }
-      ],
+      dataSource: [],
       contextMenuItems: [
         {
           text: "Редактировать",
@@ -108,12 +93,16 @@ export default {
             this.currentName = evt.name;
             this.currentDescription = evt.description;
             this.show = true;
+            console.log(evt)
           }
         },
         {
           text: "Удалить",
-          click: evt => {
-            this.dataSource = this.dataSource.filter(item => item.id !== evt.id);
+          click: ev => {
+            //this.dataSource = this.dataSource.filter(item => item.id !== evt.id);
+            this.$store.getters.calendarState.filter(e => e)
+            console.log(ev)
+            //this.$store.dispatch('deleteRecords', {id:evt.id})
           }
         }
       ]
@@ -172,39 +161,21 @@ export default {
       this.events.push(`Текущий год: ${event.currentYear}`);
     },
     getEvents() {
-      this.$store.dispatch('getRecords')
+      return this.$store.dispatch('getRecords')
           .then(res => {
             const events = res.data.data
             if (events) {
-               let calendarEvent = events.map(r => ({
-                startDate: r.date_to,
-                endDate: r.date_from,
+              let calendarEvent = events.map(r => ({
+                startDate: new Date(r.date_to),
+                endDate: new Date(r.date_from),
                 name: r.title,
                 details: r.comment
               }))
-              console.log(calendarEvent)
+              return calendarEvent
             }
           })
 
-    },
-    //автор :
-    // getDataSource: function (year) {
-    //   return fetch(`https://api.github.com/search/issues?q=repo:Paul-DS/bootstrap-year-calendar%20created:${year}-01-01..${year}-12-31`)
-    //       .then(result =>
-    //
-    //           console.log(result.json()))
-    //       .then(result => {
-    //         if (result.items) {
-    //           return result.items.map(r => ({
-    //             startDate: new Date(r.created_at),
-    //             endDate: new Date(r.created_at),
-    //             name: '#' + r.number + ' - ' + r.title,
-    //             details: r.comments + ' comments'
-    //           }));
-    //         }
-    //         return [];
-    //       });
-    // }
+    }
   },
   computed: {
     user() {
@@ -225,7 +196,6 @@ export default {
   },
 
   beforeMount() {
-
     this.$store.dispatch('isSuperUser')
   },
 }

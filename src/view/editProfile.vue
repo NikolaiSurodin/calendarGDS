@@ -105,14 +105,11 @@
         <div class="buttons">
           <v-btn type="button" @click="updateUser" :disabled="!valid">
             Отредактировать данные
-            <i class="material-icons right">done</i>
           </v-btn>
           <v-btn type="button" @click="goOut">
             Отмена
-            <i class="material-icons right">highlight_off</i>
           </v-btn>
         </div>
-
       </v-container>
     </v-form>
     <v-footer
