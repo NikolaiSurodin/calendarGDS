@@ -1,23 +1,9 @@
 <template>
   <div v-if="show">
     <div>
-      <v-toolbar
-          :height="64"
-      >
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>
-          <router-link type="button" depressed small to="/calendar">
-            <span class="material-icons">event</span>
-          </router-link>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn>Link Two</v-btn>
-          <v-btn @click="logout">
-            Выйти
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+   <my-navbar
+   @toCalendar="toCalendar"
+   />
     </div>
     <v-form v-model="valid">
       <v-container>
@@ -95,18 +81,11 @@
           </v-form>
         </div>
 
-        <v-checkbox
-            v-model="checkbox"
-            :rules="[v => !!v || '']"
-            label="Согласен с изменениями"
-            required
-        ></v-checkbox>
-
         <div class="buttons">
           <v-btn type="button" @click="updateUser" :disabled="!valid">
             Отредактировать данные
           </v-btn>
-          <v-btn type="button" @click="goOut">
+          <v-btn type="button" @click="toCalendar">
             Отмена
           </v-btn>
         </div>
@@ -133,9 +112,11 @@
 </template>
 
 <script>
+import MyNavbar from "@/components/myNavbar"
 
 export default {
   name: "editProfile",
+  components: {MyNavbar},
   data() {
     return {
       show: false,
@@ -160,7 +141,6 @@ export default {
         v => (v && v.length <= 10) || 'Заполните имя'
       ],
       email: '',
-      checkbox: false,
       emailRules: [
         v => !!v || 'E-mail обязательно',
         v => /.+@.+/.test(v) || 'E-mail неверный'
@@ -178,7 +158,7 @@ export default {
     logout() {
       this.$root.$emit('logout')
     },
-    goOut() {
+    toCalendar() {
       this.$router.push('/calendar')
     },
     updateUser() {

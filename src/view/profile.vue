@@ -27,13 +27,9 @@
             <div class="bt">
               <v-btn @click="ToUserProfile"
               > Редактировать профиль
-                <i class="material-icons right">edit</i>
               </v-btn>
               <v-btn style="border-radius: 10%" @click="closeProfile"
               > Закрыть
-              </v-btn>
-              <v-btn style="border-radius: 10%" @click="EventDelete"
-              > events
               </v-btn>
             </div>
           </div>
@@ -44,7 +40,6 @@
 </template>
 
 <script>
-//import axios from 'axios'
 
 export default {
   name: "profile",
@@ -62,24 +57,7 @@ export default {
     },
     ToUserProfile() {
       this.$router.push(`/edit_profile/${this.user.id}`)
-    },
-    // EventDelete() {
-    //   return new Promise(resolve => {
-    //     axios
-    //         .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?page=1')
-    //         .then(response => {
-    //           const events = response.data.data
-    //           console.log(events)
-    //           for (let ev of events){
-    //             //console.log(ev.id)
-    //           //axios.delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${ev.id}?page=1`)
-    //            }
-    //           resolve(response)
-    //         })
-    //
-    //   })
-    //
-    // }
+    }
   },
   computed: {
     user() {

@@ -91,18 +91,14 @@ export default {
             this.currentStartDate = evt.startDate.toISOString().substring(0, 10);
             this.currentEndDate = evt.endDate.toISOString().substring(0, 10);
             this.currentName = evt.name;
-            this.currentDescription = evt.description;
+            this.currentDescription = evt.details;
             this.show = true;
-            console.log(evt)
           }
         },
         {
           text: "Удалить",
-          click: ev => {
-            //this.dataSource = this.dataSource.filter(item => item.id !== evt.id);
-            this.$store.getters.calendarState.filter(e => e)
-            console.log(ev)
-            //this.$store.dispatch('deleteRecords', {id:evt.id})
+          click: evt => {
+            this.$store.dispatch('deleteRecords', {id: evt.id})
           }
         }
       ]
@@ -136,16 +132,24 @@ export default {
           comment: event.currentDescription,
           busy: true,
           date_from: this.currentStartDate,
-          date_to: this.currentEndDate,
+          date_to: this.currentEndDate
         })
       } else {
-        // Update event
-        // var index = this.dataSource.findIndex(c => c.id === this.currentId);
-        // this.dataSource[i].startDate = this.currentStartDate;
-        // this.dataSource[i].endDate = this.currentEndDate;
-        // this.dataSource[i].name = this.currentName;
-        // this.dataSource[i].location = this.currentLocation;
+        // Обновление события
+        this.$store.dispatch('updateEvents', {
+          value: {
+            user: this.user.id,
+            id: this.id,
+            title: event.currentName,
+            comment: event.currentDescription,
+            busy: true,
+            date_from: this.currentStartDate,
+            date_to: this.currentEndDate,
+          },
+          id:event.currentId
+        })
       }
+      this.$root.$emit('lala')
     },
     //event - объект - событие
     clickDay(event) {
@@ -169,12 +173,12 @@ export default {
                 startDate: new Date(r.date_to),
                 endDate: new Date(r.date_from),
                 name: r.title,
-                details: r.comment
+                details: r.comment,
+                id: r.id
               }))
               return calendarEvent
             }
           })
-
     }
   },
   computed: {
@@ -186,9 +190,10 @@ export default {
     },
     superUser() {
       return this.$store.getters.isSuperUser
-    },
+    }
   },
   mounted() {
+    this.getEvents()
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')

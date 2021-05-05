@@ -25,11 +25,24 @@ export default {
             return new Promise(resolve => {
                 axios
                     .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
-                    .then(res => {
-                        const events = res
-                        commit('deleteEvents',events)
+                    .then(response => {
+                        const events = response
+                        commit('deleteEvents', events)
                         resolve()
                     })
+            })
+        },
+        updateEvents({commit}, payload) {
+            return new Promise(resolve => {
+                axios({
+                    url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
+                    data: payload.value,
+                    method: 'PATCH'
+                })
+                    .then(() => {
+                        commit('getEvents', payload.value)
+                    })
+                resolve()
             })
         }
     },
