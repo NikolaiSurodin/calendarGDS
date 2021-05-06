@@ -2,7 +2,7 @@
   <div>
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item href="#" class="mr-auto" @click="toCalendar">Календарь</b-nav-item>
+        <b-nav-item class="mr-auto" @click="toCalendar">Календарь</b-nav-item>
         <b-nav-item-dropdown text="Профиль" right>
           <b-dropdown-item @click="toProfile">{{ user.username }}</b-dropdown-item>
           <b-dropdown-item @click="toEditProfile">Настройки</b-dropdown-item>

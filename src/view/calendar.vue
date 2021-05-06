@@ -1,25 +1,26 @@
 <template>
   <div>
-    <div>
+    <template>
       <my-navbar
           :user="user.username"
           @toProfile="showProfile = !showProfile"
       />
-    </div>
+    </template>
     <div>
-      <div>
+      <template>
         <events-log
             :events="events"
         />
-      </div>
+      </template>
       <Calendar v-if="loggedIn"
+                id="calendar"
                 language="ru"
                 :enable-range-selection="true"
                 :data-source="getEvents"
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
+                :display-week-number="displayWeekNumber"
                 @select-range="selectRange"
-                id="calendar"
                 @click-day="clickDay"
                 @render-end="renderEnd"
       >
@@ -49,7 +50,6 @@
       </profile>
     </template>
     <div>
-
     </div>
   </div>
 </template>
@@ -58,9 +58,9 @@
 import Calendar from "v-year-calendar"
 import 'v-year-calendar/locales/v-year-calendar.ru'
 import profile from "@/view/profile"
-import modal from "@/components/modal";
-import MyNavbar from "@/components/myNavbar";
-import EventsLog from "@/components/eventsLog";
+import modal from "@/components/modal"
+import MyNavbar from "@/components/myNavbar"
+import EventsLog from "@/components/eventsLog"
 
 //var currentYear = new Date().getFullYear();
 export default {
@@ -81,6 +81,7 @@ export default {
       currentEndDate: null,
       currentName: null,
       currentDescription: null,
+      displayWeekNumber: true,
       events: [],
       dataSource: [],
       contextMenuItems: [
@@ -126,7 +127,7 @@ export default {
     saveEvent(event) {
       if (this.currentId == null) {
         // Добавление события
-        this.$store.dispatch('saveRecords', {
+        this.$store.dispatch('saveEvents', {
           user: this.user.id,
           title: event.currentName,
           comment: event.currentDescription,
@@ -134,26 +135,27 @@ export default {
           date_from: this.currentStartDate,
           date_to: this.currentEndDate
         })
+
       } else {
         // Обновление события
         this.$store.dispatch('updateEvents', {
           value: {
             user: this.user.id,
-            id: this.id,
             title: event.currentName,
             comment: event.currentDescription,
             busy: true,
-            date_from: this.currentStartDate,
-            date_to: this.currentEndDate,
+            date_from: event.currentStartDate,
+            date_to: event.currentEndDate,
           },
-          id:event.currentId
+          id: event.currentId
         })
       }
-      this.$root.$emit('lala')
+     console.log(this.calendarRecords)
     },
     //event - объект - событие
     clickDay(event) {
       let ev = event.events
+
       this.events = []
       if (!this.events.length) {
         for (let i of ev) {
@@ -162,7 +164,8 @@ export default {
       }
     },
     renderEnd(event) {
-      this.events.push(`Текущий год: ${event.currentYear}`);
+      this.events = []
+      this.events.push(`Текущий год: ${event.currentYear}`)
     },
     getEvents() {
       return this.$store.dispatch('getRecords')
@@ -170,8 +173,8 @@ export default {
             const events = res.data.data
             if (events) {
               let calendarEvent = events.map(r => ({
-                startDate: new Date(r.date_to),
-                endDate: new Date(r.date_from),
+                startDate: new Date(r.date_from),
+                endDate: new Date(r.date_to),
                 name: r.title,
                 details: r.comment,
                 id: r.id
@@ -182,6 +185,9 @@ export default {
     }
   },
   computed: {
+    calendarRecords() {
+      return this.$store.getters.calendarState
+    },
     user() {
       return this.$store.getters.user
     },
@@ -193,16 +199,14 @@ export default {
     }
   },
   mounted() {
-    this.getEvents()
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')
     })
   },
-
   beforeMount() {
     this.$store.dispatch('isSuperUser')
-  },
+  }
 }
 </script>
 

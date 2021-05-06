@@ -6,8 +6,30 @@ export default {
         status: ''
     },
     actions: {
-        saveRecords({commit}, payload) {
-            commit('saveEvents', payload)
+        saveEvents({commit}, payload) {
+            return new Promise((resolve) => {
+                axios({
+                    url: 'https://vacation-api.thirty3.tools/api/v1/frontend/events',
+                    data: {
+                        user: this.user.id,
+                        title: payload.title,
+                        comment: payload.comment,
+                        status: payload.status,
+                        //тип события (daysoff, vacation)
+                        kind: payload.kind,
+                        busy: payload.busy,
+                        request: payload.request,
+                        date_from: payload.date_from,
+                        date_to: payload.date_to,
+                    },
+                    method: 'POST'
+                })
+                    .then(() => {
+                       commit('saveRecords',payload)
+                        resolve()
+                    })
+            })
+
         },
         getRecords({commit}) {
             return new Promise((resolve) => {
@@ -47,31 +69,8 @@ export default {
         }
     },
     mutations: {
-        saveEvents(state, payload) {
-            return new Promise((resolve) => {
-                axios({
-                    url: 'https://vacation-api.thirty3.tools/api/v1/frontend/events',
-                    data: {
-                        user: this.user.id,
-                        title: payload.title,
-                        comment: payload.comment,
-                        status: payload.status,
-                        //тип события (daysoff, vacation)
-                        kind: payload.kind,
-                        busy: payload.busy,
-                        request: payload.request,
-                        date_from: payload.date_from,
-                        date_to: payload.date_to,
-                    },
-                    method: 'POST'
-                })
-                    .then(() => {
-                        state.savedState = payload
-                        //localStorage.setItem('calendarState', JSON.stringify(state.savedState))
-                        resolve()
-                    })
-            })
-
+        saveRecords(state, payload) {
+           state.savedState.push(payload)
         },
         getEvents(state, events) {
             state.savedState = events
