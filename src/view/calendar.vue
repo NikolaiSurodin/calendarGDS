@@ -149,7 +149,7 @@ export default {
           id: event.currentId
         })
       }
-     console.log(this.calendarRecords)
+      console.log(this.calendarRecords)
     },
     //event - объект - событие
     clickDay(event) {
@@ -168,24 +168,32 @@ export default {
     },
     getEvents() {
       return this.$store.dispatch('getRecords')
-          // .then(res => {
-          //   const events = res.data.data
-          //   if (events) {
-          //     let calendarEvent = events.map(r => ({
-          //       startDate: new Date(r.date_from),
-          //       endDate: new Date(r.date_to),
-          //       name: r.title,
-          //       details: r.comment,
-          //       id: r.id
-          //     }))
-          //     return calendarEvent
-          //   }
-          // })
+      // .then(res => {
+      //   const events = res.data.data
+      //   if (events) {
+      //     let calendarEvent = events.map(r => ({
+      //       startDate: new Date(r.date_from),
+      //       endDate: new Date(r.date_to),
+      //       name: r.title,
+      //       details: r.comment,
+      //       id: r.id
+      //     }))
+      //     return calendarEvent
+      //   }
+      // })
     }
   },
   computed: {
     calendarRecords() {
-      return this.$store.getters.calendarState
+      return this.$store.getters.calendarState.map(r => {
+        return {
+          startDate: new Date(r.date_from),
+          endDate: new Date(r.date_to),
+          name: r.title,
+          details: r.comment,
+          id: r.id
+        }
+      })
     },
     user() {
       return this.$store.getters.user
