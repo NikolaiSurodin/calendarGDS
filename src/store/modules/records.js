@@ -24,8 +24,18 @@ export default {
                     },
                     method: 'POST'
                 })
-                    .then(() => {
-                       commit('saveRecords',payload)
+                    .then((response) => {
+                        console.log(response)
+
+                        let event = {
+                            id:response.data.id,
+                            comment:response.data.comment,
+                            date_from:response.data.date_from,
+                            date_to:response.data.date_to,
+                            title:response.data.title,
+                            user:response.data.user
+                        }
+                       commit('saveRecords',event)
                         resolve()
                     })
             })
@@ -70,8 +80,8 @@ export default {
         }
     },
     mutations: {
-        saveRecords(state, payload) {
-           state.savedState.push(payload)
+        saveRecords(state, event) {
+           state.savedState.push(event)
         },
         setEvents(state, events) {
             state.savedState = events

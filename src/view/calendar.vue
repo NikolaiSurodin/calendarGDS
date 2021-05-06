@@ -138,7 +138,6 @@ export default {
           id:event.currentId
         })
         console.log(event)
-        this.getEvents()
       } else {
         // Обновление события
 
