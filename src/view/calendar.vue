@@ -16,7 +16,7 @@
                 id="calendar"
                 language="ru"
                 :enable-range-selection="true"
-                :data-source="getEvents"
+                :data-source="calendarRecords"
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
                 :display-week-number="displayWeekNumber"
@@ -135,7 +135,6 @@ export default {
           date_from: this.currentStartDate,
           date_to: this.currentEndDate
         })
-
       } else {
         // Обновление события
         this.$store.dispatch('updateEvents', {
@@ -169,19 +168,19 @@ export default {
     },
     getEvents() {
       return this.$store.dispatch('getRecords')
-          .then(res => {
-            const events = res.data.data
-            if (events) {
-              let calendarEvent = events.map(r => ({
-                startDate: new Date(r.date_from),
-                endDate: new Date(r.date_to),
-                name: r.title,
-                details: r.comment,
-                id: r.id
-              }))
-              return calendarEvent
-            }
-          })
+          // .then(res => {
+          //   const events = res.data.data
+          //   if (events) {
+          //     let calendarEvent = events.map(r => ({
+          //       startDate: new Date(r.date_from),
+          //       endDate: new Date(r.date_to),
+          //       name: r.title,
+          //       details: r.comment,
+          //       id: r.id
+          //     }))
+          //     return calendarEvent
+          //   }
+          // })
     }
   },
   computed: {
@@ -199,6 +198,7 @@ export default {
     }
   },
   mounted() {
+    this.getEvents()
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')
