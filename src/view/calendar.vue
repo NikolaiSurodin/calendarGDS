@@ -94,6 +94,7 @@ export default {
             this.currentName = evt.name;
             this.currentDescription = evt.details;
             this.show = true;
+            console.log(evt)
           }
         },
         {
@@ -125,7 +126,7 @@ export default {
     },
     //event - объект - событие
     saveEvent(event) {
-      if (this.currentId == null) {
+      if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
           user: this.user.id,
@@ -133,23 +134,26 @@ export default {
           comment: event.currentDescription,
           busy: true,
           date_from: this.currentStartDate,
-          date_to: this.currentEndDate
+          date_to: this.currentEndDate,
+          id:event.currentId
         })
+        console.log(event)
+        this.getEvents()
       } else {
         // Обновление события
-        this.$store.dispatch('updateEvents', {
+
+        this.$store.dispatch('updateEvent', {
           value: {
             user: this.user.id,
             title: event.currentName,
             comment: event.currentDescription,
             busy: true,
             date_from: event.currentStartDate,
-            date_to: event.currentEndDate,
+            date_to: event.currentEndDate
           },
           id: event.currentId
         })
       }
-      console.log(this.calendarRecords)
     },
     //event - объект - событие
     clickDay(event) {

@@ -20,7 +20,7 @@ export default {
                         busy: payload.busy,
                         request: payload.request,
                         date_from: payload.date_from,
-                        date_to: payload.date_to,
+                        date_to: payload.date_to
                     },
                     method: 'POST'
                 })
@@ -37,24 +37,25 @@ export default {
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/events')
                     .then(response => {
                         const events = response.data.data
-                        commit('getEvents', events)
+                        commit('setEvents', events)
                         resolve(response)
                     })
             })
 
         },
-        deleteRecords({commit}, payload) {
+        deleteRecords({commit, state}, payload ) {
             return new Promise(resolve => {
                 axios
                     .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
-                    .then(response => {
-                        const events = response
-                        commit('deleteEvents', events)
+                    .then(() => {
+                        const events = state.savedState.filter((el) => el.id !== payload.id)
+                        console.log(events)
+                        commit('setEvents',events)
                         resolve()
                     })
             })
         },
-        updateEvents({commit}, payload) {
+        updateEvent({commit}, payload) {
             return new Promise(resolve => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
@@ -62,7 +63,7 @@ export default {
                     method: 'PATCH'
                 })
                     .then(() => {
-                        commit('getEvents', payload.value)
+                        commit('setEvents', payload.value)
                     })
                 resolve()
             })
@@ -72,7 +73,7 @@ export default {
         saveRecords(state, payload) {
            state.savedState.push(payload)
         },
-        getEvents(state, events) {
+        setEvents(state, events) {
             state.savedState = events
         },
         deleteEvents(state, events) {
