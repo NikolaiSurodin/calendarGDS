@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div>
     <template>
       <message-error
           v-if="error"
@@ -8,114 +8,88 @@
         <h3>Введеные данные неверны! Попробуйте еще раз!</h3>
       </message-error>
     </template>
-    <div class="wrapper">
-      <v-jumbotron
-          :gradient="gradient"
-          :height="50"
-          dark
-          src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-      >
-        <v-container fill-height>
-          <v-layout align-center>
-            <v-flex text-xs-center>
-              <h3 class="display-3">Календарь отпусков</h3>
-              <div class="description">
-                <b>
-                  Введите данные для входа: <br>
-                </b>
-              </div>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-jumbotron>
-      <v-form v-model="valid">
-        <v-container class="card">
-          <div class="text">
-            Введите данные для входа:
-          </div>
-          <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-          ></v-text-field>
+    <form class="form-signin" @submit.prevent="submitLogin">
+      <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
+      <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+      <p>Ведите данные для входа и нажмите Войти:</p>
 
-          <v-text-field
-              v-model="password"
-              :rules="passwordRules"
-              label="Пароль"
-              type="password"
-              required
-          ></v-text-field>
-
-          <div class="submit">
-            <v-btn type="submit" @click.prevent="submitLogin" :disabled="!valid">
-              Войти
-              <span class="material-icons">done</span>
-            </v-btn>
-            <div class="register">
-              <router-link to="/">Регистрация</router-link>
-            </div>
-          </div>
-        </v-container>
-      </v-form>
-    </div>
-    <v-footer
-        :height="50"
-        :fixed="true"
-        :color="'grey'"
-    >
-      <v-flex
-          primary
-          lighten-2
-          py-3
-          text-xs-center
-          white--text
-          xs12
+      <input type="email"
+             id="inputEmail"
+             class="form-control"
+             placeholder="Email"
+             required autofocus
+             v-model.trim="form.email"
+             :class="$v.form.email.$error ? 'is-invalid' : ''"
       >
-        &copy;2021 — <strong>GDS</strong>
-      </v-flex>
-    </v-footer>
+      <p v-if="$v.form.email.$dirty && !$v.form.email.required" class="invalid-feedback">Ошибка! Обязательное поле</p>
+      <p v-if="$v.form.email.$dirty && !$v.form.email.email" class="invalid-feedback">Ошибка! Введите корректный
+        E-mail</p>
+
+      <input type="password"
+             id="inputPassword"
+             class="form-control"
+             placeholder="пароль"
+             required
+             v-model.trim="form.password"
+             :class="$v.form.password.$error ? 'is-invalid' : ''"
+      >
+
+      <p v-if="$v.form.password.$dirty && !$v.form.password.minLength" class="invalid-feedback">Ошибка!Пароль минимум 7
+        символов</p>
+      <p v-if="$v.form.password.$dirty && !$v.form.password.required" class="invalid-feedback">Обязательное поля!</p>
+
+      <div class="btn">
+        <button class="btn btn-lg btn-primary btn-block"
+                type="submit">
+          Войти
+        </button>
+
+        <router-link to="/">Регистрация</router-link>
+        <p class="mt-5 mb-3 text-muted">© GDS - 2021</p>
+      </div>
+    </form>
   </div>
 
 </template>
 
 <script>
-import messageError from "@/components/messageError";
+import messageError from "@/components/messageError"
+import {email, required, minLength} from 'vuelidate/lib/validators'
 
 export default {
   name: "login",
   components: {messageError},
   data() {
     return {
-      gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
-      valid: false,
-      password: '',
-      email: '',
+      form: {
+        password: '',
+        email: '',
+      },
       error: false,
-      emailRules: [
-        v => !!v || 'E-mail заполнить обязательно',
-        v => /.+@.+/.test(v) || 'Проверьте, пожалуйста, E-mail',
-      ],
-      passwordRules: [
-        v => !!v || 'Проверьте пароль!',
-      ]
+      valid: false,
+    }
+  },
+  validations: {
+    form: {
+      email: {required, email},
+      password: {required, minLength: minLength(7)}
     }
   },
   methods: {
     submitLogin() {
-      const user = {
-        email: this.email,
-        password: this.password
+      this.$v.form.$touch()
+      if (!this.$v.form.$error) {
+        this.$store.dispatch('submitLogin', this.form)
+            .then(() => this.$router.push('/calendar'))
+
+            .catch((error) => {
+              console.log(error)
+
+              this.error = !this.error
+              this.form.email = ''
+              this.form.password = ''
+            })
       }
-      this.$store.dispatch('submitLogin', user)
-          .then(() => this.$router.push('/calendar'))
-          .catch((error) => {
-            console.log(error)
-            this.error = !this.error
-            this.email = ''
-            this.password = ''
-          })
     },
     closePopup() {
       this.error = false
@@ -127,24 +101,58 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  max-width: 500px;
-  position: center;
-  margin-top: 20px;
-  width: 500px;
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+form {
   display: block;
-  background: linear-gradient(#e3d4d4, #a3a3a9); /* Цвет фона */
-  border: 3px solid #fff; /* Белая рамка */
-  border-radius: 30px;
-
-
+  margin-top: 0em;
 }
 
-.submit {
-  margin-top: 20px;
-  margin-left: 150px;
+.text-center {
+  text-align: center !important;
 }
-.register{
-  margin-left: 20px;
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: .5rem;
+}
+
+label {
+  cursor: default;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.btn {
+  margin-bottom: 50px;
+  width: 100%;
 }
 </style>

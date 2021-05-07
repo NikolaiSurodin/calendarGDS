@@ -3,6 +3,7 @@ import axios from "axios"
 export default {
     state: {
         savedState: [],
+        event:{},
         status: ''
     },
     actions: {
@@ -26,15 +27,7 @@ export default {
                 })
                     .then((response) => {
                         console.log(response)
-
-                        let event = {
-                            id:response.data.id,
-                            comment:response.data.comment,
-                            date_from:response.data.date_from,
-                            date_to:response.data.date_to,
-                            title:response.data.title,
-                            user:response.data.user
-                        }
+                        const event = response.data
                        commit('saveRecords',event)
                         resolve()
                     })
@@ -59,7 +52,6 @@ export default {
                     .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
                     .then(() => {
                         const events = state.savedState.filter((el) => el.id !== payload.id)
-                        console.log(events)
                         commit('setEvents',events)
                         resolve()
                     })
@@ -72,8 +64,9 @@ export default {
                     data: payload.value,
                     method: 'PATCH'
                 })
-                    .then(() => {
-                        commit('setEvents', payload.value)
+                    .then((response) => {
+                        const event = response.data
+                        commit('setEvent', event)
                     })
                 resolve()
             })
@@ -85,6 +78,9 @@ export default {
         },
         setEvents(state, events) {
             state.savedState = events
+        },
+        setEvent(state, event) {
+          state.event = event
         },
         deleteEvents(state, events) {
             state.savedState = events

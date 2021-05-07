@@ -6,13 +6,13 @@
 
 <script>
 
-
 export default {
   name: 'App',
   methods: {
     check() {
       this.$store.dispatch('checkAuth')
-          .then(() => {})
+          .then(() => {
+          })
           .catch((err) => {
             console.log(err)
             this.$router.push('/')
@@ -23,7 +23,6 @@ export default {
     this.check()
   },
   mounted() {
-
     this.$root.$on('logout', () => {
       this.$store.dispatch('logout')
           .then(() => {
@@ -36,10 +35,7 @@ export default {
 
 <style>
 #app {
-/*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
-/*  -webkit-font-smoothing: antialiased;*/
-/*  -moz-osx-font-smoothing: grayscale;*/
-text-align: center;
- color: #2c3e50;
+  text-align: center;
+  color: #2c3e50;
 }
 </style>

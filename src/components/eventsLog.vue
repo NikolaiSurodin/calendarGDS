@@ -13,9 +13,7 @@ export default {
   name: "eventsLog",
   props: ['events'],
   data() {
-    return {
-
-    }
+    return {}
   }
 }
 
@@ -33,7 +31,7 @@ export default {
 }
 
 #events-log div {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: cursive;
   font-size: 14px;
   line-height: 1.4;
 }

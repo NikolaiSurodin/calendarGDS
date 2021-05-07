@@ -6,12 +6,14 @@
           @toProfile="showProfile = !showProfile"
       />
     </template>
-    <div>
-      <template>
-        <events-log
-            :events="events"
-        />
-      </template>
+
+    <template>
+      <events-log
+          :events="events"
+      />
+    </template>
+
+    <template>
       <Calendar v-if="loggedIn"
                 id="calendar"
                 language="ru"
@@ -25,9 +27,10 @@
                 @render-end="renderEnd"
       >
       </Calendar>
-    </div>
+    </template>
+
     <b-modal v-model="show"
-             :title="currentId != null ? 'Редактировать событие' : 'Добавьте событие'"
+             :title="currentId !== null ? 'Редактировать событие' : 'Добавьте событие'"
              ok-title="Сохранить"
              cancel-title="Отмена"
              @ok="fireFormSave">
@@ -42,6 +45,7 @@
           ref="form"
       />
     </b-modal>
+
     <template>
       <profile
           v-if="showProfile"
@@ -62,7 +66,6 @@ import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
 
-//var currentYear = new Date().getFullYear();
 export default {
   name: "calendar",
   components: {
@@ -94,7 +97,6 @@ export default {
             this.currentName = evt.name;
             this.currentDescription = evt.details;
             this.show = true;
-            console.log(evt)
           }
         },
         {
@@ -132,21 +134,17 @@ export default {
           user: this.user.id,
           title: event.currentName,
           comment: event.currentDescription,
-          busy: true,
           date_from: this.currentStartDate,
           date_to: this.currentEndDate,
-          id:event.currentId
+          id: event.currentId
         })
-        console.log(event)
       } else {
         // Обновление события
-
         this.$store.dispatch('updateEvent', {
           value: {
             user: this.user.id,
             title: event.currentName,
             comment: event.currentDescription,
-            busy: true,
             date_from: event.currentStartDate,
             date_to: event.currentEndDate
           },
@@ -157,7 +155,6 @@ export default {
     //event - объект - событие
     clickDay(event) {
       let ev = event.events
-
       this.events = []
       if (!this.events.length) {
         for (let i of ev) {
@@ -168,22 +165,6 @@ export default {
     renderEnd(event) {
       this.events = []
       this.events.push(`Текущий год: ${event.currentYear}`)
-    },
-    getEvents() {
-      return this.$store.dispatch('getRecords')
-      // .then(res => {
-      //   const events = res.data.data
-      //   if (events) {
-      //     let calendarEvent = events.map(r => ({
-      //       startDate: new Date(r.date_from),
-      //       endDate: new Date(r.date_to),
-      //       name: r.title,
-      //       details: r.comment,
-      //       id: r.id
-      //     }))
-      //     return calendarEvent
-      //   }
-      // })
     }
   },
   computed: {
@@ -209,7 +190,7 @@ export default {
     }
   },
   mounted() {
-    this.getEvents()
+    this.$store.dispatch('getRecords')
     this.$store.dispatch('infoUser')
     this.$root.$on('save', () => {
       this.$store.dispatch('infoUser')
@@ -223,5 +204,4 @@ export default {
 
 
 <style scoped>
-
 </style>

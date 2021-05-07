@@ -1,98 +1,98 @@
 <template>
   <div class="wrapper">
     <div>
-      <v-jumbotron
-          :gradient="gradient"
-          :height="100"
-          dark
-          src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-      >
-        <v-container fill-height>
-          <v-layout align-center>
-            <v-flex text-xs-center>
-              <h3 class="display-3">Добро пожаловать!</h3>
-              <div class="description">
-                <b>
-                  Введите данные для регистрации и нажмите "Зарегистрироваться"<br>
-                  Если есть аккуант, нажмите "Войти"
-                </b>
-              </div>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-jumbotron>
 
-      <v-form v-model="valid">
-        <v-container class="container card">
-          <v-text-field
-              v-model="user.username"
-              :rules="usernameRules"
-              :counter="10"
-              label="User name"
-              required
-          ></v-text-field>
+      <form class="form-signin">
+        <h3>Добро пожаловать!</h3>
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        <p>Заполните все поля и нажмите "Зарегистрироваться":</p>
+        <input type="text" id="inputUserName" class="form-control" placeholder="Имя пользователя" required autofocus v-model="user.username">
+        <input type="text" id="inputName" class="form-control" placeholder="Имя" required v-model="user.firstname">
+        <input type="text" id="inputLastName" class="form-control" placeholder="Фамилия" required v-model="user.lastname">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus v-model="user.email">
+        <input type="text" id="inputMobile" class="form-control" placeholder="Телефон" required v-model="user.mobile">
+        <input type="text" id="inputBirthday" class="form-control" placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ" required v-model="user.birthday">
+        <input type="password" id="inputPassword" class="form-control" placeholder="пароль" required v-model="user.password">
+        <input type="password" id="inputPasswordConfirm" class="form-control" placeholder="Повторите пароль" required v-model="user.passwordConfirm">
+        <div class="btn">
+          <button class="btn btn-lg btn-primary btn-block" type="submit" @click="register" :disabled="!valid">
+            Зарегистрироваться
+          </button>
+          <router-link to="/login">Есть аккаунт!</router-link>
+          <p class="mt-5 mb-3 text-muted">© GDS - 2021</p>
+        </div>
+      </form>
+      <!--      <v-form v-model="valid">-->
+      <!--        <v-container class="container card">-->
+      <!--          <v-text-field-->
+      <!--              v-model="user.username"-->
+      <!--              :rules="usernameRules"-->
+      <!--              :counter="10"-->
+      <!--              label="User name"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              v-model="user.firstname"
-              :rules="nameRules"
-              :counter="10"
-              label="Имя"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              v-model="user.firstname"-->
+      <!--              :rules="nameRules"-->
+      <!--              :counter="10"-->
+      <!--              label="Имя"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              v-model="user.lastname"
-              :rules="nameRules"
-              :counter="10"
-              label="Фамилия"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              v-model="user.lastname"-->
+      <!--              :rules="nameRules"-->
+      <!--              :counter="10"-->
+      <!--              label="Фамилия"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              v-model="user.email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              v-model="user.email"-->
+      <!--              :rules="emailRules"-->
+      <!--              label="E-mail"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              type="number"
-              v-model="user.mobile"
-              :rules="mobileRules"
-              label="Телефон"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              type="number"-->
+      <!--              v-model="user.mobile"-->
+      <!--              :rules="mobileRules"-->
+      <!--              label="Телефон"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              v-model="user.password"
-              :rules="passwordRules"
-              label="Пароль"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              v-model="user.password"-->
+      <!--              :rules="passwordRules"-->
+      <!--              label="Пароль"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <v-text-field
-              v-model="user.passwordConfirm"
-              :rules="passwordConfirmRules"
-              label="Повторите пароль"
-              required
-          ></v-text-field>
-          <v-text-field
-              v-model="user.birthday"
-              label="День Рождения. Формат: ГГГГ-ММ-ЧЧ"
-              required
-          ></v-text-field>
+      <!--          <v-text-field-->
+      <!--              v-model="user.passwordConfirm"-->
+      <!--              :rules="passwordConfirmRules"-->
+      <!--              label="Повторите пароль"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
+      <!--          <v-text-field-->
+      <!--              v-model="user.birthday"-->
+      <!--              label="День Рождения. Формат: ГГГГ-ММ-ЧЧ"-->
+      <!--              required-->
+      <!--          ></v-text-field>-->
 
-          <div class="buttons">
-            <button class="v-btn" type="button" @click="register" :disabled="!valid">
-              Зарегистрироваться!
-            </button>
-            <button class="v-btn" type="button" @click="toLogin">
-              Есть аккаунт! Войти!
-              <i class="material-icons right">grade</i>
-            </button>
-          </div>
-        </v-container>
-      </v-form>
+      <!--          <div class="buttons">-->
+      <!--            <button class="v-btn" type="button" @click="register" :disabled="!valid">-->
+      <!--              Зарегистрироваться!-->
+      <!--            </button>-->
+      <!--            <button class="v-btn" type="button" @click="toLogin">-->
+      <!--              Есть аккаунт! Войти!-->
+      <!--              <i class="material-icons right">grade</i>-->
+      <!--            </button>-->
+      <!--          </div>-->
+      <!--        </v-container>-->
+      <!--      </v-form>-->
     </div>
     <message-error v-if="errors"
                    @closePopup="closePopup"
@@ -155,9 +155,6 @@ export default {
     closePopup() {
       this.errors = false
     },
-    toLogin() {
-      this.$router.push('/login')
-    },
     register() {
       const user = {
         username: this.user.username,
@@ -194,26 +191,58 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  width: 500px;
-  position: center;
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+form {
   display: block;
-  margin-top: 20px;
-  background: linear-gradient(#e9e2e2, #ffffff); /* Цвет фона */
-  border: 3px solid #fff; /* Белая рамка */
-  border-radius: 10px;
+  margin-top: 0em;
 }
 
-.buttons {
-  margin-top: 20px;
+.text-center {
+  text-align: center !important;
 }
 
-.description {
-  text-align: center;
-  margin-top: 50px;
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
 }
 
-.wrapper {
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
+label {
+  display: inline-block;
+  margin-bottom: .5rem;
+}
+
+label {
+  cursor: default;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.btn {
+  margin-bottom: 50px;
+  width: 100%;
 }
 </style>

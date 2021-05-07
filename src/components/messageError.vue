@@ -3,9 +3,7 @@
     <div class="popup_wrapper">
       <div class='popup'>
         <div class="header-content">
-          <h1>ERROR
-            <span class="material-icons">error</span>
-          </h1>
+          <h1>ERROR</h1>
         </div>
         <div class="popup__header">
 
@@ -91,6 +89,6 @@ export default {
 
 .bt {
   margin-top: 20px;
-  margin-left: 120px;
+  margin-left: 10px;
 }
 </style>
