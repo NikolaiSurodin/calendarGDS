@@ -66,6 +66,7 @@ export default {
                 })
                     .then((response) => {
                         const event = response.data
+                        console.log(event)
                         commit('setEvent', event)
                     })
                 resolve()

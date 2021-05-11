@@ -1,122 +1,35 @@
 <template>
   <div v-if="show">
     <div>
-   <my-navbar
-   @toCalendar="toCalendar"
-   />
+      <my-navbar
+          @toCalendar="toCalendar"
+      />
     </div>
-    <v-form v-model="valid">
-      <v-container>
-        <v-text-field
-            v-model="userModel.username"
-            :rules="nameRules"
-            :counter="10"
-            label="User name"
-            required
-        ></v-text-field>
-        <v-text-field
-            v-model="userModel.profile.first_name"
-            :rules="nameRules"
-            :counter="10"
-            label="Имя"
-            required
-        ></v-text-field>
 
-        <v-text-field
-            v-model="userModel.profile.last_name"
-            :counter="20"
-            label="Фамилия"
-        ></v-text-field>
-
-        <v-text-field
-            v-model="userModel.email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-        ></v-text-field>
-
-        <v-text-field
-            type="number"
-            v-model="userModel.profile.mobile"
-            :rules="mobileRules"
-            label="Телефон"
-            required
-        ></v-text-field>
-
-        <v-text-field
-            v-model="userModel.birthday"
-            :rules="birthdayRules"
-            label="День рождения"
-            required
-        ></v-text-field>
-
-        <v-text-field
-            v-model="userModel.profile.country"
-            label="Страна"
-        ></v-text-field>
-
-        <v-btn flat small @click="expanded">
-          {{ expand ? 'Скрыть' : 'Дополнительные данные' }}
-        </v-btn>
-        <div v-show="expand">
-
-          <v-form class="form">
-            <v-container>
-              <v-text-field
-                  v-model="userModel.profile.city"
-                  label="Город"
-              ></v-text-field>
-
-              <v-text-field
-                  v-model="userModel.profile.state"
-                  label="Должность"
-              ></v-text-field>
-
-              <v-textarea
-                  v-model="userModel.profile.description"
-                  label="Описание"
-                  required
-              ></v-textarea>
-            </v-container>
-          </v-form>
-        </div>
-
-        <div class="buttons">
-          <v-btn type="button" @click="updateUser" :disabled="!valid">
-            Отредактировать данные
-          </v-btn>
-          <v-btn type="button" @click="toCalendar">
-            Отмена
-          </v-btn>
-        </div>
-      </v-container>
-    </v-form>
-    <v-footer
-        :height="50"
-        :fixed="false"
-        :color="'grey'"
-
-    >
-      <v-flex
-          primary
-          lighten-2
-          py-3
-          text-xs-center
-          white--text
-          xs12
-      >
-        &copy; 2021 — <strong>GDS</strong>
-      </v-flex>
-    </v-footer>
+    <form-user
+        @updateUser="updateUser"
+        @cancel="toCalendar"
+        :user_name="user.username"
+        :birth_day="user.birthday"
+        :first_name="user.profile.first_name"
+        :last_name="user.profile.last_name"
+        :mobile_ph="user.profile.mobile"
+        :user_city="user.profile.city"
+        :user_description="user.profile.description"
+        :user_state="user.profile.state"
+        :Email="user.email"
+        :user_country="user.profile.country"
+    />
   </div>
 </template>
 
 <script>
 import MyNavbar from "@/components/myNavbar"
+import FormUser from "@/components/fromUser";
 
 export default {
   name: "editProfile",
-  components: {MyNavbar},
+  components: {FormUser, MyNavbar},
   data() {
     return {
       show: false,
@@ -135,23 +48,7 @@ export default {
           city: '',
           state: ''
         }
-      },
-      nameRules: [
-        v => !!v || 'Имя обязательно',
-        v => (v && v.length <= 10) || 'Заполните имя'
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail обязательно',
-        v => /.+@.+/.test(v) || 'E-mail неверный'
-      ],
-      mobileRules: [
-        v => !!v || 'Заполните номер телефона',
-        v => /.79.+/.test && v.length === 11 || 'Проверьте, пожалуйста, телефон',
-      ],
-      birthdayRules: [
-        v => !!v || 'Проверьте дату рождения'
-      ]
+      }
     }
   },
   methods: {
@@ -161,8 +58,8 @@ export default {
     toCalendar() {
       this.$router.push('/calendar')
     },
-    updateUser() {
-      this.$store.dispatch('updateUser', {value: this.userModel, id: this.$route.params.id})
+    updateUser(user) {
+      this.$store.dispatch('updateUser', {value: user, id: this.$route.params.id})
       this.$root.$emit('save')
       this.$router.push('/calendar')
     },

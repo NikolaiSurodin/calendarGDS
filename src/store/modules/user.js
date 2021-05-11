@@ -51,8 +51,9 @@ export default {
                     data: payload.value,
                     method: 'PATCH'
                 })
-                    .then(() => {
-                        commit('set_user', payload.value)
+                    .then((response) => {
+                        const user = response.data
+                        commit('set_user', user)
                     })
                 resolve()
             })

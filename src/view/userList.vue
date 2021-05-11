@@ -6,45 +6,26 @@
       />
     </div>
     <h3 class="title">Сотрудники компании.</h3>
+    <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
     <hr>
-    <div>
-      <v-content>
-        <v-data-table
-            :headers="headers"
-            :items="users"
-            class="elevation-1"
-        >
-          <template slot="items" slot-scope="props"
-          >
-            <td class="text-xs-left">{{ props.item.username }}
-            <td style="color: #19b505">{{ props.item.profile.first_name }} {{ props.item.profile.last_name}}</td>
-            <td class="text-xs-left"></td>
-            <td class="text-xs-left"></td>
-            <td class="text-xs-left">{{ props.item.profile.mobile ? props.item.profile.mobile : '-'}}</td>
-            <td class="text-xs-left">{{props.item.profile.state ? props.item.profile.state : '-' }}</td>
-            <td class="text-xs-left">{{props.item.profile.country}} {{props.item.profile.city ? props.item.profile.city : '-'}}</td>
+    <div class="overflow-auto">
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="center"
+      ></b-pagination>
 
-          </template>
-        </v-data-table>
-      </v-content>
+      <p class="mt-3">Страница: {{ currentPage }}</p>
+
+      <b-table
+          :items="users"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+      ></b-table>
     </div>
-    <v-footer
-        :height="50"
-        :fixed="true"
-        :color="'grey'"
-    >
-      <v-flex
-          primary
-          lighten-2
-          py-3
-          text-xs-center
-          white--text
-          xs12
-      >
-        &copy; 2021 — <strong>GDS</strong>
-      </v-flex>
-    </v-footer>
-
   </div>
 </template>
 
@@ -56,21 +37,8 @@ export default {
   components: {MyNavbar},
   data() {
     return {
-      headers: [
-        {text: 'User name', value: 'username'},
-        {
-          text: 'Имя Фамилия',
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        {text: 'Email', value: 'Email'},
-
-        {text: 'День рождение', value: 'birthday'},
-        {text: 'Телефон', value: 'mobile'},
-        {text: 'Должность', value: 'state'},
-        {text: 'Страна, город', value: 'country'}
-      ],
+      perPage: 3,
+      currentPage: 1,
     }
   },
   methods: {
@@ -83,13 +51,20 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.getters.users
-
+     return this.$store.getters.users.map((u) => ({
+       User:u.username,
+       name:u.profile?.first_name,
+       mobile:u.profile?.mobile,
+       birthday:u.profile?.birthday
+     }))
+    },
+    rows() {
+      return this.users.length
     }
   },
   mounted() {
+    console.log(this.users)
     this.$store.dispatch('allUsers')
-
   }
 }
 </script>
