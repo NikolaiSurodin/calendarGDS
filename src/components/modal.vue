@@ -1,15 +1,36 @@
 <template>
   <form class="form-horizontal">
     <div class="form-group row">
-      <label for="event-name" class="col-sm-2 control-label">ФИО Отупуск/Отгул</label>
+      <label for="event-name" class="col-sm-2 control-label">ФИО</label>
       <div class="col-sm-10">
-        <input id="event-name" type="text" class="form-control" placeholder="ФИО: Отупуск/Отгул" v-model="event.currentName"/>
+        <input id="event-name" type="text" class="form-control" placeholder="ФИО" v-model="event.currentName"/>
       </div>
     </div>
     <div class="form-group row">
-      <label for="event-location" class="col-sm-2 control-label">Описание</label>
+      <label for="event-name" class="col-sm-2 control-label">Отупуск/Отгул</label>
       <div class="col-sm-10">
-        <input id="event-location" type="text" class="form-control" placeholder="Описание" v-model="event.currentDescription"/>
+        <b-form-select
+            v-model="event.currentKind"
+            :options="kindOptions"
+            class="mt-5"
+            value-field="item"
+            text-field="name"
+            disabled-field="notEnabled"
+        ></b-form-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="event-description" class="col-sm-2 control-label">Описание</label>
+      <div class="col-sm-10">
+        <input id="event-description" type="text" class="form-control" placeholder="Описание" v-model="event.currentDescription"/>
+        <b-form-select
+            v-model="event.currentBusy"
+            :options="busyOptions"
+            class="mt-5"
+            value-field="item"
+            text-field="name"
+            disabled-field="notEnabled"
+        ></b-form-select>
       </div>
     </div>
     <div class="form-group row">
@@ -30,7 +51,7 @@
 <script>
 export default {
   name: "modal",
-  props: ['id', 'startDate', 'endDate', 'name', 'description'],
+  props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind'],
   data() {
     return {
       event: {
@@ -39,7 +60,17 @@ export default {
         currentEndDate: this.endDate,
         currentName: this.name,
         currentDescription: this.description,
+        currentBusy:this.busy,
+        currentKind:this.kind
       },
+      busyOptions: [
+        { item: false, name: 'Доступен для связи' },
+        { item: true, name: 'Недоступен' },
+      ],
+      kindOptions: [
+        { item: 'vacation', name: 'Отпуск' },
+        { item: 'dayoff', name: 'Отгул' },
+      ]
     }
   },
   methods: {

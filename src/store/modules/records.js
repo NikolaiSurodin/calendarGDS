@@ -26,7 +26,6 @@ export default {
                     method: 'POST'
                 })
                     .then((response) => {
-                        console.log(response)
                         const event = response.data
                        commit('saveRecords',event)
                         resolve()
@@ -66,7 +65,6 @@ export default {
                 })
                     .then((response) => {
                         const event = response.data
-                        console.log(event)
                         commit('setEvent', event)
                     })
                 resolve()

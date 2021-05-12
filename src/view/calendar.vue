@@ -31,7 +31,7 @@
     </template>
 
     <b-modal v-model="show"
-             :title="currentId !== null ? 'Редактировать событие' : 'Добавьте событие'"
+             :title="currentId !== null ? 'Редактировать' : 'Оставить заявку на отпуск/отгул'"
              ok-title="Сохранить"
              cancel-title="Отмена"
              @ok="fireFormSave">
@@ -85,6 +85,8 @@ export default {
       currentStartDate: null,
       currentEndDate: null,
       currentName: null,
+      currentBusy:null,
+      currentKind:null,
       currentDescription: null,
       displayWeekNumber: true,
       events: [],
@@ -138,7 +140,9 @@ export default {
           comment: event.currentDescription,
           date_from: this.currentStartDate,
           date_to: this.currentEndDate,
-          id: event.currentId
+          id: event.currentId,
+          busy:event.currentBusy,
+          kind:event.currentKind
         })
       } else {
         // Обновление события
