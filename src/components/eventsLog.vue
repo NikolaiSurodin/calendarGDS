@@ -1,6 +1,6 @@
 <template>
   <div id="events-log">
-    <h3>События</h3>
+<div>{{date}}</div>
     <div v-for="(event,id) in events"
          :key="id"
     >{{ event }}
@@ -13,7 +13,14 @@ export default {
   name: "eventsLog",
   props: ['events'],
   data() {
-    return {}
+    return {
+      date: ''
+    }
+  },
+  mounted() {
+    setInterval(() => {
+      this.date = new Date().toLocaleDateString() + '  ' + new Date().toLocaleTimeString()
+    })
   }
 }
 

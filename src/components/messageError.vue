@@ -4,6 +4,7 @@
       <div class='popup'>
         <div class="header-content">
           <h1>ERROR</h1>
+          <b-icon icon="exclamation-circle" style="width: 120px; height: 120px;"></b-icon>
         </div>
         <div class="popup__header">
 

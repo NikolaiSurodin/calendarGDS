@@ -14,6 +14,7 @@
     </template>
 
     <template>
+      <div class="card-header">Calendar</div>
       <Calendar v-if="loggedIn"
                 id="calendar"
                 language="ru"
@@ -77,6 +78,7 @@ export default {
   },
   data() {
     return {
+      date:'',
       showProfile: false,
       show: false,
       currentId: null,
