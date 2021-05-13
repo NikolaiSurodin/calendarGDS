@@ -12,9 +12,13 @@
           :events="events"
       />
     </template>
+    <template v-if="!superUser">
+
+      <events-table />
+
+    </template>
 
     <template>
-      <div class="card-header">Calendar</div>
       <Calendar v-if="loggedIn"
                 id="calendar"
                 language="ru"
@@ -26,6 +30,7 @@
                 @select-range="selectRange"
                 @click-day="clickDay"
                 @render-end="renderEnd"
+                :class="'calendar-center'"
       >
       </Calendar>
     </template>
@@ -66,10 +71,12 @@ import profile from "@/view/profile"
 import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
+import EventsTable from "@/components/eventsTable";
 
 export default {
   name: "calendar",
   components: {
+    EventsTable,
     EventsLog,
     MyNavbar,
     modal,
@@ -78,15 +85,16 @@ export default {
   },
   data() {
     return {
-      date:'',
+      date: '',
       showProfile: false,
       show: false,
       currentId: null,
       currentStartDate: null,
       currentEndDate: null,
       currentName: null,
-      currentBusy:null,
-      currentKind:null,
+      currentBusy: null,
+      currentKind: null,
+      currentRequest: null,
       currentDescription: null,
       displayWeekNumber: true,
       events: [],
@@ -141,8 +149,9 @@ export default {
           date_from: this.currentStartDate,
           date_to: this.currentEndDate,
           id: event.currentId,
-          busy:event.currentBusy,
-          kind:event.currentKind
+          busy: event.currentBusy,
+          kind: event.currentKind,
+          request:event.currentRequest
         })
       } else {
         // Обновление события
@@ -152,7 +161,10 @@ export default {
             title: event.currentName,
             comment: event.currentDescription,
             date_from: event.currentStartDate,
-            date_to: event.currentEndDate
+            date_to: event.currentEndDate,
+            busy: event.currentBusy,
+            kind: event.currentKind,
+            request:event.currentRequest
           },
           id: event.currentId
         })
@@ -210,4 +222,11 @@ export default {
 
 
 <style scoped>
+.calendar-center {
+  max-width: 1000px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
 </style>
