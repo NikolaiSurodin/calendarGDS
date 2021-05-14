@@ -8,6 +8,7 @@ import login from "@/view/login"
 import notFound from '@/components/notFound'
 import userList from "@/view/userList";
 import editProfile from "@/view/editProfile";
+import formEvent from "@/components/formEvent";
 
 
 Vue.use(Router)
@@ -45,6 +46,21 @@ const router = new Router({
                 {
                     path:'',
                     component:editProfile
+                }
+            ]
+        },
+        {
+            path: '/event/:id',
+            meta: {auth: true},
+            component: {
+                render(c) {
+                    return c('router-view')
+                }
+            },
+            children:[
+                {
+                    path:'',
+                    component:formEvent
                 }
             ]
         },

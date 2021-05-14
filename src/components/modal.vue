@@ -9,7 +9,6 @@
                placeholder="ФИО"
                v-model="event.currentName"
         />
-
       </div>
     </div>
     <div class="form-group row">
@@ -26,18 +25,23 @@
       </div>
     </div>
     <div class="form-group row">
+      <label for="event-description" class="col-sm-2 control-label">Связь</label>
+      <div class="col-sm-10">
+        <b-form-select
+            v-model="event.currentBusy"
+            :options="busyOptions"
+            class="mt-2"
+            value-field="item"
+            text-field="name"
+            required
+        ></b-form-select>
+      </div>
+    </div>
+    <div class="form-group row">
       <label for="event-description" class="col-sm-2 control-label">Описание</label>
       <div class="col-sm-10">
         <input id="event-description" type="text" class="form-control" placeholder="Описание"
                v-model="event.currentDescription"/>
-        <b-form-select
-            v-model="event.currentBusy"
-            :options="busyOptions"
-            class="mt-5"
-            value-field="item"
-            text-field="name"
-            disabled-field="notEnabled"
-        ></b-form-select>
       </div>
     </div>
     <div class="form-group row">
@@ -57,6 +61,7 @@
             name="checkbox-1"
             value="true"
             unchecked-value="false"
+            required="required"
         >
           Отправить заявку
         </b-form-checkbox>

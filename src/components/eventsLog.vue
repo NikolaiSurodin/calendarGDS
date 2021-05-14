@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 #events-log {
-  display: inline-block;
+ margin-left: 20%;
   vertical-align: top;
   width: 340px;
   background-color: #e5e5e5;

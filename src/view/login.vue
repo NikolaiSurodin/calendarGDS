@@ -11,7 +11,7 @@
     <form class="form-signin" @submit.prevent="submitLogin">
       <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
       <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
-      <p>Ведите данные для входа и нажмите Войти:</p>
+      <p>Введите данные для входа и нажмите Войти:</p>
 
       <input type="email"
              id="inputEmail"

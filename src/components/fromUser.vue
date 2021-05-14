@@ -89,8 +89,8 @@
             />
           </div>
           <div class="mt-5">
-            <b-button variant="outline-success" @click="updateUser">Отредактировать</b-button>
-            <b-button variant="outline-danger" @click="cancel">Отмена</b-button>
+            <b-button variant="outline-success"  @click="updateUser">Отредактировать</b-button>
+            <b-button variant="outline-danger" class="mb-1" @click="cancel">Отмена</b-button>
           </div>
         </div>
       </form>

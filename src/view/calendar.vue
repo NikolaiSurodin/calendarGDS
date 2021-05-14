@@ -14,7 +14,7 @@
     </template>
     <template v-if="!superUser">
 
-      <events-table />
+      <events-table/>
 
     </template>
 
@@ -140,6 +140,7 @@ export default {
     },
     //event - объект - событие
     saveEvent(event) {
+
       if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
@@ -223,10 +224,9 @@ export default {
 
 <style scoped>
 .calendar-center {
-  max-width: 1000px;
+  width: 55%;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-
+  margin-left: 50px;
 }
+
 </style>
