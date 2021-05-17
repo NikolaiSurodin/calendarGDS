@@ -53,6 +53,8 @@
                :class="$v.user.profile.mobile.$error ? 'is-invalid' : '' "
         >
         <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.required" class="invalid-feedback">Обязательное поле</p>
+        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.minLength" class="invalid-feedback">Минимум 11 символов</p>
+        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Максимум 11 символов</p>
 
         <input type="text"
                id="inputBirthday"

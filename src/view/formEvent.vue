@@ -111,7 +111,7 @@ export default {
     formRus() {
       return {
         busy: this.event.busy === true ? 'Не доступен' : 'Доступен для связи',
-        kind: this.kind === 'vacation' ? 'Отпуск' : 'Отгул' ,
+        kind: this.kind  === 'vacation' ? 'Отгул' : 'Отпуск' ,
         request: this.event.request ,
         status: this.event.status
       }
