@@ -85,14 +85,6 @@ export default {
     isOk() {
       this.$store.dispatch('updateEvent', {
         value: {
-          user: this.event.user.id,
-          title: this.event.title,
-          comment: this.event.description,
-          date_from: this.event.date_from,
-          date_to: this.event.date_to,
-          busy: this.event.busy,
-          kind: this.kind,
-          request: this.event.request,
           status: 'approved'
         },
         id: this.event.id
@@ -102,14 +94,6 @@ export default {
     isCancel() {
       this.$store.dispatch('updateEvent', {
         value: {
-          user: this.event.user.id,
-          title: this.event.title,
-          comment: this.event.description,
-          date_from: this.event.date_from,
-          date_to: this.event.date_to,
-          busy: this.event.busy,
-          kind: this.kind,
-          request: this.event.request,
           status: 'rejected'
         },
         id: this.event.id
