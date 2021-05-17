@@ -30,10 +30,10 @@ export default {
 #events-log {
  margin-left: 20%;
   vertical-align: top;
-  width: 340px;
+  width: 240px;
   background-color: #e5e5e5;
   padding: 10px;
-  min-height: 200px;
+  min-height: 100px;
   border-radius: 10px;
 }
 

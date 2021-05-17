@@ -52,7 +52,7 @@ export default {
   computed: {
     users() {
      return this.$store.getters.users.map((u) => ({
-       User:u.username,
+       user:u.username,
        name:u.profile?.first_name,
        mobile:u.profile?.mobile,
        birthday:u.profile?.birthday

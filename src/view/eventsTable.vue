@@ -9,7 +9,6 @@
             <th>ФИО</th>
             <th>Заявка</th>
             <th>Даты</th>
-            <th>Связь</th>
             <th>Автор</th>
           </tr>
           </thead>
@@ -25,7 +24,6 @@
             </td>
             <td>{{ e.kind }}</td>
             <td>с: {{ e.date_from }} по: {{ e.date_to }}</td>
-            <td>{{ e.busy }}</td>
             <td>{{ e.user }}</td>
           </tr>
           </tbody>
@@ -51,7 +49,6 @@ export default {
         kind: e.kind === 'vacation' ? 'Отпуск' : 'Отгул',
         date_from: e.date_from,
         date_to: e.date_to,
-        busy: e.busy === true ? 'ОК' : 'X',
         user: e.user.username,
         id: e.id,
         status:e.status

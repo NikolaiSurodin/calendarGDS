@@ -48,8 +48,8 @@
         >
         <div class="btn">
           <div class="mt-5">
-            <b-button variant="outline-success" @click="isOk" :disabled="disabledApproved()">Подтвердить</b-button>
-            <b-button variant="outline-danger" @click="isCancel" :disabled="disabledRejected()">Отклонить</b-button>
+            <b-button variant="outline-success" @click="approved" :disabled="disabledApproved()">Подтвердить</b-button>
+            <b-button variant="outline-danger" @click="rejected" :disabled="disabledRejected()">Отклонить</b-button>
             <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default {
         return true
       }
     },
-    isOk() {
+    approved() {
       this.$store.dispatch('updateEvent', {
         value: {
           status: 'approved'
@@ -91,7 +91,7 @@ export default {
       })
       this.$router.push('/calendar')
     },
-    isCancel() {
+    rejected() {
       this.$store.dispatch('updateEvent', {
         value: {
           status: 'rejected'
@@ -113,7 +113,7 @@ export default {
         busy: this.event.busy === true ? 'Не доступен' : 'Доступен для связи',
         kind: this.kind === 'vacation' ? 'Отпуск' : 'Отгул' ,
         request: this.event.request ,
-        status: this.event.status === 'rejected' ? 'Отклонено' : 'Подтверждено'
+        status: this.event.status
       }
     }
   },
