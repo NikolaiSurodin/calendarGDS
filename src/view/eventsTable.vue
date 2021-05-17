@@ -18,7 +18,7 @@
               :key="idx"
 
           >
-            <td >
+            <td>
               <b-button :to="`event/${e.id}`">
                 {{ e.title }}
               </b-button>
@@ -66,5 +66,7 @@ export default {
 </script>
 
 <style scoped>
-
+.alo{
+  background-color: #e66465;
+}
 </style>

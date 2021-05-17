@@ -8,7 +8,7 @@ import login from "@/view/login"
 import notFound from '@/components/notFound'
 import userList from "@/view/userList";
 import editProfile from "@/view/editProfile";
-import formEvent from "@/components/formEvent";
+import formEvent from "@/view/formEvent";
 
 
 Vue.use(Router)

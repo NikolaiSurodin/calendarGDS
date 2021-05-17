@@ -16,10 +16,10 @@
         </div>
         <div class="popup__footer">
           <div class="container">
-            <div class="bt">
-              <v-btn color="warning" @click="closePopup"
+            <div>
+              <b-button variant="outline-warning" class="mt-5" @click="closePopup"
               > OK
-              </v-btn>
+              </b-button>
             </div>
           </div>
 
@@ -88,8 +88,4 @@ export default {
   text-align: center;
 }
 
-.bt {
-  margin-top: 20px;
-  margin-left: 10px;
-}
 </style>

@@ -3,12 +3,8 @@
     <div class="popup_wrapper">
       <div class='popup'>
         <div class="header-content">
+          <b-avatar size="4em" variant="primary">{{avatarText}}</b-avatar>
           <h1>
-            <v-avatar color="blue">
-            <span class="white--text headline">
-              {{ avatarText }}
-            </span>
-            </v-avatar>
             {{ user.profile.first_name }} {{ user.profile.last_name }}
           </h1>
           <h5>{{ user.email }}</h5>
@@ -24,13 +20,13 @@
         </div>
         <div class="popup__footer">
           <div class="container">
-            <div class="bt">
-              <v-btn @click="ToUserProfile"
+            <div class="mb-3">
+              <b-button class="mr-2" variant="outline-success" @click="ToUserProfile"
               > Редактировать профиль
-              </v-btn>
-              <v-btn style="border-radius: 10%" @click="closeProfile"
+              </b-button>
+              <b-button variant="outline-dark" @click="closeProfile"
               > Закрыть
-              </v-btn>
+              </b-button>
             </div>
           </div>
         </div>

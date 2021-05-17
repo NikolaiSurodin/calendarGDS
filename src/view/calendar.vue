@@ -71,7 +71,7 @@ import profile from "@/view/profile"
 import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
-import EventsTable from "@/components/eventsTable";
+import EventsTable from "@/view/eventsTable";
 
 export default {
   name: "calendar",

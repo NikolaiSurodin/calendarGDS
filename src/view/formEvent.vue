@@ -1,37 +1,38 @@
 <template>
   <div class="wrapper">
-    <div>
+    <template>
+      <my-navbar/>
+    </template>
+
+    <template>
       <div class="block mb-3">
         <h2> Заявка от : {{ event.title }}</h2>
       </div>
       <form class="form-signin">
         <label>Тип</label>
         <input type="text"
-
                class="form-control"
                disabled
-               v-model="event.kind"
+               v-model="formRus.kind"
         >
 
         <label>Начало</label>
         <input type="text"
-
                class="form-control"
                disabled
                v-model="event.date_from"
         >
         <label>Конец</label>
         <input type="text"
-
                class="form-control"
                disabled
                v-model="event.date_to"
         >
-        <label>Статус</label>
+        <label>Связь</label>
         <input type="text"
+               v-model="formRus.busy"
                class="form-control"
                disabled
-               v-model="event.status"
         >
         <label>Комментарий</label>
         <input type="text"
@@ -39,32 +40,45 @@
                class="form-control"
                disabled
         >
+        <label>Статус</label>
+        <input type="text"
+               class="form-control"
+               disabled
+               v-model="formRus.status"
+        >
         <div class="btn">
           <div class="mt-5">
-            <b-button variant="outline-success" @click="isOk" :disabled="disabledApproved()">Одобрено</b-button>
+            <b-button variant="outline-success" @click="isOk" :disabled="disabledApproved()">Подтвердить</b-button>
             <b-button variant="outline-danger" @click="isCancel" :disabled="disabledRejected()">Отклонить</b-button>
             <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
           </div>
         </div>
       </form>
-    </div>
+    </template>
+    <template>
+      <my-footer/>
+    </template>
   </div>
 </template>
 
 <script>
+import MyNavbar from "@/components/myNavbar";
+import MyFooter from "@/components/myFooter";
+
 export default {
   name: "formEvent",
+  components: {MyFooter, MyNavbar},
   data() {
     return {}
   },
   methods: {
     disabledApproved() {
-      if  (this.event.status === 'approved'){
+      if (this.event.status === 'approved') {
         return true
       }
     },
     disabledRejected() {
-      if  (this.event.status === 'rejected'){
+      if (this.event.status === 'rejected') {
         return true
       }
     },
@@ -109,8 +123,17 @@ export default {
   computed: {
     event() {
       return this.$store.getters.calendarState.find((e) => e.id === this.$route.params.id)
+    },
+    formRus() {
+      return {
+        busy: this.event.busy === true ? 'Не доступен' : 'Доступен для связи',
+        kind: this.kind === 'vacation' ? 'Отпуск' : 'Отгул' ,
+        request: this.event.request ,
+        status: this.event.status === 'rejected' ? 'Отклонено' : 'Подтверждено'
+      }
     }
-  }
+  },
+
 }
 </script>
 
