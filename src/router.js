@@ -26,8 +26,23 @@ const router = new Router({
 
         {
             path: '/calendar',
-            component: calendar,
-            meta: {auth: true}
+            meta: {auth: true},
+            component: {
+                render(c) {
+                    return c('router-view')
+                }
+            },
+            children: [
+                {
+                 path: '',
+                 component: calendar
+                },
+                {
+                    path: '/calendar/events/:id',
+                    meta: {auth: true},
+                    component: formEvent
+                },
+            ]
         },
         {
             path: '/all_users',
@@ -46,21 +61,6 @@ const router = new Router({
                 {
                     path:'',
                     component:editProfile
-                }
-            ]
-        },
-        {
-            path: '/event/:id',
-            meta: {auth: true},
-            component: {
-                render(c) {
-                    return c('router-view')
-                }
-            },
-            children:[
-                {
-                    path:'',
-                    component:formEvent
                 }
             ]
         },

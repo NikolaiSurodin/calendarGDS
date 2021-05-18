@@ -1,17 +1,6 @@
 <template>
   <form class="form-horizontal">
     <div class="form-group row">
-      <label for="event-name" class="col-sm-2 control-label">ФИО</label>
-      <div class="col-sm-10">
-        <input id="event-name"
-               type="text"
-               class="form-control"
-               placeholder="ФИО"
-               v-model="event.currentName"
-        />
-      </div>
-    </div>
-    <div class="form-group row">
       <label for="event-name" class="col-sm-2 control-label">Отупуск/Отгул</label>
       <div class="col-sm-10">
         <b-form-select
@@ -71,7 +60,6 @@
 </template>
 
 <script>
-
 export default {
   name: "modal",
   props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request'],
@@ -81,7 +69,7 @@ export default {
         currentId: this.id,
         currentStartDate: this.startDate,
         currentEndDate: this.endDate,
-        currentName: this.name,
+        currentName: this.kind,
         currentDescription: this.description,
         currentBusy: this.busy,
         currentKind: this.kind,
@@ -106,5 +94,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

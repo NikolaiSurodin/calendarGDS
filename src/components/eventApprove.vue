@@ -1,51 +1,32 @@
 <template>
   <div class="wrapper">
-    <template>
-      <div class="block mb-3">
 
+    <slot>
+
+    </slot>
+    <div class="btn">
+      <div class="mt-5">
+        <b-button variant="outline-success" @click="approved" :disabled="disabledApproved()">Подтвердить</b-button>
+        <b-button variant="outline-danger" @click="rejected" :disabled="disabledRejected()">Отклонить</b-button>
+        <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
       </div>
-      <form class="form-signin">
-
-        <label>Связь</label>
-        <input type="text"
-               v-model="formRus.busy"
-               class="form-control"
-               disabled
-        >
-        <label>Комментарий</label>
-        <input type="text"
-               v-model="event.comment"
-               class="form-control"
-               disabled
-        >
-        <label>Статус</label>
-        <input type="text"
-               class="form-control"
-               disabled
-               v-model="formRus.status"
-        >
-        <div class="btn">
-          <div class="mt-5">
-            <b-button variant="outline-success" @click="approved" :disabled="disabledApproved()">Подтвердить</b-button>
-            <b-button variant="outline-danger" @click="rejected" :disabled="disabledRejected()">Отклонить</b-button>
-            <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
-          </div>
-        </div>
-      </form>
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: "formEvent",
+  name: "eventAppove",
+  props:['busy', 'comment', 'status'],
   data() {
     return {
 
     }
   },
-  methods: {
+  methods:{
+    close() {
+      this.$emit('close')
+    },
     disabledApproved() {
       if (this.event.status === 'approved') {
         return true
@@ -80,18 +61,12 @@ export default {
   },
   computed: {
     event() {
-      return this.$store.getters.calendarState.find((e) => e.id === this.$route.params.id)
-    },
-    formRus() {
-      return {
-        busy: this.event.busy === true ? 'Недоступен' : 'Доступен для связи',
-        kind: this.kind  === 'vacation' ? 'Отгул' : 'Отпуск' ,
-        request: this.event.request ,
-        status: this.event.status
-      }
+      return this.$store.getters.calendarState
     }
+  },
+  mounted() {
+    this.$store.dispatch('getRecords')
   }
-
 }
 </script>
 
@@ -149,5 +124,16 @@ label {
 .btn {
   margin-bottom: 20px;
   width: 100%;
+}
+.wrapper{
+  background: rgba(64, 64, 64, .4);
+  display: block;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 </style>

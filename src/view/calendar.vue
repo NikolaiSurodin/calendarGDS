@@ -28,9 +28,10 @@
                 :context-menu-items="contextMenuItems"
                 :display-week-number="displayWeekNumber"
                 @select-range="selectRange"
-                @click-day="clickDay"
                 @render-end="renderEnd"
-                :class="'calendar-center'"
+                @day-context-menu="dayContextMenu"
+                :class="'calendar-center'">
+      <!--                @click-day="clickDay"-->
       >
       </Calendar>
     </template>
@@ -71,7 +72,7 @@ import profile from "@/view/profile"
 import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
-import EventsTable from "@/view/eventsTable";
+import EventsTable from "@/view/eventsTable"
 
 export default {
   name: "calendar",
@@ -140,12 +141,11 @@ export default {
     },
     //event - объект - событие
     saveEvent(event) {
-
       if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
           user: this.user.id,
-          title: event.currentName,
+          title: event.currentKind,
           comment: event.currentDescription,
           date_from: this.currentStartDate,
           date_to: this.currentEndDate,
@@ -159,7 +159,7 @@ export default {
         this.$store.dispatch('updateEvent', {
           value: {
             user: this.user.id,
-            title: event.currentName,
+            title: event.currentKind,
             comment: event.currentDescription,
             date_from: event.currentStartDate,
             date_to: event.currentEndDate,
@@ -172,12 +172,12 @@ export default {
       }
     },
     //event - объект - событие
-    clickDay(event) {
+    dayContextMenu(event) {
       let ev = event.events
       this.events = []
       if (!this.events.length) {
         for (let i of ev) {
-          this.events.push(`В дату: ${event.date.toLocaleDateString()}  - ${i.name}`)
+          this.events.push(`В дату: ${event.date.toLocaleDateString()}  - ${i.name} - ${i.user}`)
         }
       }
     },
@@ -192,9 +192,10 @@ export default {
         return {
           startDate: new Date(r.date_from),
           endDate: new Date(r.date_to),
-          name: r.title,
+          name: r.title === 'vacation' ? 'Отпуск' : 'Отгул',
           details: r.comment,
-          id: r.id
+          id: r.id,
+          user: r.user.profile.last_name
         }
       })
     },
@@ -228,5 +229,4 @@ export default {
   display: block;
   margin-left: 50px;
 }
-
 </style>

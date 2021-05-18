@@ -36,7 +36,7 @@ export default {
         getRecords({commit}) {
             return new Promise((resolve) => {
                 axios
-                    .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?expand=user')
+                    .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?expand=user.profile')
                     .then(response => {
                         const events = response.data.data
                         commit('setEvents', events)
