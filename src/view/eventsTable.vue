@@ -5,16 +5,16 @@
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
           <div>
-            <b-table :items="events" :fields="fields" striped responsive="sm">
+            <b-table :items="pendingEvents" :fields="fields" striped responsive="sm">
               <template #cell(show_details)="row">
                 <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-                <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails(eventForm.id)">
+                <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails(pendingEvents.id)">
                   <b-icon icon="eye"></b-icon>
                 </b-form-checkbox>
               </template>
 
               <template #row-details="row">
-                <b-card>
+                <b-card >
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
                     <b-col><b>{{ row.item.first_name }} {{ row.item.last_name }}</b></b-col>
@@ -43,7 +43,6 @@
                   <b-button
                       variant="outline-danger"
                       size="sm"
-
                       @click="rejected(row.item.id, 'danger')">
                     Отклонить
                   </b-button>
@@ -72,14 +71,13 @@ export default {
   },
   methods: {
     approved(id, success = null) {
-      this.$store.dispatch('updateEvent', {
+      this.$store.dispatch('approveEvent', {
         value: {
           status: 'approved'
         },
         id: id
       })
       this.$bvToast.toast('Заявка одобрена!', {
-        title: `Variant ${success || 'default'}`,
         variant: success,
         solid: true
       })
@@ -92,18 +90,15 @@ export default {
         id: id
       })
       this.$bvToast.toast('Заявка отклонена!', {
-        title: `Variant ${danger || 'default'}`,
         variant: danger,
         solid: true
       })
     },
-    toggleDetails(id) {
-      this.events.find((e) => e.id === id)
-    }
+
   },
   computed: {
-    events() {
-      return this.$store.getters.calendarState.map((e) => ({
+    pendingEvents() {
+      return this.$store.getters.filterEvents.map((e) => ({
         first_name: e.user.profile?.first_name,
         last_name: e.user.profile?.last_name,
         kind: e.kind === 'vacation' ? 'Отпуск' : 'Отгул',
@@ -117,6 +112,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch('filterEvents')
     this.$store.dispatch('infoUser')
   }
 }

@@ -3,7 +3,8 @@ import axios from "axios"
 export default {
     state: {
         savedState: [],
-        event:{},
+        event: {},
+        filEvents:[],
         status: ''
     },
     actions: {
@@ -27,7 +28,7 @@ export default {
                 })
                     .then((response) => {
                         const event = response.data
-                       commit('saveRecords',event)
+                        commit('saveRecords', event)
                         resolve()
                     })
             })
@@ -43,15 +44,28 @@ export default {
                         resolve(response)
                     })
             })
-
         },
-        deleteRecords({commit, state}, payload ) {
+        filterEvents({commit}){
+            return new Promise((resolve) => {
+                axios
+                    .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?expand=user.profile')
+                    .then(response => {
+                        const events = response.data.data
+                        console.log(events)
+                        const filterEvents = events.filter((ev) => ev.status === 'pending')
+                        console.log(filterEvents)
+                        commit('filter', filterEvents)
+                        resolve(response)
+                    })
+            })
+        },
+        deleteRecords({commit, state}, payload) {
             return new Promise(resolve => {
                 axios
                     .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
                     .then(() => {
                         const events = state.savedState.filter((el) => el.id !== payload.id)
-                        commit('setEvents',events)
+                        commit('setEvents', events)
                         resolve()
                     })
             })
@@ -65,7 +79,23 @@ export default {
                 })
                     .then((response) => {
                         const event = response.data
-                        commit('setEvent', event)
+                        const status = event.status
+                        commit('setEvent', event, status)
+                    })
+                resolve()
+            })
+        },
+        approveEvent({commit,state}, payload) {
+            return new Promise(resolve => {
+                axios({
+                    url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
+                    data: payload.value,
+                    method: 'PATCH'
+                })
+                    .then((response) => {
+                        const event = response.data
+                        const apr = state.filEvents.filter((ev) => ev.status === 'pending' )
+                        commit('filter', event, apr)
                     })
                 resolve()
             })
@@ -73,22 +103,32 @@ export default {
     },
     mutations: {
         saveRecords(state, event) {
-           state.savedState.push(event)
+            state.savedState.push(event)
         },
         setEvents(state, events) {
             state.savedState = events
         },
-        setEvent(state, event) {
-          state.event = event
+        setEvent(state, event, status) {
+            state.event = event
+            state.status = status
         },
         deleteEvents(state, events) {
             state.savedState = events
+        },
+        filter(state, events){
+            state.filEvents = events
         }
 
     },
     getters: {
         calendarState(state) {
             return state.savedState
+        },
+        calendarEvent(state){
+            return state.event
+        },
+        filterEvents(state) {
+            return state.filEvents
         }
     }
 }
