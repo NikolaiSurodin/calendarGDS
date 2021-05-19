@@ -1,6 +1,6 @@
 <template>
   <div id="events-log">
-<div>{{date}}</div>
+    <div><b>{{ date }}</b></div>
     <div v-for="(event,id) in events"
          :key="id"
     >{{ event }}
@@ -28,18 +28,19 @@ export default {
 
 <style scoped>
 #events-log {
- margin-left: 20%;
+  margin-left: 57%;
   vertical-align: top;
-  width: 240px;
+  width: 180px;
   background-color: #e5e5e5;
   padding: 10px;
   min-height: 100px;
   border-radius: 10px;
+  position: fixed;
 }
 
 #events-log div {
-  font-family: cursive;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.1;
+  width: 150px;
 }
 </style>

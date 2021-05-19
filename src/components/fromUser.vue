@@ -90,9 +90,9 @@
                       placeholder="Описание" v-model="user.profile.description"
             />
           </div>
-          <div class="mt-5">
-            <b-button variant="outline-success"  @click="updateUser">Отредактировать</b-button>
-            <b-button variant="outline-danger" class="mb-1" @click="cancel">Отмена</b-button>
+          <div class="mt-3">
+            <b-button variant="outline-success" @click="updateUser">Отредактировать</b-button>
+            <b-button variant="outline-danger" class="mb-3" @click="cancel">Отмена</b-button>
           </div>
         </div>
       </form>
@@ -210,7 +210,7 @@ label {
 }
 
 .btn {
-  margin-bottom: 50px;
+  margin-bottom: 15px;
   width: 100%;
 }
 

@@ -31,8 +31,7 @@
                 @render-end="renderEnd"
                 @day-context-menu="dayContextMenu"
                 :class="'calendar-center'">
-      <!--                @click-day="clickDay"-->
-      >
+
       </Calendar>
     </template>
 
@@ -229,4 +228,5 @@ export default {
   display: block;
   margin-left: 50px;
 }
+
 </style>

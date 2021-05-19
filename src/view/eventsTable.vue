@@ -1,66 +1,56 @@
 <template>
   <div>
     <template>
-      <b-button v-b-toggle.sidebar-right variant="outline-info">Заявки</b-button>
+      <b-button v-b-toggle.sidebar-right variant="light" class="alo">Заявки</b-button>
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
-          <div class="px-3 py-2" v-if="eventApp">
-            <event-popup
-                @close="close"
-            >
-              <form class="form-signin">
+          <div>
+            <b-table :items="events" :fields="fields" striped responsive="sm">
+              <template #cell(show_details)="row">
+                <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+                <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails(eventForm.id)">
+                  <b-icon icon="eye"></b-icon>
+                </b-form-checkbox>
+              </template>
 
-                <label>Связь</label>
-                <input type="text"
-                       class="form-control"
-                       disabled
-                       v-model="eventForm.busy"
-                >
-                <label>Комментарий</label>
-                <input type="text"
-                       class="form-control"
-                       disabled
-                       v-model="eventForm.comment"
-                >
-                <label>Статус</label>
-                <input type="text"
-                       class="form-control"
-                       disabled
-                       v-model="eventForm.status"
-                >
-              </form>
-            </event-popup>
+              <template #row-details="row">
+                <b-card>
+                  <b-row class="mb-2">
+                    <b-col sm="3" class="text-sm-right"><b></b></b-col>
+                    <b-col><b>{{ row.item.first_name }} {{ row.item.last_name }}</b></b-col>
+                  </b-row>
+
+                  <b-row class="mb-2">
+                    <b-col sm="3" class="text-sm-right"><b>Связь:</b></b-col>
+                    <b-col><input type="text" class="form-control" disabled v-model="row.item.busy"></b-col>
+                  </b-row>
+                  <b-row class="mb-2">
+                    <b-col sm="3" class="text-sm-right"><b>Описание:</b></b-col>
+                    <b-col>
+                      <b-textarea type="text" disabled v-model="row.item.comment"></b-textarea>
+                    </b-col>
+                  </b-row>
+                  <b-row class="mb-2">
+                    <b-col sm="3" class="text-sm-right"><b>Статус:</b></b-col>
+                    <b-col><input type="text" class="form-control" disabled v-model="row.item.status"></b-col>
+                  </b-row>
+                  <b-button variant="outline-success"
+                            size="sm"
+                            class="mr-1"
+                            @click="approved(row.item.id, 'success')">
+                    Подтвердить
+                  </b-button>
+                  <b-button
+                      variant="outline-danger"
+                      size="sm"
+
+                      @click="rejected(row.item.id, 'danger')">
+                    Отклонить
+                  </b-button>
+                </b-card>
+              </template>
+            </b-table>
           </div>
-          <table class="table">
-            <thead>
-            <tr>
-              <th>Имя</th>
-              <th>Заявка</th>
-              <th>Даты</th>
-              <th>Показать</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr v-for="(e,idx) in events"
-                :key="idx"
-            >
-
-              <td class="text-left">
-                {{ e.first_name }} {{ e.last_name }}
-              </td>
-
-              <td>{{ e.kind }}</td>
-
-              <td>с: {{ e.date_from }} по: {{ e.date_to }}</td>
-
-              <td>
-                <b-button @click="visiblePopupEvent(e.id)">Просмотр</b-button>
-              </td>
-            </tr>
-            </tbody>
-
-          </table>
         </div>
       </b-sidebar>
     </template>
@@ -69,25 +59,46 @@
 
 <script>
 
-import eventPopup from "@/view/eventPopup";
-
 export default {
   name: "eventsTable",
-  components: {eventPopup},
   data() {
     return {
-      activeColor: '#131311',
+      activeColor: true,
+      detailsShowing:false,
       eventForm: {},
-      eventApp: false
+      eventApp: false,
+      fields: ['first_name', 'kind', 'date_from', 'date_to', 'show_details']
     }
   },
   methods: {
-    close() {
-      this.eventApp = false
+    approved(id, success = null) {
+      this.$store.dispatch('updateEvent', {
+        value: {
+          status: 'approved'
+        },
+        id: id
+      })
+      this.$bvToast.toast('Заявка одобрена!', {
+        title: `Variant ${success || 'default'}`,
+        variant: success,
+        solid: true
+      })
     },
-    visiblePopupEvent(id) {
-      this.eventApp = true
-      this.eventForm = this.events.find((e) => e.id === id)
+    rejected(id, danger = null) {
+      this.$store.dispatch('updateEvent', {
+        value: {
+          status: 'rejected'
+        },
+        id: id
+      })
+      this.$bvToast.toast('Заявка отклонена!', {
+        title: `Variant ${danger || 'default'}`,
+        variant: danger,
+        solid: true
+      })
+    },
+    toggleDetails(id) {
+      this.events.find((e) => e.id === id)
     }
   },
   computed: {
@@ -103,7 +114,7 @@ export default {
         busy: e.busy === true ? 'Недоступен' : 'Доступен для связи',
         comment: e.comment
       }))
-    },
+    }
   },
   mounted() {
     this.$store.dispatch('infoUser')
@@ -112,7 +123,11 @@ export default {
 </script>
 
 <style scoped>
-.alo {
-  background-color: #e66465;
+.alo{
+  margin-left: 10%;
+  margin-top: 100px;
+  position: fixed;
+
 }
+
 </style>
