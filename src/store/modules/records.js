@@ -51,10 +51,8 @@ export default {
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?expand=user.profile')
                     .then(response => {
                         const events = response.data.data
-                        console.log(events)
                         const filterEvents = events.filter((ev) => ev.status === 'pending')
-                        console.log(filterEvents)
-                        commit('filter', filterEvents)
+                        commit('filteredEvents', filterEvents)
                         resolve(response)
                     })
             })
@@ -85,7 +83,7 @@ export default {
                 resolve()
             })
         },
-        approveEvent({commit,state}, payload) {
+        approveEvent({commit}, payload) {
             return new Promise(resolve => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
@@ -94,8 +92,7 @@ export default {
                 })
                     .then((response) => {
                         const event = response.data
-                        const apr = state.filEvents.filter((ev) => ev.status === 'pending' )
-                        commit('filter', event, apr)
+                        commit('approve', event)
                     })
                 resolve()
             })
@@ -112,11 +109,11 @@ export default {
             state.event = event
             state.status = status
         },
-        deleteEvents(state, events) {
-            state.savedState = events
+        approve(state, event){
+            state.filEvents = event
         },
-        filter(state, events){
-            state.filEvents = events
+        filteredEvents(state, events){
+          state.filEvents = events
         }
 
     },

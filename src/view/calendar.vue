@@ -194,7 +194,7 @@ export default {
           name: r.title === 'vacation' ? 'Отпуск' : 'Отгул',
           details: r.comment,
           id: r.id,
-          user: r.user.profile.last_name
+          user: r.user.profile?.last_name
         }
       })
     },
