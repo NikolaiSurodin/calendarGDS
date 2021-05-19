@@ -19,23 +19,23 @@
                id="inputName"
                class="form-control"
                placeholder="Имя"
-               required v-model="user.profile.firstname"
-               :class="$v.user.profile.firstname.$error ? 'is-invalid' : '' "
+               required v-model="user.profile.first_name"
+               :class="$v.user.profile.first_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.firstname.$dirty && !$v.user.profile.firstname.required" class="invalid-feedback">Обязательное поле</p>
-        <p v-if="$v.user.profile.firstname.$dirty && !$v.user.profile.firstname.maxLength" class="invalid-feedback">Не более 10
+        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.required" class="invalid-feedback">Обязательное поле</p>
+        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.maxLength" class="invalid-feedback">Не более 10
           символов</p>
 
         <input type="text"
                id="inputLastName"
                class="form-control"
                placeholder="Фамилия"
-               required v-model="user.profile.lastname"
-               :class="$v.user.profile.lastname.$error ? 'is-invalid' : '' "
+               required v-model="user.profile.last_name"
+               :class="$v.user.profile.last_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.lastname.$dirty && !$v.user.profile.lastname.maxLength" class="invalid-feedback">Не более 10
+        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.maxLength" class="invalid-feedback">Не более 10
           символов</p>
-        <p v-if="$v.user.profile.lastname.$dirty && !$v.user.profile.lastname.required" class="invalid-feedback">Обязательное поле</p>
+        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">Обязательное поле</p>
 
         <input type="email"
                id="inputEmail"
@@ -116,8 +116,8 @@ export default {
         email: this.Email,
         profile:{
           mobile: this.mobile_ph,
-          lastname: this.last_name,
-          firstname: this.first_name,
+          last_name: this.last_name,
+          first_name: this.first_name,
           country: this.user_country,
           description: this.user_description,
           city: this.user_city,
@@ -132,8 +132,8 @@ export default {
       email: {required, email},
       birthday: {required},
       profile:{
-        firstname: {required, maxLength: maxLength(10)},
-        lastname: {required, maxLength: maxLength(10)},
+        first_name: {required, maxLength: maxLength(10)},
+        last_name: {required, maxLength: maxLength(10)},
         mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
       }
     }

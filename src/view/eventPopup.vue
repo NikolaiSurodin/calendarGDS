@@ -1,14 +1,15 @@
 <template>
   <div class="wrapper">
+    <div class="popup">
 
-    <slot>
+      <slot></slot>
 
-    </slot>
-    <div class="btn">
-      <div class="mt-5">
-        <b-button variant="outline-success" @click="approved" :disabled="disabledApproved()">Подтвердить</b-button>
-        <b-button variant="outline-danger" @click="rejected" :disabled="disabledRejected()">Отклонить</b-button>
-        <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
+      <div class="btn">
+        <div class="mt-5">
+          <b-button variant="outline-success" @click="approved" :disabled="disabledApproved()">Подтвердить</b-button>
+          <b-button variant="outline-danger" @click="rejected" :disabled="disabledRejected()">Отклонить</b-button>
+          <b-button variant="outline-secondary" @click="toCalendar">Вернуться</b-button>
+        </div>
       </div>
     </div>
   </div>
@@ -16,14 +17,11 @@
 
 <script>
 export default {
-  name: "eventAppove",
-  props:['busy', 'comment', 'status'],
+  name: "eventPopup",
   data() {
-    return {
-
-    }
+    return {}
   },
-  methods:{
+  methods: {
     close() {
       this.$emit('close')
     },
@@ -123,17 +121,6 @@ label {
 
 .btn {
   margin-bottom: 20px;
-  width: 100%;
-}
-.wrapper{
-  background: rgba(64, 64, 64, .4);
-  display: block;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  width: 70%;
 }
 </style>

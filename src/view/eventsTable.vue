@@ -4,9 +4,9 @@
       <b-button v-b-toggle.sidebar-right variant="outline-info">Заявки</b-button>
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
-          <table class="table">
-            <event-appove v-if="eventApp"
-            @close="close"
+          <div class="px-3 py-2" v-if="eventApp">
+            <event-popup
+                @close="close"
             >
               <form class="form-signin">
 
@@ -29,7 +29,9 @@
                        v-model="eventForm.status"
                 >
               </form>
-            </event-appove>
+            </event-popup>
+          </div>
+          <table class="table">
             <thead>
             <tr>
               <th>Имя</th>
@@ -47,12 +49,13 @@
               <td class="text-left">
                 {{ e.first_name }} {{ e.last_name }}
               </td>
+
               <td>{{ e.kind }}</td>
 
               <td>с: {{ e.date_from }} по: {{ e.date_to }}</td>
 
               <td>
-                <b-button @click="viz(e.id)">Просмотр</b-button>
+                <b-button @click="visiblePopupEvent(e.id)">Просмотр</b-button>
               </td>
             </tr>
             </tbody>
@@ -66,14 +69,15 @@
 
 <script>
 
-import EventAppove from "@/components/eventApprove";
+import eventPopup from "@/view/eventPopup";
+
 export default {
   name: "eventsTable",
-  components: {EventAppove},
+  components: {eventPopup},
   data() {
     return {
       activeColor: '#131311',
-      eventForm:{},
+      eventForm: {},
       eventApp: false
     }
   },
@@ -81,8 +85,8 @@ export default {
     close() {
       this.eventApp = false
     },
-    viz(id) {
-      this.eventApp = !this.eventApp
+    visiblePopupEvent(id) {
+      this.eventApp = true
       this.eventForm = this.events.find((e) => e.id === id)
     }
   },
@@ -100,7 +104,6 @@ export default {
         comment: e.comment
       }))
     },
-
   },
   mounted() {
     this.$store.dispatch('infoUser')
