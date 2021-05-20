@@ -2,9 +2,13 @@ import axios from "axios"
 
 export default {
     state: {
+        //все событий
         savedState: [],
         event: {},
+
+        //фильтрованные для списка заявок
         filEvents:[],
+
         status: ''
     },
     actions: {
@@ -83,7 +87,7 @@ export default {
                 resolve()
             })
         },
-        approveEvent({commit}, payload) {
+        approveEvent({commit, dispatch}, payload) {
             return new Promise(resolve => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
@@ -93,6 +97,7 @@ export default {
                     .then((response) => {
                         const event = response.data
                         commit('approve', event)
+                        dispatch('filterEvents')
                     })
                 resolve()
             })
@@ -101,6 +106,7 @@ export default {
     mutations: {
         saveRecords(state, event) {
             state.savedState.push(event)
+            state.filEvents.push(event)
         },
         setEvents(state, events) {
             state.savedState = events

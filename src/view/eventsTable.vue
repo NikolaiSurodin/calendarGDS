@@ -1,7 +1,12 @@
 <template>
   <div>
     <template>
-      <b-button v-b-toggle.sidebar-right variant="light" class="alo">Заявки</b-button>
+      <b-button v-b-toggle.sidebar-right
+                variant="light"
+                class="alo">
+        Заявки
+        <b-icon v-if="pendingEvents.length" icon="exclamation-circle-fill" variant="warning"></b-icon>
+      </b-button>
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
           <div>
@@ -14,10 +19,10 @@
               </template>
 
               <template #row-details="row">
-                <b-card >
+                <b-card>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
-                    <b-col><b>{{ row.item.first_name }} {{ row.item.last_name }}</b></b-col>
+                    <b-col><b>{{ row.item.user.profile.first_name }} {{ row.item.user.profile.last_name }}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">
@@ -63,10 +68,9 @@ export default {
   data() {
     return {
       activeColor: true,
-      detailsShowing:false,
       eventForm: {},
       eventApp: false,
-      fields: ['first_name', 'kind', 'date_from', 'date_to', 'show_details']
+      fields: ['kind', 'date_from', 'date_to', 'show_details']
     }
   },
   methods: {
@@ -83,7 +87,7 @@ export default {
       })
     },
     rejected(id, danger = null) {
-      this.$store.dispatch('updateEvent', {
+      this.$store.dispatch('approveEvent', {
         value: {
           status: 'rejected'
         },
@@ -98,28 +102,17 @@ export default {
   },
   computed: {
     pendingEvents() {
-      return this.$store.getters.filterEvents.map((e) => ({
-        first_name: e.user.profile?.first_name,
-        last_name: e.user.profile?.last_name,
-        kind: e.kind === 'vacation' ? 'Отпуск' : 'Отгул',
-        date_from: e.date_from,
-        date_to: e.date_to,
-        id: e.id,
-        status: e.status,
-        busy: e.busy === true ? 'Недоступен' : 'Доступен для связи',
-        comment: e.comment
-      }))
+      return this.$store.getters.filterEvents
     }
   },
   mounted() {
     this.$store.dispatch('filterEvents')
-    this.$store.dispatch('infoUser')
   }
 }
 </script>
 
 <style scoped>
-.alo{
+.alo {
   margin-left: 10%;
   margin-top: 100px;
   position: fixed;
