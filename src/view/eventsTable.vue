@@ -102,12 +102,9 @@ export default {
   },
   computed: {
     pendingEvents() {
-      return this.$store.getters.filterEvents
+      return this.$store.getters.getFilteredEvents
     }
   },
-  mounted() {
-    this.$store.dispatch('filterEvents')
-  }
 }
 </script>
 

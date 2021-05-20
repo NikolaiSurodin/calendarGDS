@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     event() {
-      return this.$store.getters.calendarState
+      return this.$store.getters.events
     }
   },
   mounted() {
@@ -78,7 +78,7 @@ export default {
 
 form {
   display: block;
-  margin-top: 0em;
+  margin-top: 0;
 }
 
 .text-center {
@@ -90,8 +90,8 @@ h1 {
   font-size: 2em;
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
   font-weight: bold;
 }
 

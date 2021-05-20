@@ -143,7 +143,8 @@ export default {
       if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
-          user: this.user.id,
+          // посылаем всего юзера, прям объект
+          user: this.user,
           title: event.currentKind,
           comment: event.currentDescription,
           date_from: this.currentStartDate,
@@ -187,7 +188,7 @@ export default {
   },
   computed: {
     calendarRecords() {
-      return this.$store.getters.calendarState.map(r => {
+      return this.$store.getters.events.map(r => {
         return {
           startDate: new Date(r.date_from),
           endDate: new Date(r.date_to),
