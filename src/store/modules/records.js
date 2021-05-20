@@ -116,7 +116,7 @@ export default {
             state.status = status
         },
         approve(state, event){
-            state.filEvents = event
+            state.filEvents.push(event)
         },
         filteredEvents(state, events){
           state.filEvents = events

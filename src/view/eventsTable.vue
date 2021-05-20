@@ -22,7 +22,7 @@
                 <b-card>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
-                    <b-col><b>{{ row.item.user.profile.first_name }} {{ row.item.user.profile.last_name }}</b></b-col>
+                    <b-col><b>{{}}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">
@@ -101,6 +101,9 @@ export default {
 
   },
   computed: {
+    user() {
+      return this.$store.getters.user
+    },
     pendingEvents() {
       return this.$store.getters.filterEvents
     }

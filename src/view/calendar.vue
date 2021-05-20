@@ -43,9 +43,9 @@
       <modal
           :show="true"
           :id="currentId"
-          :end-date="currentEndDate"
+          :end_-date="currentEndDate"
           :description="currentDescription"
-          :start-date="currentStartDate"
+          :start_-date="currentStartDate"
           :name="currentName"
           @saveEvent="saveEvent"
           ref="form"
@@ -86,6 +86,7 @@ export default {
   data() {
     return {
       date: '',
+      currentUserName:'',
       showProfile: false,
       show: false,
       currentId: null,
@@ -144,6 +145,7 @@ export default {
         // Добавление события
         this.$store.dispatch('saveEvents', {
           user: this.user.id,
+          username:this.user.username,
           title: event.currentKind,
           comment: event.currentDescription,
           date_from: this.currentStartDate,
@@ -153,6 +155,7 @@ export default {
           kind: event.currentKind,
           request:event.currentRequest
         })
+
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -186,6 +189,9 @@ export default {
     }
   },
   computed: {
+    filterEv() {
+      return this.$store.
+    }
     calendarRecords() {
       return this.$store.getters.calendarState.map(r => {
         return {
@@ -194,7 +200,7 @@ export default {
           name: r.title === 'vacation' ? 'Отпуск' : 'Отгул',
           details: r.comment,
           id: r.id,
-          user: r.user.profile?.last_name
+          username: r.user.profile?.last_name
         }
       })
     },
