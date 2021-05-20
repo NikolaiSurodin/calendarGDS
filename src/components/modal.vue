@@ -62,14 +62,14 @@
 <script>
 export default {
   name: "modal",
-  props: ['id', 'start_Date', 'end_Date', 'name', 'description', 'busy', 'kind', 'request', 'user'],
+  props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request', 'user'],
   data() {
     return {
       event: {
         currentUserName:this.user,
         currentId: this.id,
-        currentStartDate: this.start_Date,
-        currentEndDate: this.end_Date,
+        currentStartDate: this.startDate,
+        currentEndDate: this.endDate,
         currentName: this.kind,
         currentDescription: this.description,
         currentBusy: this.busy,

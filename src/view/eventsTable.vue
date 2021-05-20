@@ -22,7 +22,7 @@
                 <b-card>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
-                    <b-col><b>{{}}</b></b-col>
+                    <b-col><b>{{row.item}}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">
@@ -70,7 +70,7 @@ export default {
       activeColor: true,
       eventForm: {},
       eventApp: false,
-      fields: ['kind', 'date_from', 'date_to', 'show_details']
+      fields: ['title','kind', 'date_from', 'date_to', 'show_details']
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
       })
     },
     rejected(id, danger = null) {
-      this.$store.dispatch('approveEvent', {
+      this.$store.dispatch('rejectEvent', {
         value: {
           status: 'rejected'
         },
@@ -101,16 +101,19 @@ export default {
 
   },
   computed: {
-    user() {
-      return this.$store.getters.user
-    },
     pendingEvents() {
-      return this.$store.getters.filterEvents
+      return this.$store.getters.getFilteredEvents.map((r) => ({
+        title: r.user.username,
+        kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
+        date_from:r.date_from,
+        date_to:r.date_to,
+        id:r.id,
+        busy:r.busy === true ? 'Недоступен' : 'Доступен',
+        comment:r.comment,
+        status:r.status
+      }))
     }
   },
-  mounted() {
-    this.$store.dispatch('filterEvents')
-  }
 }
 </script>
 

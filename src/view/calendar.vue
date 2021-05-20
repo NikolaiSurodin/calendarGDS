@@ -43,9 +43,9 @@
       <modal
           :show="true"
           :id="currentId"
-          :end_-date="currentEndDate"
+          :end-date="currentEndDate"
           :description="currentDescription"
-          :start_-date="currentStartDate"
+          :start-date="currentStartDate"
           :name="currentName"
           @saveEvent="saveEvent"
           ref="form"
@@ -72,7 +72,6 @@ import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
 import EventsTable from "@/view/eventsTable"
-
 export default {
   name: "calendar",
   components: {
@@ -86,7 +85,6 @@ export default {
   data() {
     return {
       date: '',
-      currentUserName:'',
       showProfile: false,
       show: false,
       currentId: null,
@@ -144,8 +142,8 @@ export default {
       if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
-          user: this.user.id,
-          username:this.user.username,
+          // посылаем всего юзера, прям объект
+          user: this.user,
           title: event.currentKind,
           comment: event.currentDescription,
           date_from: this.currentStartDate,
@@ -155,7 +153,6 @@ export default {
           kind: event.currentKind,
           request:event.currentRequest
         })
-
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -189,18 +186,15 @@ export default {
     }
   },
   computed: {
-    filterEv() {
-      return this.$store.
-    }
     calendarRecords() {
-      return this.$store.getters.calendarState.map(r => {
+      return this.$store.getters.getEvents.map(r => {
         return {
           startDate: new Date(r.date_from),
           endDate: new Date(r.date_to),
           name: r.title === 'vacation' ? 'Отпуск' : 'Отгул',
           details: r.comment,
           id: r.id,
-          username: r.user.profile?.last_name
+          user: r.user.profile?.last_name
         }
       })
     },
@@ -226,13 +220,10 @@ export default {
   }
 }
 </script>
-
-
 <style scoped>
 .calendar-center {
   width: 55%;
   display: block;
   margin-left: 50px;
 }
-
 </style>

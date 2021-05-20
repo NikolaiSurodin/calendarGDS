@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     event() {
-      return this.$store.getters.calendarState
+      return this.$store.getters.events
     }
   },
   mounted() {
@@ -75,26 +75,22 @@ export default {
   padding: 15px;
   margin: auto;
 }
-
 form {
   display: block;
-  margin-top: 0em;
+  margin-top: 0;
 }
-
 .text-center {
   text-align: center !important;
 }
-
 h1 {
   display: block;
   font-size: 2em;
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
   font-weight: bold;
 }
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -105,20 +101,16 @@ h1 {
   white-space: nowrap;
   border: 0;
 }
-
 label {
   display: inline-block;
   margin-bottom: .5rem;
 }
-
 label {
   cursor: default;
 }
-
 .text-center {
   text-align: center !important;
 }
-
 .btn {
   margin-bottom: 20px;
   width: 70%;
