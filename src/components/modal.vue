@@ -1,7 +1,7 @@
 <template>
   <form class="form-horizontal">
     <div class="form-group row">
-      <label for="event-name" class="col-sm-2 control-label">Отупуск/Отгул</label>
+      <label for="event-name" class="col-sm-2 control-label">Вид</label>
       <div class="col-sm-10">
         <b-form-select
             v-model="event.currentKind"
@@ -29,28 +29,33 @@
     <div class="form-group row">
       <label for="event-description" class="col-sm-2 control-label">Описание</label>
       <div class="col-sm-10">
-        <input id="event-description" type="text" class="form-control" placeholder="Описание"
-               v-model="event.currentDescription"/>
+        <b-textarea id="event-description"
+                    v-model="event.currentDescription">
+
+        </b-textarea>
       </div>
     </div>
     <div class="form-group row">
       <label for="min-date" class="col-sm-2 control-label">Даты</label>
       <div class="col-sm-10">
         <div class="input-group input-daterange">
-          <input id="min-date" type="date" class="form-control" v-model="event.currentStartDate"/>
+          <input id="min-date"
+                 type="date"
+                 class="form-control"
+                 v-model="event.currentStartDate"/>
+
           <div class="input-group-prepend input-group-append">
             <div class="input-group-text">До</div>
           </div>
-          <input type="date" class="form-control" v-model="event.currentEndDate"/>
+          <input type="date"
+                 class="form-control"
+                 v-model="event.currentEndDate"/>
         </div>
         <b-form-checkbox
             class="mt-5"
             v-model="event.currentRequest"
-            id="checkbox-1"
-            name="checkbox-1"
             value="true"
             unchecked-value="false"
-            required="required"
         >
           Отправить заявку
         </b-form-checkbox>
@@ -66,7 +71,7 @@ export default {
   data() {
     return {
       event: {
-        currentUserName:this.user,
+        currentUserName: this.user,
         currentId: this.id,
         currentStartDate: this.startDate,
         currentEndDate: this.endDate,

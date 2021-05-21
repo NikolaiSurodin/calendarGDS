@@ -1,5 +1,6 @@
 <template>
   <div>
+    <template>
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
         <b-nav-item class="mr-auto" @click="toCalendar">Календарь</b-nav-item>
@@ -11,6 +12,7 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-navbar>
+    </template>
   </div>
 </template>
 

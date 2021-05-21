@@ -12,6 +12,7 @@
           :events="events"
       />
     </template>
+
     <template v-if="!superUser">
 
       <events-table/>
@@ -30,18 +31,17 @@
                 @select-range="selectRange"
                 @render-end="renderEnd"
                 @day-context-menu="dayContextMenu"
-                :class="'calendar-center'">
+                :class="'calendar-position'"
+      />
 
-      </Calendar>
     </template>
 
     <b-modal v-model="show"
-             :title="currentId !== null ? 'Редактировать' : 'Оставить заявку на отпуск/отгул'"
+             :title="title"
              ok-title="Сохранить"
              cancel-title="Отмена"
              @ok="fireFormSave">
       <modal
-          :show="true"
           :id="currentId"
           :end-date="currentEndDate"
           :description="currentDescription"
@@ -186,6 +186,9 @@ export default {
     }
   },
   computed: {
+    title() {
+      return this.currentId !== null ? `Редактировать ${this.currentName}` : 'Оставить заявку'
+    },
     calendarRecords() {
       return this.$store.getters.getEvents.map(r => {
         return {
@@ -221,7 +224,7 @@ export default {
 }
 </script>
 <style scoped>
-.calendar-center {
+.calendar-position {
   width: 55%;
   display: block;
   margin-left: 50px;

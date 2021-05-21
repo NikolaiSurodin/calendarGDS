@@ -1,19 +1,25 @@
 <template>
   <div>
     <template>
-      <b-button v-b-toggle.sidebar-right
-                variant="light"
+      <b-button v-if="pendingEvents.length"
+                v-b-toggle.sidebar-right
+                variant="outline-warning"
                 class="alo">
-        Заявки
-        <b-icon v-if="pendingEvents.length" icon="exclamation-circle-fill" variant="warning"></b-icon>
+        <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
+         Новые заявки ({{pendingEvents.length}})
       </b-button>
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
           <div>
-            <b-table :items="pendingEvents" :fields="fields" striped responsive="sm">
+            <b-table
+                :items="pendingEvents"
+                :fields="fields"
+                striped responsive="sm">
               <template #cell(show_details)="row">
                 <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-                <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails(pendingEvents.id)">
+                <b-form-checkbox
+                    v-model="row.detailsShowing"
+                    @change="row.toggleDetails">
                   <b-icon icon="eye"></b-icon>
                 </b-form-checkbox>
               </template>
@@ -22,7 +28,7 @@
                 <b-card>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
-                    <b-col><b>{{row.item}}</b></b-col>
+                    <b-col><b>{{row.item.username}} {{row.item.user_last_name}}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">
@@ -37,7 +43,7 @@
                   </b-row>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b>Статус:</b></b-col>
-                    <b-col><input type="text" class="form-control" disabled v-model="row.item.status"></b-col>
+                    <b-col><input type="text" class="form-control" disabled v-model="row.item.request"></b-col>
                   </b-row>
                   <b-button variant="outline-success"
                             size="sm"
@@ -110,7 +116,10 @@ export default {
         id:r.id,
         busy:r.busy === true ? 'Недоступен' : 'Доступен',
         comment:r.comment,
-        status:r.status
+        status:r.status,
+        username:r.user.profile.first_name,
+        user_last_name:r.user.profile.last_name,
+        request:r.request === true ? 'Заяка' : 'Планируется...'
       }))
     }
   },
@@ -119,9 +128,6 @@ export default {
 
 <style scoped>
 .alo {
-  margin-left: 10%;
-  margin-top: 100px;
-  position: fixed;
 
 }
 

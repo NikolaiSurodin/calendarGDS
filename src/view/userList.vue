@@ -37,7 +37,7 @@ export default {
   components: {MyNavbar},
   data() {
     return {
-      perPage: 3,
+      perPage: 5,
       currentPage: 1,
     }
   },
@@ -54,8 +54,10 @@ export default {
      return this.$store.getters.users.map((u) => ({
        user:u.username,
        name:u.profile?.first_name,
+       last_name:u.profile?.last_name,
        mobile:u.profile?.mobile,
-       birthday:u.profile?.birthday
+       city:u.profile?.city,
+       country:u.profile?.country
      }))
     },
     rows() {
@@ -63,7 +65,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.users)
     this.$store.dispatch('allUsers')
   }
 }

@@ -36,11 +36,13 @@ export default {
   min-height: 100px;
   border-radius: 10px;
   position: fixed;
+
 }
 
 #events-log div {
   font-size: 14px;
   line-height: 1.1;
   width: 150px;
+  padding: 10px;
 }
 </style>
