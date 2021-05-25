@@ -37,7 +37,7 @@
     </template>
 
     <b-modal v-model="show"
-             :title="title"
+             :title="titleModalEvent"
              ok-title="Сохранить"
              cancel-title="Отмена"
              @ok="fireFormSave">
@@ -153,6 +153,7 @@ export default {
           kind: event.currentKind,
           request:event.currentRequest
         })
+        console.log(event)
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -186,7 +187,7 @@ export default {
     }
   },
   computed: {
-    title() {
+    titleModalEvent() {
       return this.currentId !== null ? `Редактировать ${this.currentName}` : 'Оставить заявку'
     },
     calendarRecords() {

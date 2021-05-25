@@ -30,8 +30,8 @@
       <label for="event-description" class="col-sm-2 control-label">Описание</label>
       <div class="col-sm-10">
         <b-textarea id="event-description"
-                    v-model="event.currentDescription">
-
+                    v-model="event.currentDescription"
+        >
         </b-textarea>
       </div>
     </div>
@@ -42,8 +42,9 @@
           <input id="min-date"
                  type="date"
                  class="form-control"
-                 v-model="event.currentStartDate"/>
+                 v-model="event.currentStartDate"
 
+          />
           <div class="input-group-prepend input-group-append">
             <div class="input-group-text">До</div>
           </div>
@@ -65,11 +66,13 @@
 </template>
 
 <script>
+
 export default {
   name: "modal",
   props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request', 'user'],
   data() {
     return {
+      valid: false,
       event: {
         currentUserName: this.user,
         currentId: this.id,

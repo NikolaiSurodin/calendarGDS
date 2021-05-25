@@ -119,7 +119,7 @@ export default {
         status:r.status,
         username:r.user.profile.first_name,
         user_last_name:r.user.profile.last_name,
-        request:r.request === true ? 'Заяка' : 'Планируется...'
+        request:r.request === true ? 'Заявка' : 'Планируется...'
       }))
     }
   },

@@ -72,7 +72,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   right: 0;
   left: 0;
   top: 0;
@@ -86,7 +86,7 @@ export default {
   width: 700px;
   background: whitesmoke;
   box-shadow: 0 0 30px 0 #454343;
-  z-index: 10;
+
   display: inline;
 }
 
@@ -112,8 +112,4 @@ export default {
   text-align: center;
 }
 
-.bt {
-  margin-top: 50px;
-  margin-left: 120px;
-}
 </style>

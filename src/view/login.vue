@@ -5,10 +5,10 @@
           v-if="error"
           @closePopup="closePopup"
       >
-        <h3>Введеные данные неверны! Попробуйте еще раз!</h3>
+        <h3>Данные неверны! Попробуйте еще раз!</h3>
       </message-error>
     </template>
-    <form class="form-signin" @submit.prevent="submitLogin">
+    <form class="form-signin" @submit.prevent="submitLogin('b-toaster-top-center')">
       <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
       <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
       <p>Введите данные для входа и нажмите Войти:</p>
@@ -21,9 +21,8 @@
              v-model.trim="form.email"
              :class="$v.form.email.$error ? 'is-invalid' : ''"
       >
-      <p v-if="$v.form.email.$dirty && !$v.form.email.required" class="invalid-feedback">Ошибка! Обязательное поле</p>
-      <p v-if="$v.form.email.$dirty && !$v.form.email.email" class="invalid-feedback">Ошибка! Введите корректный
-        E-mail</p>
+      <p v-if="$v.form.email.$dirty && !$v.form.email.required" class="invalid-feedback">Обязательное поле!</p>
+      <p v-if="$v.form.email.$dirty && !$v.form.email.email" class="invalid-feedback">Введите корректный E-mail</p>
 
       <input type="password"
              id="inputPassword"
@@ -34,15 +33,12 @@
              :class="$v.form.password.$error ? 'is-invalid' : ''"
       >
 
-      <p v-if="$v.form.password.$dirty && !$v.form.password.minLength" class="invalid-feedback">Ошибка!Пароль минимум 7
+      <p v-if="$v.form.password.$dirty && !$v.form.password.minLength" class="invalid-feedback">Пароль минимум 7
         символов</p>
-      <p v-if="$v.form.password.$dirty && !$v.form.password.required" class="invalid-feedback">Обязательное поля!</p>
+      <p v-if="$v.form.password.$dirty && !$v.form.password.required" class="invalid-feedback">Обязательное поле!</p>
 
       <div class="btn">
-        <button class="btn btn-lg btn-primary btn-block"
-                type="submit">
-          Войти
-        </button>
+        <b-button class="mt-3" variant="outline-success" type="submit">Войти</b-button>
 
         <router-link to="/">Регистрация</router-link>
         <p class="mt-5 mb-3 text-muted">© GDS - 2021</p>
@@ -80,11 +76,11 @@ export default {
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
         this.$store.dispatch('submitLogin', this.form)
-            .then(() => this.$router.push('/calendar'))
-
+            .then(() => {
+              this.$router.push('/calendar')
+            })
             .catch((error) => {
               console.log(error)
-
               this.error = !this.error
               this.form.email = ''
               this.form.password = ''
