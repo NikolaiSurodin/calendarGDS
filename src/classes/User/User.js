@@ -1,4 +1,4 @@
-import {Profile} from '@/classes/Profile'
+import {Profile} from '@/classes/User/Profile'
 
 
 class User {

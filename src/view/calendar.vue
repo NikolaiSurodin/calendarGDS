@@ -46,7 +46,6 @@
           :end-date="currentEndDate"
           :description="currentDescription"
           :start-date="currentStartDate"
-          :name="currentName"
           @saveEvent="saveEvent"
           ref="form"
       />
@@ -72,6 +71,7 @@ import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
 import EventsTable from "@/view/eventsTable"
+
 export default {
   name: "calendar",
   components: {
@@ -114,6 +114,12 @@ export default {
           text: "Удалить",
           click: evt => {
             this.$store.dispatch('deleteRecords', {id: evt.id})
+                .catch((error) => {
+                  this.$bvToast.toast('Ошибка! Невозможно удалить событие', {
+                    title: `${error}`,
+                    solid: true
+                  })
+                })
           }
         }
       ]
@@ -142,7 +148,7 @@ export default {
       if (this.currentId === null) {
         // Добавление события
         this.$store.dispatch('saveEvents', {
-          // посылаем всего юзера, прям объект
+          //посылаем всего юзера, прям объект
           user: this.user,
           title: event.currentKind,
           comment: event.currentDescription,
@@ -151,9 +157,18 @@ export default {
           id: event.currentId,
           busy: event.currentBusy,
           kind: event.currentKind,
-          request:event.currentRequest
+          request: event.currentRequest
         })
-        console.log(event)
+            .then((event) => {
+              console.log(event)
+            })
+            .catch((error, danger = null) => {
+              this.$bvToast.toast('Ошибка! Событие не добавлено', {
+                title: 'Ошибка',
+                variant: danger,
+                solid: true
+              })
+            })
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -165,10 +180,16 @@ export default {
             date_to: event.currentEndDate,
             busy: event.currentBusy,
             kind: event.currentKind,
-            request:event.currentRequest
+            request: event.currentRequest
           },
           id: event.currentId
         })
+            .catch((error) => {
+              this.$bvToast.toast('Упс.. Событие не обновлено..', {
+                title: `${error}`,
+                solid: true
+              })
+            })
       }
     },
     //event - объект - событие

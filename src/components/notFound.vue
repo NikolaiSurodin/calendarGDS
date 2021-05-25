@@ -1,6 +1,7 @@
 <template>
   <div class="not-found">
-    <h1 style="text-align: center">
+    <b-icon icon="exclamation-circle" style="width: 120px; height: 120px;"></b-icon>
+    <h1>
       Ничего не найдено
     </h1>
   </div>
@@ -8,7 +9,13 @@
 
 <style scoped>
 .not-found {
-  margin-top: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
+
 </style>
+

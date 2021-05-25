@@ -1,5 +1,5 @@
 import axios from "axios"
-import {User} from "@/classes/User"
+import {User} from "@/classes/User/User"
 
 export default {
     state: {
@@ -9,79 +9,79 @@ export default {
     },
     actions: {
         infoUser({commit}) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/me?expand=profile')
                     .then(response => {
                         let user = response.data.data.find(user => user)
                         this.user = new User(user)
-                        commit('set_user', this.user)
+                        commit('SET_USER', this.user)
                         resolve(response)
                     })
+                    .catch((error) => reject(error))
             })
         },
         allUsers({commit}) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/users?expand=profile')
                     .then(response => {
                         const users = response.data.data
-                        commit('all_users', users)
+                        commit('ALL_USERS', users)
                         resolve()
                     })
+                    .catch((error) => reject(error))
             })
         },
         infoUserById({commit}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios
                     .get(`https://vacation-api.thirty3.tools/api/v1/frontend/users/${payload}?expand=profile`)
                     .then(response => {
                         const user = response.data
-                        commit('set_user', user)
+                        commit('SET_USER', user)
+                        resolve()
                     })
-                resolve()
+                    .catch((error) => reject(error))
             })
-
-
         },
         updateUser({commit}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/me/${payload.id}`,
                     data: payload.value,
                     method: 'PATCH'
                 })
                     .then(() => {
-
-                        commit('set_user', payload.value)
-
-
+                        commit('SET_USER', payload.value)
+                        resolve()
                     })
-                resolve()
+                    .catch(error => reject(error))
             })
 
         },
         isSuperUser({commit}) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios
                     .get('https://vacation-api.thirty3.tools/api/v1/admin/auth/me')
                     .then(response => {
                         const superUser = response.data.is_superuser
-                        commit('set_superUser', superUser)
+                        commit('SET_SUPER_USER', superUser)
+                        resolve()
                     })
-                resolve()
+                    .catch((error) => reject(error))
             })
 
         }
     },
     mutations: {
-        set_user(state, user) {
+        SET_USER(state, user) {
             state.user = user
         },
-        all_users(state, users) {
+        ALL_USERS(state, users) {
             state.users = users
         },
-        set_superUser(state, superUser) {
+        SET_SUPER_USER(state, superUser) {
             state.superUser = superUser
         }
     },

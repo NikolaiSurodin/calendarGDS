@@ -9,13 +9,13 @@ export default {
         currentEvent: {},
 
         //фильтрованные для списка заявок
-        filteredEvents:[],
+        filteredEvents: [],
 
         status: ''
     },
     actions: {
         saveEvents({commit}, payload) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 axios({
                     url: 'https://vacation-api.thirty3.tools/api/v1/frontend/events',
                     data: {
@@ -35,47 +35,54 @@ export default {
                 })
                     .then((response) => {
                         // сразу складываем присланного юзера, т.к. нам сразу не прилетает expand
-                        const event = {...response.data, user: payload.user}
-                        commit('addEvent', event)
+                        let event = {...response.data, user: payload.user}
+                        commit('ADD_EVENT', event)
                         resolve()
                     })
+                    .catch((error) => {
+                        reject(error)
+                    })
+
             })
 
         },
         getRecords({commit, dispatch}) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 axios
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/events?expand=user.profile')
                     .then(response => {
                         const events = response.data.data
-                        commit('setEvents', events)
+                        commit('SET_EVENTS', events)
                         // и сразу фильтруем.
                         dispatch('filterEvents')
                         resolve(response)
                     })
+                    .catch((error) => reject(error))
             })
         },
-        filterEvents({commit, state}){
-            return new Promise((resolve) => {
+        filterEvents({commit, state}) {
+            return new Promise((resolve, reject) => {
                 // тут мы берем все, без запроса, запрос всегда будет проихсодить на getRecords
                 const filterEvents = state.events.filter((ev) => ev.status === 'pending')
-                commit('setFilteredEvents', filterEvents)
+                commit('SET_FILTERED_EVENTS', filterEvents)
                 resolve(filterEvents)
+                reject(error => console.log(error))
             })
         },
         deleteRecords({commit, state}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios
                     .delete(`https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`)
                     .then(() => {
                         const events = state.events.filter((el) => el.id !== payload.id)
-                        commit('setEvents', events)
+                        commit('SET_EVENTS', events)
                         resolve()
                     })
+                    .catch(error => reject(error))
             })
         },
         updateEvent({commit}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
                     data: payload.value,
@@ -84,13 +91,14 @@ export default {
                     .then((response) => {
                         const event = response.data
                         const status = event.status
-                        commit('setCurrentEvent', event, status)
+                        commit('SET_CURRENT_EVENT', event, status)
+                        resolve()
                     })
-                resolve()
+                    .catch(error => reject(error))
             })
         },
         approveEvent({commit, dispatch}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
                     data: payload.value,
@@ -99,15 +107,18 @@ export default {
                     .then((response) => {
                         const event = response.data
                         // аппрувим ивент в нашем локальном сторадже
-                        commit('approveEvent', event)
+                        commit('APPROVE_EVENT', event)
                         // просим стор перефильтровать то, что у нас есть
                         dispatch('filterEvents')
+                        resolve()
                     })
-                resolve()
+                    .catch(error => reject(error))
+
+
             })
         },
         rejectEvent({commit, dispatch}, payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios({
                     url: `https://vacation-api.thirty3.tools/api/v1/frontend/events/${payload.id}`,
                     data: payload.value,
@@ -116,42 +127,44 @@ export default {
                     .then((response) => {
                         const event = response.data
                         // аппрувим ивент в нашем локальном сторадже
-                        commit('rejectEvent', event)
+                        commit('REJECT_EVENT', event)
                         // просим стор перефильтровать то, что у нас есть
                         dispatch('filterEvents')
+                        resolve()
                     })
-                resolve()
+                    .catch(error => reject(error))
+
             })
         }
     },
     mutations: {
-        addEvent(state, event) {
+        ADD_EVENT(state, event) {
             state.events.push(event)
             state.filteredEvents.push(event)
         },
-        setEvents(state, events) {
+        SET_EVENTS(state, events) {
             state.events = events
         },
-        setCurrentEvent(state, event, status) {
+        SET_CURRENT_EVENT(state, event, status) {
             state.currentEvent = event
             state.currentStatus = status
         },
-        approveEvent(state, event){
+        APPROVE_EVENT(state, event) {
             // ищем то, что мы только что апрувнули, то же самое нужно сделать для reject
             let ev = state.filteredEvents.find(el => el.id === event.id)
-            if ( ev ) {
+            if (ev) {
                 // т.к. вернется нам референс на объект, и мы его нашли, сразу патчим нужный объект
                 ev.status = 'approved'
             }
         },
-        rejectEvent(state,event) {
+        REJECT_EVENT(state, event) {
             let ev = state.filteredEvents.find(el => el.id === event.id)
-            if ( ev ) {
+            if (ev) {
                 // т.к. вернется нам референс на объект, и мы его нашли, сразу патчим нужный объект
                 ev.status = 'rejected'
             }
         },
-        setFilteredEvents(state, events){
+        SET_FILTERED_EVENTS(state, events) {
             state.filteredEvents = events
         }
 
@@ -160,7 +173,7 @@ export default {
         getEvents(state) {
             return state.events
         },
-        getCurrentEvent(state){
+        getCurrentEvent(state) {
             return state.currentEvent
         },
         getFilteredEvents(state) {

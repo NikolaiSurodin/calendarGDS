@@ -20,7 +20,7 @@
         :user_state="user.profile.state"
         :user_country="user.profile.country"
     />
-    <my-footer />
+    <my-footer/>
   </div>
 </template>
 
@@ -47,9 +47,21 @@ export default {
       this.$router.push('/calendar')
     },
     updateUser(user) {
-      this.$store.dispatch('updateUser', {value: user, id: this.$route.params.id})
-      this.$root.$emit('save')
-      this.$router.push('/calendar')
+      this.$store.dispatch('updateUser', {
+        value: user,
+        id: this.$route.params.id
+      })
+          .then(() => {
+            this.$root.$emit('save')
+            this.$router.push('/calendar')
+          })
+          .catch((error) => {
+            this.$bvToast.toast(`${error}`, {
+              title:'Ошибка! Пользователь не может быть обновлен!',
+              solid: true
+            })
+          })
+
     },
     expanded() {
       this.expand = !this.expand

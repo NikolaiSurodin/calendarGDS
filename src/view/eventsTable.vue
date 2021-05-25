@@ -6,7 +6,7 @@
                 variant="outline-warning"
                 class="alo">
         <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
-         Новые заявки ({{pendingEvents.length}})
+        Новые заявки ({{ pendingEvents.length }})
       </b-button>
       <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
         <div class="px-3 py-2">
@@ -28,7 +28,7 @@
                 <b-card>
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
-                    <b-col><b>{{row.item.username}} {{row.item.user_last_name}}</b></b-col>
+                    <b-col><b>{{ row.item.username }} {{ row.item.user_last_name }}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">
@@ -48,7 +48,7 @@
                   <b-button variant="outline-success"
                             size="sm"
                             class="mr-1"
-                            @click="approved(row.item.id, 'success')">
+                            @click="approved(row.item.id, 'success' , 'danger')">
                     Подтвердить
                   </b-button>
                   <b-button
@@ -76,7 +76,7 @@ export default {
       activeColor: true,
       eventForm: {},
       eventApp: false,
-      fields: ['title','kind', 'date_from', 'date_to', 'show_details']
+      fields: ['title', 'kind', 'date_from', 'date_to', 'show_details']
     }
   },
   methods: {
@@ -87,10 +87,18 @@ export default {
         },
         id: id
       })
-      this.$bvToast.toast('Заявка одобрена!', {
-        variant: success,
-        solid: true
-      })
+          .then(() => {
+            this.$bvToast.toast('Заявка одобрена!', {
+              variant: success,
+              solid: true
+            })
+          })
+          .catch((error) => {
+            this.$bvToast.toast(`${error}`, {
+
+              solid: true
+            })
+          })
     },
     rejected(id, danger = null) {
       this.$store.dispatch('rejectEvent', {
@@ -99,10 +107,17 @@ export default {
         },
         id: id
       })
-      this.$bvToast.toast('Заявка отклонена!', {
-        variant: danger,
-        solid: true
-      })
+          .then(() => {
+            this.$bvToast.toast('Заявка отклонена!', {
+              variant: danger,
+              solid: true
+            })
+          })
+          .catch((error) => {
+            this.$bvToast.toast(`${error}`, {
+              solid: true
+            })
+          })
     },
 
   },
@@ -111,24 +126,20 @@ export default {
       return this.$store.getters.getFilteredEvents.map((r) => ({
         title: r.user.username,
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
-        date_from:r.date_from,
-        date_to:r.date_to,
-        id:r.id,
-        busy:r.busy === true ? 'Недоступен' : 'Доступен',
-        comment:r.comment,
-        status:r.status,
-        username:r.user.profile.first_name,
-        user_last_name:r.user.profile.last_name,
-        request:r.request === true ? 'Заявка' : 'Планируется...'
+        date_from: r.date_from,
+        date_to: r.date_to,
+        id: r.id,
+        busy: r.busy === true ? 'Недоступен' : 'Доступен',
+        comment: r.comment,
+        status: r.status,
+        username: r.user.profile.first_name,
+        user_last_name: r.user.profile.last_name,
+        request: r.request === true ? 'Заявка' : 'Планируется...'
       }))
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
-.alo {
-
-}
-
 </style>

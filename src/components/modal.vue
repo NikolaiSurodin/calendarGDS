@@ -69,12 +69,41 @@
 
 export default {
   name: "modal",
-  props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request', 'user'],
+  // props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request', 'user'],
+  props: {
+    id: {
+      required: true
+    },
+    startDate: {
+      type: String,
+      required: true
+    },
+    endDate: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    busy: {
+      type: Boolean,
+      default: true
+    },
+    kind: {
+      type: String,
+    },
+    request: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       valid: false,
       event: {
-        currentUserName: this.user,
         currentId: this.id,
         currentStartDate: this.startDate,
         currentEndDate: this.endDate,
