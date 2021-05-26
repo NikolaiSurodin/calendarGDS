@@ -59,6 +59,7 @@
             unchecked-value="false"
         >
           Отправить заявку
+          <p class="small">Будет означать что даты точно определены</p>
         </b-form-checkbox>
       </div>
     </div>
@@ -69,7 +70,6 @@
 
 export default {
   name: "modal",
-  // props: ['id', 'startDate', 'endDate', 'name', 'description', 'busy', 'kind', 'request', 'user'],
   props: {
     id: {
       required: true

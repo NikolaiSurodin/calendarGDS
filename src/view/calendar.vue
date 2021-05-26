@@ -159,9 +159,6 @@ export default {
           kind: event.currentKind,
           request: event.currentRequest
         })
-            .then((event) => {
-              console.log(event)
-            })
             .catch((error, danger = null) => {
               this.$bvToast.toast('Ошибка! Событие не добавлено', {
                 title: 'Ошибка',

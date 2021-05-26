@@ -1,4 +1,5 @@
 import axios from "axios"
+import {Event} from "@/classes/Event/Event";
 
 export default {
     state: {
@@ -35,7 +36,9 @@ export default {
                 })
                     .then((response) => {
                         // сразу складываем присланного юзера, т.к. нам сразу не прилетает expand
-                        let event = {...response.data, user: payload.user}
+                        let event = new Event({...response.data, user:payload.user})
+                        console.log(event)
+                        //let event = {...response.data, user: payload.user}
                         commit('ADD_EVENT', event)
                         resolve()
                     })
@@ -89,7 +92,7 @@ export default {
                     method: 'PATCH'
                 })
                     .then((response) => {
-                        const event = response.data
+                        let event = response.data
                         const status = event.status
                         commit('SET_CURRENT_EVENT', event, status)
                         resolve()
