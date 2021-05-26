@@ -37,8 +37,6 @@ export default {
                     .then((response) => {
                         // сразу складываем присланного юзера, т.к. нам сразу не прилетает expand
                         let event = new Event({...response.data, user:payload.user})
-                        console.log(event)
-                        //let event = {...response.data, user: payload.user}
                         commit('ADD_EVENT', event)
                         resolve()
                     })

@@ -15,7 +15,6 @@ export default {
                     .then(response => {
                         let user = response.data.data.find(user => user)
                         this.user = new User(user)
-                        console.log(this.user)
                         commit('SET_USER', this.user)
                         resolve(response)
                     })
