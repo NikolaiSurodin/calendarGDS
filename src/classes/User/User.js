@@ -41,18 +41,8 @@ class User {
                     case 'profile':
                         tempData = new Profile(options[i])
                         break
-                    case 'email':
-                        tempData = options.email
-                        break
-                    case 'birthday':
-                        tempData = options.birthday
-                        break
-                    case 'username':
-                        tempData = options.username
-                        break
-                    case 'id':
-                        tempData = options.id
-                        break
+                    default:
+                        tempData = options[i]
                 }
             }
             this[i] = tempData
