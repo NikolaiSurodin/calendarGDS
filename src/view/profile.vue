@@ -41,9 +41,6 @@ export default {
   name: "profile",
   data() {
     return {
-      avatar: '',
-      valid: true,
-      email: '',
       error: false,
     }
   },

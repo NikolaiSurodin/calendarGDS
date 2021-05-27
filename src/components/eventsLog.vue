@@ -1,8 +1,8 @@
 <template>
   <div id="events-log">
     <div><b>{{ date }}</b></div>
-    <div v-for="(event,id) in events"
-         :key="id"
+    <div v-for="(event,idx) in events"
+         :key="idx"
     >{{ event }}
     </div>
   </div>
@@ -11,7 +11,11 @@
 <script>
 export default {
   name: "eventsLog",
-  props: ['events'],
+  props: {
+    events: {
+      type: Array
+    }
+  },
   data() {
     return {
       date: ''

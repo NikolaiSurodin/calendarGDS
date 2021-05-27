@@ -1,6 +1,6 @@
 <template>
-  <form class="form-horizontal">
-    <div class="form-group row">
+  <form class="form-horizontal" @submit="fireSaveEvent">
+    <div class="form-group row required">
       <label for="event-name" class="col-sm-2 control-label">Вид</label>
       <div class="col-sm-10">
         <b-form-select
@@ -10,10 +10,11 @@
             value-field="item"
             text-field="name"
             disabled-field="notEnabled"
+            required="required"
         ></b-form-select>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row required">
       <label for="event-description" class="col-sm-2 control-label">Связь</label>
       <div class="col-sm-10">
         <b-form-select
@@ -24,15 +25,6 @@
             text-field="name"
             required
         ></b-form-select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="event-description" class="col-sm-2 control-label">Описание</label>
-      <div class="col-sm-10">
-        <b-textarea id="event-description"
-                    v-model="event.currentDescription"
-        >
-        </b-textarea>
       </div>
     </div>
     <div class="form-group row">
@@ -52,6 +44,15 @@
                  class="form-control"
                  v-model="event.currentEndDate"/>
         </div>
+        <div class="form-group row mt-5 ">
+          <label for="event-description" class="col-sm-2 control-label">Комментарий</label>
+          <div class="col-sm-12">
+            <b-textarea id="event-description"
+                        v-model="event.currentDescription"
+            >
+            </b-textarea>
+          </div>
+        </div>
         <b-form-checkbox
             class="mt-5"
             v-model="event.currentRequest"
@@ -59,8 +60,8 @@
             unchecked-value="false"
         >
           Отправить заявку
-          <p class="small">Будет означать что даты точно определены</p>
         </b-form-checkbox>
+        <p class="small">Вы подтверждаете, что даты определены точно</p>
       </div>
     </div>
   </form>
@@ -115,7 +116,7 @@ export default {
       },
       busyOptions: [
         {item: false, name: 'Доступен для связи'},
-        {item: true, name: 'Недоступен'},
+        {item: true, name: 'Недоступен для связи'},
       ],
       kindOptions: [
         {item: 'vacation', name: 'Отпуск'},
@@ -132,4 +133,8 @@ export default {
 </script>
 
 <style scoped>
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
 </style>

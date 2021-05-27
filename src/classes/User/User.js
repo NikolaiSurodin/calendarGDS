@@ -10,21 +10,22 @@ class User {
     user_hide
 
     constructor(options = {}) {
-        for (let i of Object.keys(options)){
+        for (let key of Object.keys(options)) {
             let tempData = null
-            if (Object.hasOwnProperty.call(options, i)){
-                switch (i){
+            if (Object.hasOwnProperty.call(options, key)) {
+                switch (key) {
                     case 'profile':
-                        tempData = new Profile(options[i])
+                        tempData = new Profile(options[key])
                         break
                     default:
-                        tempData = options[i]
+                        tempData = options[key]
                 }
             }
-            this[i] = tempData
+            this[key] = tempData
         }
     }
-        get AvatarText () {
+
+    get AvatarText() {
         if (this.profile.first_name && this.profile.last_name) {
             let avatarName = this.profile.first_name.split('')[0]
             let avatarLastName = this.profile.last_name.split('')[0]

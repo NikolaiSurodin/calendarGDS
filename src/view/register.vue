@@ -68,12 +68,15 @@
         >
         <p v-if="$v.user.birthday.$dirty && !$v.user.birthday.required" class="invalid-feedback">
           Обязательное поле!</p>
-        <input type="password"
+
+        <input :type="passwordType"
                id="inputPassword"
                class="form-control"
                placeholder="Пароль" required v-model="user.password"
                :class="$v.user.password.$error ? 'is-invalid' : ''"
         >
+        <b-form-checkbox class="text-sm-right" @input="switchVisibilityPassword"><b-icon icon="eye-slash"></b-icon></b-form-checkbox>
+
         <p v-if="$v.user.password.$dirty && !$v.user.password.required" class="invalid-feedback">Обязательное
           поле!</p>
         <p v-if="$v.user.password.$dirty && !$v.user.password.minLength" class="invalid-feedback">Пароль минимум 7
@@ -116,6 +119,7 @@ export default {
   name: "register",
   data() {
     return {
+      passwordType:'password',
       valid: false,
       errors: null,
       user: {
@@ -153,6 +157,10 @@ export default {
     }
   },
   methods: {
+
+    switchVisibilityPassword() {
+      this.passwordType = this.passwordType === "password" ? "text" : "password"
+    },
     closePopup() {
       this.errors = false
     },
@@ -241,4 +249,5 @@ label {
   margin-bottom: 50px;
   width: 100%;
 }
+
 </style>

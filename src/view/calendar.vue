@@ -136,9 +136,10 @@ export default {
       this.currentId = null;
       this.currentName = null;
       this.currentDescription = null;
-      this.currentStartDate = e.startDate.toISOString().substring(0, 10);
+      this.currentStartDate = e.startDate.toISOString().substring(0, 10)
       this.currentEndDate = e.endDate.toISOString().substring(0, 10);
       this.show = true;
+      console.log(e)
     },
     fireFormSave() {
       this.$refs.form.fireSaveEvent()
@@ -159,6 +160,12 @@ export default {
           kind: event.currentKind,
           request: event.currentRequest
         })
+            .then(() => {
+              this.$bvToast.toast('Отлично! Ваша заявка принята к рассмотрению', {
+                title: 'Принято к рассмотрению',
+                solid: true,
+              })
+            })
             .catch((error, danger = null) => {
               this.$bvToast.toast('Ошибка! Событие не добавлено', {
                 title: 'Ошибка',

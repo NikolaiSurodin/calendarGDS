@@ -38,7 +38,7 @@
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b>Описание:</b></b-col>
                     <b-col>
-                      <b-textarea type="text" disabled v-model="row.item.comment"></b-textarea>
+                      <b-textarea type="text" class="row-cols-sm-3 control-label" disabled v-model="row.item.comment"></b-textarea>
                     </b-col>
                   </b-row>
                   <b-row class="mb-2">
@@ -76,7 +76,7 @@ export default {
       activeColor: true,
       eventForm: {},
       eventApp: false,
-      fields: ['title', 'kind', 'date_from', 'date_to', 'show_details']
+      fields: ['last_name', 'kind', 'date_from', 'date_to', 'show_details']
     }
   },
   methods: {
@@ -124,7 +124,7 @@ export default {
   computed: {
     pendingEvents() {
       return this.$store.getters.getFilteredEvents.map((r) => ({
-        title: r.user.username,
+        last_name: r.user.profile.last_name,
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
         date_from: r.date_from,
         date_to: r.date_to,
