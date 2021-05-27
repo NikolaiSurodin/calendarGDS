@@ -19,6 +19,12 @@
 
     </template>
 
+    <template v-if="!superUser">
+
+      <user-events-table />
+
+    </template>
+
     <template>
       <Calendar v-if="loggedIn"
                 id="calendar"
@@ -28,10 +34,12 @@
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
                 :display-week-number="displayWeekNumber"
+                :min-date="minDate"
                 @select-range="selectRange"
                 @render-end="renderEnd"
                 @day-context-menu="dayContextMenu"
                 :class="'calendar-position'"
+
       />
 
     </template>
@@ -70,11 +78,13 @@ import profile from "@/view/profile"
 import modal from "@/components/modal"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
-import EventsTable from "@/view/eventsTable"
+import EventsTable from "@/view/requestEventsTable"
+import UserEventsTable from "@/view/userEventsTable";
 
 export default {
   name: "calendar",
   components: {
+    UserEventsTable,
     EventsTable,
     EventsLog,
     MyNavbar,
@@ -85,6 +95,7 @@ export default {
   data() {
     return {
       date: '',
+      minDateString:new Date().toISOString(),
       showProfile: false,
       show: false,
       currentId: null,
@@ -133,12 +144,12 @@ export default {
       this.$root.$emit('logout')
     },
     selectRange(e) {
-      this.currentId = null;
-      this.currentName = null;
-      this.currentDescription = null;
+      this.currentId = null
+      this.currentName = null
+      this.currentDescription = null
       this.currentStartDate = e.startDate.toISOString().substring(0, 10)
-      this.currentEndDate = e.endDate.toISOString().substring(0, 10);
-      this.show = true;
+      this.currentEndDate = e.endDate.toISOString().substring(0, 10)
+      this.show = true
       console.log(e)
     },
     fireFormSave() {
@@ -212,6 +223,9 @@ export default {
     }
   },
   computed: {
+    minDate(){
+      return this.minDateString !== null ? new Date(this.minDateString) : null
+    },
     titleModalEvent() {
       return this.currentId !== null ? `Редактировать ${this.currentName}` : 'Оставить заявку'
     },

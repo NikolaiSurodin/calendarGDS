@@ -8,7 +8,7 @@
         <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
         Новые заявки ({{ pendingEvents.length }})
       </b-button>
-      <b-sidebar id="sidebar-right" title="Заявки" right shadow width="30%">
+      <b-sidebar id="sidebar-right" title="Заявки" right shadow width="34%">
         <div class="px-3 py-2">
           <div>
             <b-table
@@ -70,7 +70,7 @@
 <script>
 
 export default {
-  name: "eventsTable",
+  name: "requestEventsTable",
   data() {
     return {
       activeColor: true,
