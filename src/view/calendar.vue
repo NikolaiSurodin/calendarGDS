@@ -13,7 +13,7 @@
       />
     </template>
 
-    <template v-if="!superUser">
+    <template v-if="superUser">
 
       <events-table/>
 
@@ -150,7 +150,6 @@ export default {
       this.currentStartDate = e.startDate.toISOString().substring(0, 10)
       this.currentEndDate = e.endDate.toISOString().substring(0, 10)
       this.show = true
-      console.log(e)
     },
     fireFormSave() {
       this.$refs.form.fireSaveEvent()

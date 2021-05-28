@@ -2,8 +2,8 @@
   <div>
     <b-button  v-b-toggle.sidebar-right
                variant="outline-secondary"
-    >Мои отпуска</b-button>
-    <b-sidebar id="sidebar-right" title="Заявки" right shadow width="34%">
+    >Мои запросы</b-button>
+    <b-sidebar id="sidebar-right" title="Мои запросы" right shadow width="34%">
       <div class="px-3 py-2">
         <table class="table table-sm">
           <thead>
@@ -16,7 +16,7 @@
           <tbody v-for="(event, id) in events" :key="id">
           <tr>
             <th scope="row">{{ event.kind }}</th>
-            <td>{{ event.date_to }} - {{ event.date_from }}</td>
+            <td>{{ event.date_from }} - {{ event.date_to }}</td>
             <td :class="{
               approved:event.status === 'approved',
               pending:event.status === 'pending',
@@ -27,7 +27,6 @@
           <tr>
           </tr>
           <tr>
-
           </tr>
           </tbody>
         </table>
@@ -53,7 +52,7 @@ export default {
         status: r.status
       }))
     }
-  },
+  }
 }
 </script>
 

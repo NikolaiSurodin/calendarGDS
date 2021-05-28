@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div>
-      <form class="form-signin" @submit.prevent="register">
+      <form class="form-signin" @submit.prevent="register('b-toaster-top-center')">
         <h3>Добро пожаловать!</h3>
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
         <b>Заполните все поля и нажмите "Зарегистрироваться":</b>
@@ -64,9 +64,18 @@
                id="inputBirthday"
                class="form-control"
                placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ" required v-model="user.birthday"
-               :class="$v.user.profile.$error ? 'is-invalid' : ''"
+               :class="$v.user.birthday.$error ? 'is-invalid' : ''"
         >
         <p v-if="$v.user.birthday.$dirty && !$v.user.birthday.required" class="invalid-feedback">
+          Обязательное поле!</p>
+
+        <input type="text"
+               id="inputState"
+               class="form-control"
+               placeholder="Должность" required v-model="user.profile.state"
+               :class="$v.user.profile.state.$error ? 'is-invalid' : ''"
+        >
+        <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">
           Обязательное поле!</p>
 
         <input :type="passwordType"
@@ -90,7 +99,7 @@
         <p v-if="$v.user.passwordConfirm.$dirty && !$v.user.passwordConfirm.required" class="invalid-feedback">
           Обязательное поле!</p>
         <div class="btn">
-          <b-button variant="outline-success" class="mt-3" @submit="register('b-toaster-top-center')">
+          <b-button variant="outline-success" class="mt-3" type="submit" @click="register('b-toaster-top-center')">
             Зарегистрироваться
           </b-button>
           <router-link to="/login">Есть аккаунт!</router-link>
@@ -112,8 +121,6 @@
 <script>
 import MessageError from "@/components/messageError";
 import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
-
-
 export default {
   components: {MessageError},
   name: "register",
@@ -153,11 +160,11 @@ export default {
         first_name: {required, maxLength: maxLength(10)},
         last_name: {required, maxLength: maxLength(10)},
         mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
+        state: {required}
       }
     }
   },
   methods: {
-
     switchVisibilityPassword() {
       this.passwordType = this.passwordType === "password" ? "text" : "password"
     },
@@ -190,8 +197,6 @@ export default {
     }
   }
 }
-
-
 </script>
 
 <style scoped>
@@ -201,16 +206,13 @@ export default {
   padding: 15px;
   margin: auto;
 }
-
 form {
   display: block;
   margin-top: 0em;
 }
-
 .text-center {
   text-align: center !important;
 }
-
 h1 {
   display: block;
   font-size: 2em;
@@ -220,7 +222,6 @@ h1 {
   margin-inline-end: 0;
   font-weight: bold;
 }
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -231,23 +232,18 @@ h1 {
   white-space: nowrap;
   border: 0;
 }
-
 label {
   display: inline-block;
   margin-bottom: .5rem;
 }
-
 label {
   cursor: default;
 }
-
 .text-center {
   text-align: center !important;
 }
-
 .btn {
   margin-bottom: 50px;
   width: 100%;
 }
-
 </style>

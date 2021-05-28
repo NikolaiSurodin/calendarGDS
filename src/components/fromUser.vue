@@ -83,7 +83,10 @@
                    id="inputState"
                    class="form-control"
                    placeholder="Должность" v-model="user.profile.state"
+                   :class="$v.user.profile.state.$error ? 'is-invalid' : '' "
             >
+            <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">Обязательное поле</p>
+
             <textarea type="text"
                       id="description"
                       class="form-control"
@@ -135,6 +138,7 @@ export default {
         first_name: {required, maxLength: maxLength(10)},
         last_name: {required, maxLength: maxLength(10)},
         mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
+        state:{required}
       }
     }
   },
