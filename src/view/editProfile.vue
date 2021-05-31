@@ -35,7 +35,6 @@ export default {
   data() {
     return {
       show: false,
-      expand: false,
       valid: true
     }
   },
@@ -61,10 +60,6 @@ export default {
               solid: true
             })
           })
-
-    },
-    expanded() {
-      this.expand = !this.expand
     }
   },
   computed: {

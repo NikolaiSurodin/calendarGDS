@@ -62,7 +62,7 @@ export default {
 }
 
 .pending {
-  color: #a6f1ab;
+  color: #d8e900;
 }
 .rejected{
   color: #d91b29;

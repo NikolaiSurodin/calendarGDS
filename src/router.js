@@ -8,7 +8,6 @@ import login from "@/view/login"
 import notFound from '@/components/notFound'
 import userList from "@/view/userList";
 import editProfile from "@/view/editProfile";
-import formEvent from "@/view/formEvent";
 
 
 Vue.use(Router)
@@ -34,14 +33,9 @@ const router = new Router({
             },
             children: [
                 {
-                 path: '',
-                 component: calendar
-                },
-                {
-                    path: '/calendar/events/:id',
-                    meta: {auth: true},
-                    component: formEvent
-                },
+                    path: '',
+                    component: calendar
+                }
             ]
         },
         {
@@ -57,10 +51,10 @@ const router = new Router({
                     return c('router-view')
                 }
             },
-            children:[
+            children: [
                 {
-                    path:'',
-                    component:editProfile
+                    path: '',
+                    component: editProfile
                 }
             ]
         },

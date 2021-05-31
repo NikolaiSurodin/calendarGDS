@@ -1,6 +1,8 @@
 <template>
   <div id="events-log">
-    <div><b>{{ date }}</b></div>
+    <div>
+      <b>{{ date }}</b>
+    </div>
     <div v-for="(event,idx) in events"
          :key="idx"
     >{{ event }}

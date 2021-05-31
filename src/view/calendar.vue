@@ -13,7 +13,7 @@
       />
     </template>
 
-    <template v-if="superUser">
+    <template v-if="!superUser">
 
       <events-table/>
 
@@ -21,7 +21,7 @@
 
     <template v-if="!superUser">
 
-      <user-events-table />
+      <user-events-table/>
 
     </template>
 
@@ -49,7 +49,7 @@
              ok-title="Сохранить"
              cancel-title="Отмена"
              @ok="fireFormSave">
-      <modal
+      <form-event
           :id="currentId"
           :end-date="currentEndDate"
           :description="currentDescription"
@@ -75,7 +75,7 @@
 import Calendar from "v-year-calendar"
 import 'v-year-calendar/locales/v-year-calendar.ru'
 import profile from "@/view/profile"
-import modal from "@/components/modal"
+import formEvent from "@/components/formEvent"
 import MyNavbar from "@/components/myNavbar"
 import EventsLog from "@/components/eventsLog"
 import EventsTable from "@/view/requestEventsTable"
@@ -88,14 +88,14 @@ export default {
     EventsTable,
     EventsLog,
     MyNavbar,
-    modal,
+    formEvent,
     Calendar,
     profile,
   },
   data() {
     return {
       date: '',
-      minDateString:new Date().toISOString(),
+      minDateString: new Date().toISOString(),
       showProfile: false,
       show: false,
       currentId: null,
@@ -207,6 +207,7 @@ export default {
       }
     },
     //event - объект - событие
+    //метод для показа в eventLog
     dayContextMenu(event) {
       let ev = event.events
       this.events = []
@@ -222,7 +223,7 @@ export default {
     }
   },
   computed: {
-    minDate(){
+    minDate() {
       return this.minDateString !== null ? new Date(this.minDateString) : null
     },
     titleModalEvent() {

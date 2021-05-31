@@ -131,7 +131,7 @@ export default {
         date_from: r.date_from,
         date_to: r.date_to,
         id: r.id,
-        busy: r.busy === true ? 'Недоступен' : 'Доступен',
+        busy: r.busy === true ? 'Недоступен для связи' : 'Доступен для связи',
         comment: r.comment,
         status: r.status,
         username: r.user.profile.first_name,

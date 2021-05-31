@@ -22,8 +22,10 @@
                required v-model="user.profile.first_name"
                :class="$v.user.profile.first_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.required" class="invalid-feedback">Обязательное поле</p>
-        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.maxLength" class="invalid-feedback">Не более 10
+        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.required" class="invalid-feedback">
+          Обязательное поле</p>
+        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.maxLength" class="invalid-feedback">Не
+          более 10
           символов</p>
 
         <input type="text"
@@ -33,9 +35,11 @@
                required v-model="user.profile.last_name"
                :class="$v.user.profile.last_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.maxLength" class="invalid-feedback">Не более 10
+        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.maxLength" class="invalid-feedback">Не
+          более 10
           символов</p>
-        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">Обязательное поле</p>
+        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">
+          Обязательное поле</p>
 
         <input type="email"
                id="inputEmail"
@@ -46,15 +50,18 @@
         <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Обязательное поле</p>
         <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Некорректный email</p>
 
-        <input type="text"
+        <input type="number"
                id="inputMobile"
                class="form-control"
                placeholder="Телефон" required v-model="user.profile.mobile"
                :class="$v.user.profile.mobile.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.required" class="invalid-feedback">Обязательное поле</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.minLength" class="invalid-feedback">Минимум 11 символов</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Максимум 11 символов</p>
+        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.required" class="invalid-feedback">
+          Обязательное поле</p>
+        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.minLength" class="invalid-feedback">Минимум 11
+          символов</p>
+        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Максимум
+          11 символов</p>
 
         <input type="text"
                id="inputBirthday"
@@ -70,8 +77,8 @@
                placeholder="Страна" v-model="user.profile.country"
         >
         <div class="btn">
-          <b-button variant="light" @click="expanded">
-            {{ expand ? 'Скрыть' : 'Дополнительные данные' }}
+          <b-button variant="light" @click="expandedInfoFields">
+            {{ expand ? 'Скрыть' : 'Дополнительная информация' }}
           </b-button>
           <div v-show="expand">
             <input type="text"
@@ -85,7 +92,8 @@
                    placeholder="Должность" v-model="user.profile.state"
                    :class="$v.user.profile.state.$error ? 'is-invalid' : '' "
             >
-            <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">Обязательное поле</p>
+            <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">
+              Обязательное поле</p>
 
             <textarea type="text"
                       id="description"
@@ -109,7 +117,49 @@ import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
 
 export default {
   name: "formUser",
-  props: ['user_name', 'birth_day', 'Email', 'mobile_ph', 'last_name', 'first_name', 'user_city', 'user_state', 'user_description', 'user_country'],
+  props: {
+    user_name: {
+      type: String,
+      required: true
+    },
+    last_name: {
+      type: String,
+      required: true
+    },
+    first_name: {
+      type: String,
+      required: true
+    },
+    birth_day: {
+      type: String,
+      required: true
+    },
+    Email: {
+      type: String,
+      required: true
+    },
+    mobile_ph: {
+      type: String,
+      required: true
+    },
+    user_city: {
+      type: String,
+      required: true
+    },
+    user_state: {
+      type: String,
+      required: true
+    },
+    user_description: {
+      type: String,
+      required: true
+    },
+    user_country: {
+      type: String,
+      required: true
+    }
+
+  },
   data() {
     return {
       expand: false,
@@ -117,7 +167,7 @@ export default {
         username: this.user_name,
         birthday: this.birth_day,
         email: this.Email,
-        profile:{
+        profile: {
           mobile: this.mobile_ph,
           last_name: this.last_name,
           first_name: this.first_name,
@@ -134,16 +184,16 @@ export default {
       username: {required},
       email: {required, email},
       birthday: {required},
-      profile:{
+      profile: {
         first_name: {required, maxLength: maxLength(10)},
         last_name: {required, maxLength: maxLength(10)},
         mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
-        state:{required}
+        state: {required}
       }
     }
   },
   methods: {
-    expanded() {
+    expandedInfoFields() {
       this.expand = !this.expand
     },
     updateUser() {
