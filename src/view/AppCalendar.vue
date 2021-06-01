@@ -1,7 +1,7 @@
 <template>
   <div>
     <template>
-      <my-navbar
+      <the-navbar
           :user="user.username"
           @toProfile="showProfile = !showProfile"
       />
@@ -58,14 +58,6 @@
           ref="form"
       />
     </b-modal>
-
-    <template>
-      <profile
-          v-if="showProfile"
-          @closeProfileInfo="closeProfileInfo"
-      >
-      </profile>
-    </template>
     <div>
     </div>
   </div>
@@ -74,23 +66,22 @@
 <script>
 import Calendar from "v-year-calendar"
 import 'v-year-calendar/locales/v-year-calendar.ru'
-import profile from "@/view/profile"
-import formEvent from "@/components/formEvent"
-import MyNavbar from "@/components/myNavbar"
-import EventsLog from "@/components/eventsLog"
-import EventsTable from "@/view/requestEventsTable"
-import UserEventsTable from "@/view/userEventsTable";
+
+import FormEvent from "@/components/FormEvent"
+import TheNavbar from "@/components/TheNavbar"
+import EventsLog from "@/components/EventsLog"
+import EventsTable from "@/view/RequestEventsTable"
+import UserEventsTable from "@/view/UserEventsTable"
 
 export default {
-  name: "calendar",
+  name: "AppCalendar",
   components: {
     UserEventsTable,
     EventsTable,
     EventsLog,
-    MyNavbar,
-    formEvent,
-    Calendar,
-    profile,
+    TheNavbar,
+    FormEvent,
+    Calendar
   },
   data() {
     return {

@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "eventsLog",
+  name: "EventsLog",
   props: {
     events: {
       type: Array

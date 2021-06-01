@@ -1,7 +1,7 @@
 <template>
   <div v-if="show">
     <div>
-      <my-navbar
+      <app-navbar
           @toCalendar="toCalendar"
       />
     </div>
@@ -20,18 +20,20 @@
         :user_state="user.profile.state"
         :user_country="user.profile.country"
     />
-    <my-footer/>
+
+    <app-footer/>
+
   </div>
 </template>
 
 <script>
-import MyNavbar from "@/components/myNavbar"
-import FormUser from "@/components/fromUser";
-import MyFooter from "@/components/myFooter";
+import AppNavbar from "@/components/TheNavbar"
+import FormUser from "@/components/FromUser";
+import AppFooter from "@/components/TheFooter";
 
 export default {
   name: "editProfile",
-  components: {MyFooter, FormUser, MyNavbar},
+  components: {AppFooter, FormUser, AppNavbar},
   data() {
     return {
       show: false,

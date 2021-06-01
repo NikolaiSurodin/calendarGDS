@@ -72,7 +72,7 @@
 <script>
 
 export default {
-  name: "requestEventsTable",
+  name: "RequestEventsTable",
   data() {
     return {
       activeColor: true,
@@ -120,8 +120,7 @@ export default {
               solid: true
             })
           })
-    },
-
+    }
   },
   computed: {
     pendingEvents() {

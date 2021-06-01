@@ -38,7 +38,7 @@
 <script>
 
 export default {
-  name: "profile",
+  name: "UserProfilePopup",
   data() {
     return {
       error: false,

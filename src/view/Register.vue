@@ -4,7 +4,10 @@
       <form class="form-signin" @submit.prevent="register('b-toaster-top-center')">
         <h3>Добро пожаловать!</h3>
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
-        <b>Заполните все поля и нажмите "Зарегистрироваться":</b>
+        <p class="mt-3">
+          <b>Заполните все поля и нажмите "Зарегистрироваться":</b>
+        </p>
+
         <input type="text"
                id="inputUserName"
                class="form-control"
@@ -84,7 +87,9 @@
                placeholder="Пароль" required v-model="user.password"
                :class="$v.user.password.$error ? 'is-invalid' : ''"
         >
-        <b-form-checkbox class="text-sm-right" @input="switchVisibilityPassword"><b-icon icon="eye-slash"></b-icon></b-form-checkbox>
+        <b-form-checkbox class="text-sm-right" @input="switchVisibilityPassword">
+          <b-icon icon="eye-slash"></b-icon>
+        </b-form-checkbox>
 
         <p v-if="$v.user.password.$dirty && !$v.user.password.required" class="invalid-feedback">Обязательное
           поле!</p>
@@ -99,7 +104,7 @@
         <p v-if="$v.user.passwordConfirm.$dirty && !$v.user.passwordConfirm.required" class="invalid-feedback">
           Обязательное поле!</p>
         <div class="btn">
-          <b-button variant="outline-success" class="mt-3" type="submit" @click="register('b-toaster-top-center')">
+          <b-button variant="outline-success" class="mt-3" type="submit" @click="register()">
             Зарегистрироваться
           </b-button>
           <router-link to="/login">Есть аккаунт!</router-link>
@@ -107,28 +112,19 @@
         </div>
       </form>
     </div>
-
-    <message-error v-if="errors"
-                   @closePopup="closePopup"
-    >
-      <h3 v-for="(e, key) in errors"
-          :key="key"
-      >{{ key }}: {{ e }}</h3>
-    </message-error>
   </div>
 </template>
 
 <script>
-import MessageError from "@/components/messageError";
+
 import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
+
 export default {
-  components: {MessageError},
-  name: "register",
+  name: "Register",
   data() {
     return {
-      passwordType:'password',
+      passwordType: 'password',
       valid: false,
-      errors: null,
       user: {
         username: '',
         email: '',
@@ -171,7 +167,7 @@ export default {
     closePopup() {
       this.errors = false
     },
-    register(toaster, append = false) {
+    register(append = false) {
       this.$v.user.$touch()
       if (!this.$v.user.$error) {
         if (this.user.passwordConfirm !== this.user.password) {
@@ -183,14 +179,22 @@ export default {
                     this.$router.push('/login')
                     this.$bvToast.toast('Регистрация прошла успешно! Введите Ваши данные для входа', {
                       title: 'Отлично!',
-                      toaster: toaster,
                       solid: true,
                       appendToast: append
                     })
                   }
               )
               .catch((error) => {
-                this.errors = error.response.data
+                let errors = error.response.data
+                let err = ''
+                for (let error of Object.values(errors)) {
+                  err = error
+                }
+                this.$swal.fire({
+                  icon: 'error',
+                  title: 'Упс...',
+                  text: `${err}`,
+                })
               })
         }
       }
@@ -206,13 +210,16 @@ export default {
   padding: 15px;
   margin: auto;
 }
+
 form {
   display: block;
-  margin-top: 0em;
+  margin-top: 0;
 }
+
 .text-center {
   text-align: center !important;
 }
+
 h1 {
   display: block;
   font-size: 2em;
@@ -222,6 +229,7 @@ h1 {
   margin-inline-end: 0;
   font-weight: bold;
 }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -232,16 +240,20 @@ h1 {
   white-space: nowrap;
   border: 0;
 }
+
 label {
   display: inline-block;
   margin-bottom: .5rem;
 }
+
 label {
   cursor: default;
 }
+
 .text-center {
   text-align: center !important;
 }
+
 .btn {
   margin-bottom: 50px;
   width: 100%;

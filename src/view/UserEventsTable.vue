@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-button  v-b-toggle.sidebar-right
-               variant="outline-secondary"
-    >Мои запросы</b-button>
+    <b-button v-b-toggle.sidebar-right
+              variant="outline-secondary">
+      Мои запросы
+    </b-button>
     <b-sidebar id="sidebar-right" title="Мои запросы" right shadow width="34%">
       <div class="px-3 py-2">
         <table class="table table-sm">
@@ -24,10 +25,6 @@
              }">{{ event.status }}
             </td>
           </tr>
-          <tr>
-          </tr>
-          <tr>
-          </tr>
           </tbody>
         </table>
       </div>
@@ -37,11 +34,9 @@
 
 <script>
 export default {
-  name: "userEventsTable",
+  name: "UserEventsTable",
   data() {
-    return {
-
-    }
+    return {}
   },
   computed: {
     events() {
@@ -64,7 +59,8 @@ export default {
 .pending {
   color: #d8e900;
 }
-.rejected{
+
+.rejected {
   color: #d91b29;
 }
 

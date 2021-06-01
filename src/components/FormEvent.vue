@@ -70,7 +70,7 @@
 <script>
 
 export default {
-  name: "formEvent",
+  name: "FormEvent",
   props: {
     id: {
       required: true

@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import {store} from "@/store"
 
-import calendar from '@/view/calendar'
-import register from "@/view/register"
-import login from "@/view/login"
-import notFound from '@/components/notFound'
-import userList from "@/view/userList";
-import editProfile from "@/view/editProfile";
+import AppCalendar from '@/view/AppCalendar'
+import Register from "@/view/Register"
+import Login from "@/view/Login"
+import NotFound from '@/components/NotFound'
+import AllUsersList from "@/view/AllUsersList";
+import EditProfile from "@/view/EditProfile";
 
 
 Vue.use(Router)
@@ -16,11 +16,11 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            component: register
+            component: Register
         },
         {
             path: '/login',
-            component: login
+            component: Login
         },
 
         {
@@ -34,13 +34,13 @@ const router = new Router({
             children: [
                 {
                     path: '',
-                    component: calendar
+                    component: AppCalendar
                 }
             ]
         },
         {
             path: '/all_users',
-            component: userList,
+            component: AllUsersList,
             meta: {auth: true}
         },
         {
@@ -54,14 +54,14 @@ const router = new Router({
             children: [
                 {
                     path: '',
-                    component: editProfile
+                    component: EditProfile
                 }
             ]
         },
         {
             path: '*',
             name: 'notFound',
-            component: notFound
+            component: NotFound
         },
     ]
 })

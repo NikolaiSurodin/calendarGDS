@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import MyNavbar from "@/components/myNavbar"
+import MyNavbar from "@/components/TheNavbar"
 
 export default {
   name: "userList",

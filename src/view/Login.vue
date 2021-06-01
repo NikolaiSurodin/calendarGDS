@@ -1,13 +1,5 @@
 <template>
   <div>
-    <template>
-      <message-error
-          v-if="error"
-          @closePopup="closePopup"
-      >
-        <h3>Данные неверны! Попробуйте еще раз!</h3>
-      </message-error>
-    </template>
     <form class="form-signin" @submit.prevent="submitLogin('b-toaster-top-center')">
       <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
       <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
@@ -49,12 +41,11 @@
 </template>
 
 <script>
-import messageError from "@/components/messageError"
+
 import {email, required, minLength} from 'vuelidate/lib/validators'
 
 export default {
-  name: "login",
-  components: {messageError},
+  name: "Login",
   data() {
     return {
       form: {
@@ -79,9 +70,12 @@ export default {
             .then(() => {
               this.$router.push('/calendar')
             })
-            .catch((error) => {
-              console.log(error)
-              this.error = !this.error
+            .catch(() => {
+              this.$swal.fire({
+                icon: 'error',
+                title: 'Упс...',
+                text: 'Данные неверные! Есть еще варианты?',
+              })
               this.form.email = ''
               this.form.password = ''
             })
@@ -106,7 +100,7 @@ export default {
 
 form {
   display: block;
-  margin-top: 0em;
+  margin-top: 0;
 }
 
 .text-center {
@@ -118,8 +112,8 @@ h1 {
   font-size: 2em;
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
   font-weight: bold;
 }
 
@@ -151,4 +145,10 @@ label {
   margin-bottom: 50px;
   width: 100%;
 }
+
+.element {
+  display: flex;
+  flex-direction: column;
+}
+
 </style>
