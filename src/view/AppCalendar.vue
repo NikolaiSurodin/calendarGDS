@@ -13,13 +13,13 @@
       />
     </template>
 
-    <template v-if="!superUser">
+    <template v-if="superUser">
 
-      <events-table/>
+      <request-events-table/>
 
     </template>
 
-    <template v-if="!superUser">
+    <template>
 
       <user-events-table/>
 
@@ -70,14 +70,14 @@ import 'v-year-calendar/locales/v-year-calendar.ru'
 import FormEvent from "@/components/FormEvent"
 import TheNavbar from "@/components/TheNavbar"
 import EventsLog from "@/components/EventsLog"
-import EventsTable from "@/view/RequestEventsTable"
 import UserEventsTable from "@/view/UserEventsTable"
+import RequestEventsTable from "@/view/RequestEventsTable"
 
 export default {
   name: "AppCalendar",
   components: {
+    RequestEventsTable,
     UserEventsTable,
-    EventsTable,
     EventsLog,
     TheNavbar,
     FormEvent,
