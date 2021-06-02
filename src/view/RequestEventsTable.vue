@@ -29,7 +29,7 @@
                   <b-row class="mb-2">
                     <b-col sm="3" class="text-sm-right"><b></b></b-col>
                     <b-col><b>{{ row.item.username }} {{ row.item.user_last_name }}</b></b-col>
-                    <b-col><b> {{row.item.state}}</b></b-col>
+                    <b-col><b> {{ row.item.state }}</b></b-col>
                   </b-row>
 
                   <b-row class="mb-2">

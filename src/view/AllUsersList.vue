@@ -1,12 +1,15 @@
 <template>
   <div>
     <div>
-      <my-navbar
+      <the-navbar
       @toCalendar="toCalendar"
       />
     </div>
     <h3 class="title">Сотрудники компании.</h3>
-    <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
+    <img class="mb-4"
+         src="../assets/2017679.png"
+         alt width="240"
+         height="105">
     <hr>
     <div class="overflow-auto">
       <b-pagination
@@ -30,11 +33,11 @@
 </template>
 
 <script>
-import MyNavbar from "@/components/TheNavbar"
+import TheNavbar from "@/components/TheNavbar"
 
 export default {
   name: "userList",
-  components: {MyNavbar},
+  components: {TheNavbar},
   data() {
     return {
       perPage: 5,

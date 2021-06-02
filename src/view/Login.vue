@@ -1,8 +1,8 @@
 <template>
   <form-login
-      @SubmitLogin="submitLogin"
       :Email="user.email"
       :Password="user.password"
+      @SubmitLogin="submitLogin"
   >
 
   </form-login>

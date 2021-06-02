@@ -104,7 +104,7 @@
         <p v-if="$v.user.passwordConfirm.$dirty && !$v.user.passwordConfirm.required" class="invalid-feedback">
           Обязательное поле!</p>
         <div class="btn">
-          <b-button variant="outline-success" class="mt-3" type="submit" @click="register()">
+          <b-button variant="outline-success" class="mt-3" type="submit">
             Зарегистрироваться
           </b-button>
           <router-link to="/login">Есть аккаунт!</router-link>

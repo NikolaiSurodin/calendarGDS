@@ -32,7 +32,7 @@ import FormUser from "@/components/FromUser";
 import AppFooter from "@/components/TheFooter";
 
 export default {
-  name: "editProfile",
+  name: "EditProfile",
   components: {AppFooter, FormUser, AppNavbar},
   data() {
     return {
@@ -58,7 +58,7 @@ export default {
           })
           .catch((error) => {
             this.$bvToast.toast(`${error}`, {
-              title:'Ошибка! Пользователь не может быть обновлен!',
+              title: 'Ошибка! Пользователь не может быть обновлен!',
               solid: true
             })
           })

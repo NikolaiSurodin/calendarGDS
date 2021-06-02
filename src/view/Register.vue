@@ -52,29 +52,24 @@ export default {
   },
   methods: {
     register(user) {
-          this.$store.dispatch('register', user)
-              .then(() => {
-                    this.$router.push('/login')
-                    this.$bvToast.toast('Регистрация прошла успешно! Введите Ваши данные для входа', {
-                      title: 'Отлично!',
-                      solid: true,
-                    })
-                  }
-              )
-              .catch((error) => {
-                let errors = error.response.data
-                let err = ''
-                for (let error of Object.values(errors)) {
-                  err = error
-                }
-                this.$swal.fire({
-                  icon: 'error',
-                  title: 'Упс...',
-                  text: `${err}`,
-                })
+      this.$store.dispatch('register', user)
+          .then(() => {
+                this.$router.push('/login')
               })
-        }
+          .catch((error) => {
+            let errors = error.response.data
+            let err = ''
+            for (let error of Object.values(errors)) {
+              err = error
+            }
+            this.$swal.fire({
+              icon: 'error',
+              title: 'Упс...',
+              text: `${err}`,
+            })
+          })
     }
+  }
 }
 </script>
 
