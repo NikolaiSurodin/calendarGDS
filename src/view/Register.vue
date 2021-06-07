@@ -1,6 +1,6 @@
 <template>
   <form-register
-      :Username="user.username"
+      :user-name="user.username"
       :Email="user.email"
       :Password="user.password"
       :password-confirm="user.passwordConfirm"

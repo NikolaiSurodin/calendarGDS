@@ -25,7 +25,11 @@ export default {
   },
   mounted() {
     setInterval(() => {
-      this.date = new Date().toLocaleDateString() + '  ' + new Date().toLocaleTimeString()
+      this.date = new Date().toLocaleDateString('ru-RU',{
+        "day": "numeric",
+        "month": "long",
+        "year": "numeric"
+      }) + '  ' + new Date().toLocaleTimeString('ru-RU')
     })
   }
 }

@@ -33,7 +33,7 @@ export default {
               this.$swal.fire({
                 icon: 'error',
                 title: 'Упс...',
-                text: 'Данные неверные! Есть еще варианты?',
+                text: 'Неверно! Есть еще варианты?',
               })
               user.email = ''
               user.password = ''

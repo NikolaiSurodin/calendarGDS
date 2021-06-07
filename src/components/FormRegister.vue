@@ -108,7 +108,7 @@
             Зарегистрироваться
           </b-button>
           <router-link to="/login">Есть аккаунт!</router-link>
-          <p class="mt-5 mb-3 text-muted">© GDS - 2021</p>
+          <p class="mt-5 mb-3 text-muted">© GDS - {{currentYear}}</p>
         </div>
       </form>
     </div>
@@ -121,7 +121,7 @@ import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
 export default {
   name: "FormRegister",
   props: {
-    Username: {
+    userName: {
       type: String,
       required: true
     },
@@ -228,6 +228,11 @@ export default {
         }
 
       }
+    }
+  },
+  computed:{
+    currentYear() {
+      return new Date().getFullYear()
     }
   }
 }

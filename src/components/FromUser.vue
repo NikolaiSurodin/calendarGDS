@@ -5,6 +5,7 @@
         <p>Общее</p>
       </div>
       <form class="form-signin">
+        <label for="event-name" class="row-sm-2 control-label m-0">Имя пользователя</label>
         <input type="text"
                id="inputUserName"
                class="form-control"
@@ -14,7 +15,7 @@
         >
         <p v-if="$v.user.username.$dirty && !$v.user.username.required" class="invalid-feedback">Ошибка! Обязательное
           поле</p>
-
+        <label for="event-name" class="row-sm-2 control-label m-0">Имя</label>
         <input type="text"
                id="inputName"
                class="form-control"
@@ -28,6 +29,7 @@
           более 10
           символов</p>
 
+        <label for="event-name" class="row-sm-2 control-label m-0">Фамилия</label>
         <input type="text"
                id="inputLastName"
                class="form-control"
@@ -41,6 +43,7 @@
         <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">
           Обязательное поле</p>
 
+        <label for="event-name" class="row-sm-2 control-label m-0">Почта</label>
         <input type="email"
                id="inputEmail"
                class="form-control"
@@ -50,6 +53,7 @@
         <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Обязательное поле</p>
         <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Некорректный email</p>
 
+        <label for="event-name" class="row-sm-2 control-label m-0">Телефон</label>
         <input type="number"
                id="inputMobile"
                class="form-control"
@@ -63,6 +67,7 @@
         <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Максимум
           11 символов</p>
 
+        <label for="event-name" class="row-sm-2 control-label m-0">День Рождения</label>
         <input type="text"
                id="inputBirthday"
                class="form-control"
@@ -70,22 +75,26 @@
                :class="$v.user.birthday.$error ? 'is-invalid' : '' "
         >
         <p v-if="$v.user.birthday.$dirty && !$v.user.birthday.required" class="invalid-feedback">Обязательное поле</p>
-
-        <input type="text"
-               id="inputCountry"
-               class="form-control"
-               placeholder="Страна" v-model="user.profile.country"
-        >
+          <label for="event-name" class="row-sm-2 control-label m-0 control-label">Страна</label>
+          <input type="text"
+                 id="inputCountry"
+                 class="form-control"
+                 placeholder="Страна" v-model="user.profile.country"
+          >
         <div class="btn">
           <b-button variant="light" @click="expandedInfoFields">
             {{ expand ? 'Скрыть' : 'Дополнительная информация' }}
           </b-button>
-          <div v-show="expand">
+          <div class="form-signin" v-show="expand">
+
+            <label for="event-name" class="row-sm-2 control-label m-0">Город</label>
             <input type="text"
                    id="inputCity"
                    class="form-control"
                    placeholder="Город" v-model="user.profile.city"
             >
+
+            <label for="event-name" class="row-sm-2 control-label m-0">Должность</label>
             <input type="text"
                    id="inputState"
                    class="form-control"
@@ -95,6 +104,7 @@
             <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">
               Обязательное поле</p>
 
+            <label for="event-name" class="row-sm-2 control-label m-0">Описание</label>
             <textarea type="text"
                       id="description"
                       class="form-control"
@@ -214,53 +224,14 @@ export default {
 
 <style scoped>
 .form-signin {
-  width: 100%;
-  max-width: 330px;
+  max-width: 350px;
   padding: 15px;
   margin: auto;
 }
 
-form {
-  display: block;
-  margin-top: 0em;
-}
-
-.text-center {
-  text-align: center !important;
-}
-
-h1 {
-  display: block;
-  font-size: 2em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-label {
-  display: inline-block;
-  margin-bottom: .5rem;
-}
-
 label {
   cursor: default;
-}
-
-.text-center {
-  text-align: center !important;
+  margin-right: 10px;
 }
 
 .btn {
@@ -276,6 +247,5 @@ label {
   outline: 0;
   color: black;
   background-color: slategray;
-
 }
 </style>

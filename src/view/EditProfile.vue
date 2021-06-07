@@ -5,7 +5,6 @@
           @toCalendar="toCalendar"
       />
     </div>
-
     <form-user
         @updateUser="updateUser"
         @cancel="toCalendar"

@@ -13,7 +13,7 @@
       />
     </template>
 
-    <template v-if="superUser">
+    <template v-if="isSuperUser">
 
       <request-events-table/>
 
@@ -29,16 +29,16 @@
       <Calendar v-if="loggedIn"
                 id="calendar"
                 language="ru"
+                :class="'calendar-position'"
                 :enable-range-selection="true"
                 :data-source="calendarRecords"
                 :enable-context-menu="true"
                 :context-menu-items="contextMenuItems"
                 :display-week-number="displayWeekNumber"
-                :min-date="minDate"
+                :render-style="style"
                 @select-range="selectRange"
                 @render-end="renderEnd"
                 @day-context-menu="dayContextMenu"
-                :class="'calendar-position'"
 
       />
 
@@ -85,6 +85,7 @@ export default {
   },
   data() {
     return {
+      style: 'background',
       date: '',
       minDateString: new Date().toISOString(),
       showProfile: false,
@@ -202,11 +203,7 @@ export default {
     dayContextMenu(event) {
       let ev = event.events
       this.events = []
-      if (!this.events.length) {
-        for (let i of ev) {
-          this.events.push(`В дату: ${event.date.toLocaleDateString()}  - ${i.name} - ${i.user}`)
-        }
-      }
+      console.log(ev)
     },
     renderEnd(event) {
       this.events = []
@@ -215,7 +212,7 @@ export default {
   },
   computed: {
     minDate() {
-      return this.minDateString !== null ? new Date(this.minDateString) : null
+      return new Date(this.minDateString)
     },
     titleModalEvent() {
       return this.currentId !== null ? `Редактировать ${this.currentName}` : 'Оставить заявку'
@@ -228,7 +225,8 @@ export default {
           name: r.title === 'vacation' ? 'Отпуск' : 'Отгул',
           details: r.comment,
           id: r.id,
-          user: r.user.profile?.last_name
+          user: r.user.profile?.last_name,
+          color: '#707070'
         }
       })
     },
@@ -238,7 +236,7 @@ export default {
     loggedIn() {
       return this.$store.getters.isLoggedIn
     },
-    superUser() {
+    isSuperUser() {
       return this.$store.getters.isSuperUser
     }
   },
