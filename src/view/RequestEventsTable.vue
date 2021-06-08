@@ -4,7 +4,7 @@
       <b-button v-if="pendingEvents.length"
                 v-b-toggle.sidebar-right
                 variant="outline-warning"
-                class="alo">
+               >
         <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
         Новые заявки ({{ pendingEvents.length }})
       </b-button>

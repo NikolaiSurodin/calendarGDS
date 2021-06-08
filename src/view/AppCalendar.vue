@@ -6,18 +6,19 @@
           @toProfile="showProfile = !showProfile"
       />
     </template>
+    <div class="mt-5 p-1">
+      <template  v-if="isSuperUser">
 
-    <template v-if="isSuperUser">
+        <request-events-table/>
 
-      <request-events-table/>
+      </template>
 
-    </template>
+      <template >
 
-    <template>
+        <user-events-table/>
 
-      <user-events-table/>
-
-    </template>
+      </template>
+    </div>
     <div class="row">
       <template class="col-md-9">
         <events-list-on-day :events="events"
