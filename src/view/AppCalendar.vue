@@ -7,13 +7,13 @@
       />
     </template>
     <div class="mt-5 p-1">
-      <template  v-if="isSuperUser">
+      <template v-if="isSuperUser">
 
         <request-events-table/>
 
       </template>
 
-      <template >
+      <template>
 
         <user-events-table/>
 
@@ -32,7 +32,7 @@
         <Calendar v-if="loggedIn"
                   id="calendar"
                   language="ru"
-                  class="col-md-6 ml-5"
+                  class="col-md-7 ml-5"
                   :enable-range-selection="true"
                   :data-source="calendarRecords"
                   :enable-context-menu="true"
@@ -80,7 +80,6 @@ import EventsListOnDay from "@/view/EventsListOnDay";
 export default {
   name: "AppCalendar",
   components: {
-
     EventsListOnDay,
     RequestEventsTable,
     UserEventsTable,
@@ -91,7 +90,6 @@ export default {
   data() {
     return {
       style: 'background',
-      date: '',
       show: false,
       currentId: null,
       currentStartDate: null,
@@ -149,32 +147,32 @@ export default {
     //event - объект - событие
     saveEvent(event) {
       if (this.currentId === null) {
-        // Добавление события
-        this.$store.dispatch('saveEvents', {
-          //посылаем всего юзера, прям объект
-          user: this.user,
-          title: event.currentKind,
-          comment: event.currentDescription,
-          date_from: this.currentStartDate,
-          date_to: this.currentEndDate,
-          id: event.currentId,
-          busy: event.currentBusy,
-          kind: event.currentKind,
-          request: event.currentRequest
-        })
-            .then(() => {
-              this.$bvToast.toast('Отлично! Ваша заявка принята к рассмотрению', {
-                title: 'Принято к рассмотрению',
-                solid: true,
+          // Добавление события
+          this.$store.dispatch('saveEvents', {
+            //посылаем всего юзера, прям объект
+            user: this.user,
+            title: event.currentKind,
+            comment: event.currentDescription,
+            date_from: this.currentStartDate,
+            date_to: this.currentEndDate,
+            id: event.currentId,
+            busy: event.currentBusy,
+            kind: event.currentKind,
+            request: event.currentRequest
+          })
+              .then(() => {
+                this.$bvToast.toast('Отлично! Ваша заявка принята к рассмотрению', {
+                  title: 'Принято к рассмотрению',
+                  solid: true,
+                })
               })
-            })
-            .catch((error, danger = null) => {
-              this.$bvToast.toast('Ошибка! Событие не добавлено', {
-                title: 'Ошибка',
-                variant: danger,
-                solid: true
+              .catch((error, danger = null) => {
+                this.$bvToast.toast('Ошибка! Событие не добавлено', {
+                  title: 'Ошибка',
+                  variant: danger,
+                  solid: true
+                })
               })
-            })
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -201,12 +199,12 @@ export default {
     //event - объект - событие
     //метод для показа в evensListOnDay
     dayContextMenu(event) {
-      let ev = event.events
+      let events = event.events
       this.events = []
       let date = new Date(event.date).toLocaleDateString('ru-RU')
       if (!this.events.length) {
-        for (let i of ev) {
-          this.events.push(` ${date}  - ${i.name} `)
+        for (let event of events) {
+          this.events.push(` ${date}  - ${event.user} ${event.name} `)
         }
       }
     },
@@ -216,9 +214,6 @@ export default {
     }
   },
   computed: {
-    minDate() {
-      return new Date(this.minDateString)
-    },
     titleModalEvent() {
       return this.currentId !== null ? `Редактировать ${this.currentName}` : 'Оставить заявку'
     },
@@ -231,7 +226,7 @@ export default {
           details: r.comment,
           id: r.id,
           user: r.user.profile?.last_name,
-          color: '#707070'
+          color: '#cacef3'
         }
       })
     },
@@ -259,16 +254,10 @@ export default {
 </script>
 <style scoped>
 .calendar-position {
-
   width: 60em;
   margin-left: auto;
   margin-right: auto;
-
-
   position: center;
 }
 
-.alo1 {
-
-}
 </style>

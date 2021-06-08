@@ -126,7 +126,17 @@ export default {
   },
   methods: {
     fireSaveEvent() {
-      this.$emit('saveEvent', this.event)
+      if (this.event.currentStartDate >= new Date().toISOString().substring(0,10) && this.event.currentEndDate >= this.event.currentStartDate ) {
+        this.$emit('saveEvent', this.event)
+      }else {
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Упс...',
+          text: 'Ошибки с датами. Попробуйте еще раз',
+        })
+
+      }
+
     }
   }
 }

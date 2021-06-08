@@ -13,7 +13,7 @@
              v-model.trim="user.email"
              :class="$v.user.email.$error ? 'is-invalid' : ''"
       >
-      <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Обязательное поле!</p>
+      <p v-if="$v.user.password.$dirty && !$v.user.password.minLength" class="invalid-feedback">Обязательное поле!</p>
       <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Введите корректный E-mail</p>
 
       <input type="password"

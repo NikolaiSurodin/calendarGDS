@@ -10,7 +10,7 @@
          v-for="(event,idx) in events"
          :key="idx">
 
-      {{ event }}
+      <div class="event-block">{{ event }}</div>
 
     </div>
   </div>
@@ -45,15 +45,15 @@ export default {
 </script>
 
 <style scoped>
-#events-log {
-
-
-}
-
 #events-log div {
   font-size: 14px;
   line-height: 1.1;
   width: 200px;
   padding: 10px;
+
+}
+.event-block{
+
+  background-color: #cacef3;
 }
 </style>
