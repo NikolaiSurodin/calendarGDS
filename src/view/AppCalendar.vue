@@ -7,12 +7,6 @@
       />
     </template>
 
-    <template>
-      <events-log
-          :events="events"
-      />
-    </template>
-
     <template v-if="isSuperUser">
 
       <request-events-table/>
@@ -24,26 +18,34 @@
       <user-events-table/>
 
     </template>
+    <div class="row">
+      <template class="col-md-9">
+        <events-list-on-day :events="events"
 
-    <template>
-      <Calendar v-if="loggedIn"
-                id="calendar"
-                language="ru"
-                :class="'calendar-position'"
-                :enable-range-selection="true"
-                :data-source="calendarRecords"
-                :enable-context-menu="true"
-                :context-menu-items="contextMenuItems"
-                :display-week-number="displayWeekNumber"
-                :render-style="style"
-                @select-range="selectRange"
-                @render-end="renderEnd"
-                @day-context-menu="dayContextMenu"
+        >
 
-      />
+        </events-list-on-day>
+      </template>
 
-    </template>
+      <template>
+        <Calendar v-if="loggedIn"
+                  id="calendar"
+                  language="ru"
+                  class="col-md-6 ml-5"
+                  :enable-range-selection="true"
+                  :data-source="calendarRecords"
+                  :enable-context-menu="true"
+                  :context-menu-items="contextMenuItems"
+                  :display-week-number="displayWeekNumber"
+                  :render-style="style"
+                  @select-range="selectRange"
+                  @render-end="renderEnd"
+                  @day-context-menu="dayContextMenu"
 
+        />
+
+      </template>
+    </div>
     <b-modal v-model="show"
              :title="titleModalEvent"
              ok-title="Сохранить"
@@ -69,16 +71,18 @@ import 'v-year-calendar/locales/v-year-calendar.ru'
 
 import FormEvent from "@/components/FormEvent"
 import TheNavbar from "@/components/TheNavbar"
-import EventsLog from "@/components/EventsLog"
 import UserEventsTable from "@/view/UserEventsTable"
 import RequestEventsTable from "@/view/RequestEventsTable"
+import EventsListOnDay from "@/view/EventsListOnDay";
+
 
 export default {
   name: "AppCalendar",
   components: {
+
+    EventsListOnDay,
     RequestEventsTable,
     UserEventsTable,
-    EventsLog,
     TheNavbar,
     FormEvent,
     Calendar
@@ -87,8 +91,6 @@ export default {
     return {
       style: 'background',
       date: '',
-      minDateString: new Date().toISOString(),
-      showProfile: false,
       show: false,
       currentId: null,
       currentStartDate: null,
@@ -129,9 +131,6 @@ export default {
     }
   },
   methods: {
-    closeProfileInfo() {
-      this.showProfile = false
-    },
     logout() {
       this.$root.$emit('logout')
     },
@@ -199,11 +198,16 @@ export default {
       }
     },
     //event - объект - событие
-    //метод для показа в eventLog
+    //метод для показа в evensListOnDay
     dayContextMenu(event) {
       let ev = event.events
       this.events = []
-      console.log(ev)
+      let date = new Date(event.date).toLocaleDateString('ru-RU')
+      if (!this.events.length) {
+        for (let i of ev) {
+          this.events.push(` ${date}  - ${i.name} `)
+        }
+      }
     },
     renderEnd(event) {
       this.events = []
@@ -254,8 +258,16 @@ export default {
 </script>
 <style scoped>
 .calendar-position {
-  width: 55%;
-  display: block;
-  margin-left: 50px;
+
+  width: 60em;
+  margin-left: auto;
+  margin-right: auto;
+
+
+  position: center;
+}
+
+.alo1 {
+
 }
 </style>

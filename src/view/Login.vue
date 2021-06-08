@@ -1,8 +1,8 @@
 <template>
   <form-login
-      :Email="user.email"
-      :Password="user.password"
-      @SubmitLogin="submitLogin"
+      :user-email="user.email"
+      :user-password="user.password"
+      @submitLogin="submitLogin"
   >
 
   </form-login>
@@ -18,8 +18,8 @@ export default {
   data() {
     return {
       user: {
-        password: '',
         email: '',
+        password: '',
       }
     }
   },

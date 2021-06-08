@@ -125,51 +125,51 @@ export default {
       type: String,
       required: true
     },
-    Email: {
+    userEmail: {
       type: String,
       required: true
     },
-    Birthday: {
+    userBirthday: {
       type: String,
       required: true
     },
-    Password: {
+    userPassword: {
       type: String,
       required: true
     },
-    passwordConfirm: {
+    userPasswordConfirm: {
       type: String,
       required: true
     },
-    firstName: {
+    userFirstName: {
       type: String,
       required: true
     },
-    lastName: {
+    userLastName: {
       type: String,
       required: true
     },
-    Mobile: {
+    userMobile: {
       type: String,
       required: true
     },
-    City: {
+    userCity: {
       type: String,
       required: true
     },
-    Country: {
+    userCountry: {
       type: String,
       required: true
     },
-    State: {
+    userState: {
       type: String,
       required: true
     },
-    Title: {
+    userTitle: {
       type: String,
       required: true
     },
-    Description: {
+    userDescription: {
       type: String,
       required: true
     }
@@ -179,21 +179,21 @@ export default {
       passwordType: 'password',
       valid: false,
       user: {
-        username: this.Username,
-        email: this.Email,
-        birthday: this.Birthday,
-        password: this.Password,
-        passwordConfirm: this.passwordConfirm,
+        username: this.userName,
+        email: this.userEmail,
+        birthday: this.userBirthday,
+        password: this.userPassword,
+        passwordConfirm: this.userPasswordConfirm,
         profile: {
-          first_name: this.firstName,
-          last_name: this.lastName,
-          mobile: this.Mobile,
-          city: this.Mobile,
-          country: this.Country,
+          first_name: this.userFirstName,
+          last_name: this.userLastName,
+          mobile: this.userMobile,
+          city: this.userCity,
+          country: this.userCountry,
           region: '',
-          state: this.State,
-          title: this.Title,
-          description: this.Description,
+          state: this.userState,
+          title: this.userTitle,
+          description: this.userDescription,
         }
       }
     }
@@ -224,7 +224,7 @@ export default {
           this.user.password = ''
           this.user.passwordConfirm = ''
         } else {
-          this.$emit('Register', this.user)
+          this.$emit('register', this.user)
         }
 
       }

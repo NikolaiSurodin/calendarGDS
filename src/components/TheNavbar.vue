@@ -1,7 +1,7 @@
 <template>
   <div>
     <template>
-      <b-navbar type="dark" variant="dark">
+      <b-navbar type="dark" variant="dark" class="fixed-top">
         <b-navbar-nav>
           <b-nav-item class="mr-auto" @click="toCalendar">Календарь</b-nav-item>
           <b-nav-item-dropdown text="Профиль" right>
@@ -30,7 +30,9 @@
 export default {
   name: "TheNavbar",
   data() {
-    return {}
+    return {
+      date:''
+    }
   },
   methods: {
     toEditProfile() {

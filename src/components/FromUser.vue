@@ -128,63 +128,62 @@ import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
 export default {
   name: "formUser",
   props: {
-    user_name: {
+    userName: {
       type: String,
       required: true
     },
-    last_name: {
+    lastName: {
       type: String,
       required: true
     },
-    first_name: {
+    firstName: {
       type: String,
       required: true
     },
-    birth_day: {
+    userBirthday: {
       type: String,
       required: true
     },
-    Email: {
+    userEmail: {
       type: String,
       required: true
     },
-    mobile_ph: {
+    userMobile: {
       type: String,
       required: true
     },
-    user_city: {
+    userCity: {
       type: String,
       required: true
     },
-    user_state: {
+    userState: {
       type: String,
       required: true
     },
-    user_description: {
+    userDescription: {
       type: String,
       required: true
     },
-    user_country: {
+    userCountry: {
       type: String,
       required: true
     }
-
   },
   data() {
     return {
       expand: false,
       user: {
-        username: this.user_name,
-        birthday: this.birth_day,
-        email: this.Email,
+        username: this.userName,
+        birthday: this.userBirthday,
+        email: this.userEmail,
         profile: {
-          mobile: this.mobile_ph,
-          last_name: this.last_name,
-          first_name: this.first_name,
-          country: this.user_country,
-          description: this.user_description,
-          city: this.user_city,
-          state: this.user_state,
+          mobile: this.userMobile,
+          last_name: this.lastName,
+          first_name: this.firstName,
+          country: this.userCountry,
+          description: this.userDescription,
+          city: this.userCity,
+          state: this.userState,
         }
       }
     }

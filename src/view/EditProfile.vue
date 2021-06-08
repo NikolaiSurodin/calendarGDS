@@ -8,16 +8,16 @@
     <form-user
         @updateUser="updateUser"
         @cancel="toCalendar"
-        :user_name="user.username"
-        :birth_day="user.birthday"
-        :Email="user.email"
-        :first_name="user.profile.first_name"
-        :last_name="user.profile.last_name"
-        :mobile_ph="user.profile.mobile"
-        :user_city="user.profile.city"
-        :user_description="user.profile.description"
-        :user_state="user.profile.state"
-        :user_country="user.profile.country"
+        :user-name="user.username"
+        :user-birthday="user.birthday"
+        :user-email="user.email"
+        :first-name="user.profile.first_name"
+        :last-name="user.profile.last_name"
+        :user-mobile="user.profile.mobile"
+        :user-city="user.profile.city"
+        :user-description="user.profile.description"
+        :user-state="user.profile.state"
+        :user-country="user.profile.country"
     />
 
     <app-footer/>

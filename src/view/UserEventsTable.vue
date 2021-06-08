@@ -1,10 +1,14 @@
 <template>
   <div>
     <b-button v-b-toggle.sidebar-right
-              variant="outline-secondary">
+              variant="outline-secondary"
+    class="mt-5">
       Мои запросы
     </b-button>
-    <b-sidebar id="sidebar-right" title="Мои запросы" right shadow width="34%">
+    <b-sidebar
+        id="sidebar-right"
+        title="Мои запросы"
+        right shadow width="27%">
       <div class="px-3 py-2">
         <table class="table table-sm">
           <thead>

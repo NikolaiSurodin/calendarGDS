@@ -1,19 +1,19 @@
 <template>
   <form-register
       :user-name="user.username"
-      :Email="user.email"
-      :Password="user.password"
-      :password-confirm="user.passwordConfirm"
-      :Title="user.profile.title"
-      :Birthday="user.birthday"
-      :City="user.profile.city"
-      :Country="user.profile.country"
-      :Description="user.profile.description"
-      :first-name="user.profile.first_name"
-      :last-name="user.profile.last_name"
-      :Mobile="user.profile.mobile"
-      :State="user.profile.state"
-      @Register="register"
+      :user-email="user.email"
+      :user-password="user.password"
+      :user-password-confirm="user.passwordConfirm"
+      :user-title="user.profile.title"
+      :user-birthday="user.birthday"
+      :user-city="user.profile.city"
+      :user-country="user.profile.country"
+      :user-description="user.profile.description"
+      :user-first-name="user.profile.first_name"
+      :user-last-name="user.profile.last_name"
+      :user-mobile="user.profile.mobile"
+      :user-state="user.profile.state"
+      @register="register"
   >
 
   </form-register>

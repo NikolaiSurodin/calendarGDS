@@ -46,11 +46,11 @@ import {email, required, minLength} from 'vuelidate/lib/validators'
 export default {
   name: "FormLogin",
   props: {
-    Email: {
+    userEmail: {
       type: String,
       required: true
     },
-    Password: {
+    userPassword: {
       type: String,
       required: true
     }
@@ -58,8 +58,8 @@ export default {
   data() {
     return {
       user: {
-        password: this.Password,
-        email: this.Email,
+        email: this.userEmail,
+        password: this.userPassword,
       },
       error: false,
       valid: false,
@@ -75,7 +75,7 @@ export default {
     submitLogin() {
       this.$v.user.$touch()
       if (!this.$v.user.$error) {
-        this.$emit('SubmitLogin', this.user)
+        this.$emit('submitLogin', this.user)
       }
     }
   }

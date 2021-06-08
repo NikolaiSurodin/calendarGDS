@@ -77,7 +77,7 @@ export default {
     },
     startDate: {
       type: String,
-      required: true
+      required: true,
     },
     endDate: {
       type: String,
