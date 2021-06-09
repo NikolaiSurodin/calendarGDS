@@ -1,14 +1,22 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <span class="text-muted">© GDS - 2021</span>
+      <span class="text-muted">© GDS - {{currentYear}}</span>
     </div>
   </footer>
 </template>
 
 <script>
 export default {
-name: "AppFooter"
+  name: "AppFooter",
+  data() {
+    return {}
+  },
+  computed:{
+    currentYear() {
+      return new Date().getFullYear()
+    }
+  }
 }
 </script>
 
@@ -21,6 +29,7 @@ name: "AppFooter"
 
   background-color: #f5f5f5;
 }
+
 .container {
   width: 100%;
   padding-right: 15px;
@@ -28,6 +37,7 @@ name: "AppFooter"
   margin-right: auto;
   margin-left: auto;
 }
+
 div {
   display: block;
 }

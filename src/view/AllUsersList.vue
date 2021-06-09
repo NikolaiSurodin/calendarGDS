@@ -45,6 +45,7 @@ export default {
     }
   },
   methods: {
+
     toCalendar() {
       this.$router.push('/calendar')
     },

@@ -226,7 +226,6 @@ export default {
         } else {
           this.$emit('register', this.user)
         }
-
       }
     }
   },
@@ -242,53 +241,9 @@ export default {
 .form-signin {
   width: 100%;
   max-width: 330px;
-  padding: 15px;
+
   margin: auto;
 }
-
-form {
-  display: block;
-  margin-top: 0;
-}
-
-.text-center {
-  text-align: center !important;
-}
-
-h1 {
-  display: block;
-  font-size: 2em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  font-weight: bold;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-label {
-  display: inline-block;
-  margin-bottom: .5rem;
-}
-
-label {
-  cursor: default;
-}
-
-.text-center {
-  text-align: center !important;
-}
-
 .btn {
   margin-bottom: 50px;
   width: 100%;

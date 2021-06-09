@@ -2,7 +2,6 @@
   <div>
     <b-button v-b-toggle.sidebar-variant
               variant="outline-secondary"
-
               >
       Мои запросы
     </b-button>
@@ -28,7 +27,8 @@
               approved:event.status === 'approved',
               pending:event.status === 'pending',
               rejected:event.status === 'rejected'
-             }">{{ event.status }}
+             }">
+              {{ event.status }}
             </td>
           </tr>
           </tbody>

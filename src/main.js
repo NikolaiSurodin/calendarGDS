@@ -25,6 +25,7 @@ Vue.use(Vuelidate)
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
 new Vue({
   el:'#app',
   router,

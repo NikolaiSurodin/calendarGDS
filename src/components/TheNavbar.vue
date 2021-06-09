@@ -30,9 +30,7 @@
 export default {
   name: "TheNavbar",
   data() {
-    return {
-      date:''
-    }
+    return {}
   },
   methods: {
     toEditProfile() {

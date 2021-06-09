@@ -1,4 +1,6 @@
 <template>
+
+
   <form-register
       :user-name="user.username"
       :user-email="user.email"
@@ -17,6 +19,7 @@
   >
 
   </form-register>
+
 </template>
 
 <script>

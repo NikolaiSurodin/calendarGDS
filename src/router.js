@@ -6,8 +6,8 @@ import AppCalendar from '@/view/AppCalendar'
 import Register from "@/view/Register"
 import Login from "@/view/Login"
 import NotFound from '@/components/NotFound'
-import AllUsersList from "@/view/AllUsersList";
-import EditProfile from "@/view/EditProfile";
+import AllUsersList from "@/view/AllUsersList"
+import EditProfile from "@/view/EditProfile"
 
 
 Vue.use(Router)
@@ -16,31 +16,31 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name:'register',
+            name: 'register',
             component: Register,
             //редирект с '/' если залогинен на '/calendar'
             beforeEnter: (to, from, next) => {
-                if (!store.getters.isLoggedIn){
+                if (!store.getters.isLoggedIn) {
                     next()
-                }else {
+                } else {
                     next('/calendar')
                 }
             },
         },
         {
             path: '/login',
-            name:'login',
+            name: 'login',
             component: Login
         },
         {
             path: '/calendar',
-            name:'calendar',
+            name: 'calendar',
             component: AppCalendar,
             meta: {auth: true}
         },
         {
             path: '/all_users',
-            name:'UserList',
+            name: 'UserList',
             component: AllUsersList,
             meta: {auth: true}
         },
@@ -55,7 +55,7 @@ const router = new Router({
             children: [
                 {
                     path: '',
-                    name:'editProfile',
+                    name: 'editProfile',
                     component: EditProfile
                 }
             ]
@@ -64,9 +64,8 @@ const router = new Router({
             path: '*',
             name: 'notFound',
             component: NotFound
-        },
-    ],
-
+        }
+    ]
 })
 router.beforeEach((to, from, next) => {
     if (to.matched.some(route => route.meta.auth) && !store.getters.isLoggedIn) {
@@ -74,7 +73,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-
 })
 
 export default router

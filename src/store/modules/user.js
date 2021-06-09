@@ -13,7 +13,7 @@ export default {
                 axios
                     .get('https://vacation-api.thirty3.tools/api/v1/frontend/me?expand=profile')
                     .then(response => {
-                        let user = response.data.data.find(user => user)
+                        const user = response.data.data.find(user => user)
                         this.user = new User(user)
                         commit('SET_USER', this.user)
                         resolve(response)

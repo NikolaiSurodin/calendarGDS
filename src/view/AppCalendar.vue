@@ -7,7 +7,7 @@
       />
     </template>
     <div class="mt-5 p-1">
-      <template v-if="isSuperUser">
+      <template v-if="!isSuperUser">
 
         <request-events-table/>
 
@@ -103,17 +103,17 @@ export default {
       events: [],
       dataSource: [],
       contextMenuItems: [
-        {
-          text: "Редактировать",
-          click: evt => {
-            this.currentId = evt.id;
-            this.currentStartDate = evt.startDate.toISOString().substring(0, 10);
-            this.currentEndDate = evt.endDate.toISOString().substring(0, 10);
-            this.currentName = evt.name;
-            this.currentDescription = evt.details;
-            this.show = true;
-          }
-        },
+        // {
+        //   text: "Редактировать",
+        //   click: evt => {
+        //     this.currentId = evt.id;
+        //     this.currentStartDate = evt.startDate.toISOString().substring(0, 10);
+        //     this.currentEndDate = evt.endDate.toISOString().substring(0, 10);
+        //     this.currentName = evt.name;
+        //     this.currentDescription = evt.details;
+        //     this.show = true;
+        //   }
+        // },
         {
           text: "Удалить",
           click: evt => {
@@ -147,8 +147,6 @@ export default {
           solid: true
         })
       }
-
-
     },
     fireFormSave() {
       this.$refs.form.fireSaveEvent()
@@ -236,7 +234,7 @@ export default {
           id: r.id,
           user: r.user.profile?.last_name,
           status: r.status,
-          color: r.status === 'approved' ? '#29e307' : '#cacef3'
+          color: r.status === 'approved' ? '#99f187' : '#cacef3'
         }
       })
     },
@@ -263,11 +261,5 @@ export default {
 }
 </script>
 <style scoped>
-.calendar-position {
-  width: 60em;
-  margin-left: auto;
-  margin-right: auto;
-  position: center;
-}
 
 </style>
