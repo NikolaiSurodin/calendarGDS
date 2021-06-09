@@ -139,7 +139,16 @@ export default {
       this.currentDescription = null
       this.currentStartDate = e.startDate.toISOString().substring(0, 10)
       this.currentEndDate = e.endDate.toISOString().substring(0, 10)
-      this.show = true
+      if (this.currentStartDate >= new Date().toISOString().substring(0, 10)) {
+        this.show = true
+      } else {
+        this.$bvToast.toast('Время прошло.. надо было раньше.. ', {
+          title: 'Ошибка',
+          solid: true
+        })
+      }
+
+
     },
     fireFormSave() {
       this.$refs.form.fireSaveEvent()
@@ -147,32 +156,32 @@ export default {
     //event - объект - событие
     saveEvent(event) {
       if (this.currentId === null) {
-          // Добавление события
-          this.$store.dispatch('saveEvents', {
-            //посылаем всего юзера, прям объект
-            user: this.user,
-            title: event.currentKind,
-            comment: event.currentDescription,
-            date_from: this.currentStartDate,
-            date_to: this.currentEndDate,
-            id: event.currentId,
-            busy: event.currentBusy,
-            kind: event.currentKind,
-            request: event.currentRequest
-          })
-              .then(() => {
-                this.$bvToast.toast('Отлично! Ваша заявка принята к рассмотрению', {
-                  title: 'Принято к рассмотрению',
-                  solid: true,
-                })
+        // Добавление события
+        this.$store.dispatch('saveEvents', {
+          //посылаем всего юзера, прям объект
+          user: this.user,
+          title: event.currentKind,
+          comment: event.currentDescription,
+          date_from: this.currentStartDate,
+          date_to: this.currentEndDate,
+          id: event.currentId,
+          busy: event.currentBusy,
+          kind: event.currentKind,
+          request: event.currentRequest
+        })
+            .then(() => {
+              this.$bvToast.toast('Отлично! Ваша заявка принята к рассмотрению', {
+                title: 'Принято к рассмотрению',
+                solid: true,
               })
-              .catch((error, danger = null) => {
-                this.$bvToast.toast('Ошибка! Событие не добавлено', {
-                  title: 'Ошибка',
-                  variant: danger,
-                  solid: true
-                })
+            })
+            .catch((error, danger = null) => {
+              this.$bvToast.toast('Ошибка! Событие не добавлено', {
+                title: 'Ошибка',
+                variant: danger,
+                solid: true
               })
+            })
       } else {
         // Обновление события
         this.$store.dispatch('updateEvent', {
@@ -226,7 +235,8 @@ export default {
           details: r.comment,
           id: r.id,
           user: r.user.profile?.last_name,
-          color: '#cacef3'
+          status: r.status,
+          color: r.status === 'approved' ? '#29e307' : '#cacef3'
         }
       })
     },
