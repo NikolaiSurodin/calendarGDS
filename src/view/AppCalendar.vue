@@ -19,10 +19,11 @@
 
       </template>
     </div>
+
     <div class="row">
       <template class="col-md-9">
         <events-list-on-day :events="events"
-
+                            @add="add"
         >
 
         </events-list-on-day>
@@ -54,9 +55,9 @@
              @ok="fireFormSave">
       <form-event
           :id="currentId"
+          :start-date="currentStartDate"
           :end-date="currentEndDate"
           :description="currentDescription"
-          :start-date="currentStartDate"
           @saveEvent="saveEvent"
           ref="form"
       />
@@ -133,6 +134,11 @@ export default {
     logout() {
       this.$root.$emit('logout')
     },
+    add() {
+      this.currentStartDate = new Date().toISOString().substring(0, 10)
+      this.currentEndDate = new Date().toISOString().substring(0, 10)
+      this.show = true
+    },
     selectRange(e) {
       this.currentId = null
       this.currentName = null
@@ -160,8 +166,8 @@ export default {
           user: this.user,
           title: event.currentKind,
           comment: event.currentDescription,
-          date_from: this.currentStartDate,
-          date_to: this.currentEndDate,
+          date_from: event.currentStartDate,
+          date_to: event.currentEndDate,
           id: event.currentId,
           busy: event.currentBusy,
           kind: event.currentKind,

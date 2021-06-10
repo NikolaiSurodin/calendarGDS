@@ -4,30 +4,35 @@
       <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
       <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
       <p>Введите данные для входа и нажмите Войти:</p>
-      <label for="inputEmail" class="row ml-0 p-0"><b-icon icon="at" aria-hidden="true"></b-icon></label>
-      <input type="email"
-             id="inputEmail"
-             class="form-control"
-             placeholder="email"
-             required autofocus
-             v-model.trim="user.email"
-             :class="$v.user.email.$error ? 'is-invalid' : ''"
-      >
-      <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Введите корректный E-mail</p>
-      <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Обязательное поле!</p>
-      <label for="inputPassword" class="row ml-0 mt-1"><b-icon icon="lock-fill" aria-hidden="true"></b-icon></label>
-      <input type="password"
-             id="inputPassword"
-             class="form-control"
-             placeholder="пароль"
-             required
-             v-model.trim="user.password"
-             :class="$v.user.password.$error ? 'is-invalid' : ''"
-      >
+      <b-input-group size="md" class="mb-3">
+        <b-input-group-prepend is-text>
+          <b-icon icon="envelope"></b-icon>
+        </b-input-group-prepend>
 
-      <p v-if="$v.user.password.$dirty && !$v.user.password.minLength" class="invalid-feedback">Пароль минимум 7
-        символов</p>
-      <p v-if="$v.user.password.$dirty && !$v.user.password.required" class="invalid-feedback">Обязательное поле!</p>
+        <b-form-input type="email"
+                      placeholder="me@example.com"
+                      v-model.trim="user.email"
+                      required
+                      :class="$v.user.email.$error ? 'is-invalid' : ''"
+        />
+        <p v-if="!isValidEmail" class="invalid-feedback">Введите корректный E-mail</p>
+
+      </b-input-group>
+
+      <b-input-group size="md" >
+        <b-input-group-prepend is-text>
+          <b-icon icon="lock"></b-icon>
+        </b-input-group-prepend>
+
+        <b-form-input type="password"
+                      placeholder="пароль"
+                      required
+                      v-model.trim="user.password"
+                      :class="$v.user.password.$error ? 'is-invalid' : ''"
+        />
+        <p v-if="!isValidPassword" class="invalid-feedback">Пароль минимум 7
+          символов</p>
+      </b-input-group>
 
       <div class="btn">
         <b-button class="mt-3" variant="outline-success" type="submit">Войти</b-button>
@@ -41,7 +46,7 @@
 
 <script>
 
-import {email, required, minLength} from 'vuelidate/lib/validators'
+import {email, minLength} from 'vuelidate/lib/validators'
 
 export default {
   name: "FormLogin",
@@ -60,15 +65,13 @@ export default {
       user: {
         email: this.userEmail,
         password: this.userPassword,
-      },
-      error: false,
-      valid: false,
+      }
     }
   },
   validations: {
     user: {
-      email: {required, email},
-      password: {required, minLength: minLength(7)}
+      email: { email },
+      password: { minLength: minLength(7) }
     }
   },
   methods: {
@@ -82,6 +85,13 @@ export default {
   computed:{
     currentYear() {
       return new Date().getFullYear()
+    },
+    //$v - vuelidate library (проверка на валидность)
+    isValidEmail ($v) {
+      return $v.user.email.$dirty && !$v.user.email.email
+    },
+    isValidPassword ($v) {
+      return $v.user.password.$dirty && !$v.user.password.minLength
     }
   }
 }

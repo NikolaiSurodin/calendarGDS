@@ -11,7 +11,7 @@
          :key="idx">
 
       <div class="event-block table-hover">{{ event }}</div>
-
+<b-button @click="add" variant="light">Создать<b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon></b-button>
     </div>
   </div>
 
@@ -29,6 +29,11 @@ export default {
   data() {
     return {
       date: ''
+    }
+  },
+  methods:{
+    add() {
+      this.$emit('add')
     }
   },
   mounted() {

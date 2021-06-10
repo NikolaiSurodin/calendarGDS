@@ -1,15 +1,13 @@
 <template>
   <div>
-    <b-button v-b-toggle.sidebar-variant
-              variant="outline-secondary"
-              >
-      Мои запросы
-    </b-button>
-    <b-sidebar id="sidebar-variant" bg-variant="light" text-variant="light" shadow
-
-        title="Мои запросы"
-        :right="true"
-        width="27%">
+    <b-button v-b-toggle.sidebar-variant variant="light">Мои запросы</b-button>
+    <b-sidebar id="sidebar-variant"
+               :right = true
+               title="Мои запросы"
+               bg-variant="light"
+               text-variant="dark" shadow
+                width="27%"
+    >
       <div class="px-3 py-2">
         <table class="table table-sm">
           <thead>
@@ -21,12 +19,12 @@
           </thead>
           <tbody v-for="(event, id) in events" :key="id">
           <tr>
-            <th scope="row">{{ event.kind }}</th>
+            <th>{{ event.kind }}</th>
             <td>{{ event.date_from }} - {{ event.date_to }}</td>
             <td :class="{
-              approved:event.status === 'approved',
-              pending:event.status === 'pending',
-              rejected:event.status === 'rejected'
+              approved:event.status === 'Одобрено',
+              pending:event.status === 'На рассмотрении',
+              rejected:event.status === 'Отклонено'
              }">
               {{ event.status }}
             </td>
@@ -48,9 +46,9 @@ export default {
     events() {
       return this.$store.getters.getEvents.map((r) => ({
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
-        date_from: r.date_from,
-        date_to: r.date_to,
-        status: r.status
+        date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
+        date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),
+        status: (r.status === 'approved') ? 'Одобрено' : (r.status === 'pending') ? 'На рассмотрении' : (r.status === 'rejected') ? 'Отклонено' : ''
       }))
     }
   }
@@ -63,7 +61,7 @@ export default {
 }
 
 .pending {
-  color: #d8e900;
+  color: #928b25;
 }
 
 .rejected {

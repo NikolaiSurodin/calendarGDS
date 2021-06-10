@@ -35,14 +35,15 @@
                  type="date"
                  class="form-control"
                  v-model="event.currentStartDate"
-
           />
           <div class="input-group-prepend input-group-append">
             <div class="input-group-text">До</div>
           </div>
           <input type="date"
+                 id="max-date"
                  class="form-control"
-                 v-model="event.currentEndDate"/>
+                 v-model="event.currentEndDate"
+          />
         </div>
         <div class="form-group row mt-5 ">
           <label for="event-description" class="col-sm-2 control-label">Комментарий</label>
@@ -103,7 +104,6 @@ export default {
   },
   data() {
     return {
-      valid: false,
       event: {
         currentId: this.id,
         currentStartDate: this.startDate,

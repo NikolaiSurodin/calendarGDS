@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div>
-      <form class="form-signin" @submit.prevent="register()">
+      <form class="form" @submit.prevent="register">
         <h3>Добро пожаловать!</h3>
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
         <p class="mt-3">
@@ -12,97 +12,88 @@
                id="inputUserName"
                class="form-control"
                placeholder="Имя пользователя"
-               required autofocus v-model="user.username"
-               :class="$v.user.username.$error ? 'is-invalid' : ''"
+               required autofocus
+               v-model="user.username"
+               :class="$v.user.username.$error ? 'is-invalid': ''"
         >
-        <p v-if="$v.user.username.$dirty && !$v.user.username.required" class="invalid-feedback">Ошибка! Обязательное
-          поле</p>
-
         <input type="text"
                id="inputName"
                class="form-control"
                placeholder="Имя"
-               required v-model="user.profile.first_name"
+               required
+               v-model="user.profile.first_name"
                :class="$v.user.profile.first_name.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.required" class="invalid-feedback">
-          Ошибка!
-          Обязательное
-          поле</p>
-
         <input type="text"
                id="inputLastName"
                class="form-control"
                placeholder="Фамилия"
-               required v-model="user.profile.last_name"
+               required
+               v-model="user.profile.last_name"
                :class="$v.user.profile.last_name.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">
-          Ошибка! Обязательное
-          поле</p>
+
         <input type="email"
                id="inputEmail"
                class="form-control"
-               placeholder="Email" required autofocus v-model="user.email"
+               placeholder="Email"
+               required
+               v-model="user.email"
                :class="$v.user.email.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Ошибка! Обязательное поле</p>
-        <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Некоректный Email</p>
+        <p v-if="isValidEmail" class="invalid-feedback">Некоректный Email</p>
+
         <input type="number"
                id="inputMobile"
                class="form-control"
-               placeholder="Телефон" required v-model="user.profile.mobile"
+               placeholder="Телефон"
+               required
+               v-model="user.profile.mobile"
                :class="$v.user.profile.mobile.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.required" class="invalid-feedback">Ошибка!
-          Обязательное
-          поле</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Ошибка!
-          Неверный номер</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.minLength" class="invalid-feedback">Ошибка!
-          Неверный номер </p>
-
+        <p v-if="isValidMobile" class="invalid-feedback">Ошибка! Неверный номер</p>
 
         <input type="text"
                id="inputBirthday"
                class="form-control"
-               placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ" required v-model="user.birthday"
+               placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ"
+               required
+               v-model="user.birthday"
                :class="$v.user.birthday.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.birthday.$dirty && !$v.user.birthday.required" class="invalid-feedback">
-          Обязательное поле!</p>
-
         <input type="text"
                id="inputState"
                class="form-control"
-               placeholder="Должность" required v-model="user.profile.state"
+               placeholder="Должность"
+               required
+               v-model="user.profile.state"
                :class="$v.user.profile.state.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">
-          Обязательное поле!</p>
 
         <input :type="passwordType"
                id="inputPassword"
                class="form-control"
-               placeholder="Пароль" required v-model="user.password"
+               placeholder="Пароль"
+               required
+               v-model="user.password"
                :class="$v.user.password.$error ? 'is-invalid' : ''"
         >
         <b-form-checkbox class="text-sm-right" @input="switchVisibilityPassword">
           <b-icon icon="eye-slash"></b-icon>
         </b-form-checkbox>
 
-        <p v-if="$v.user.password.$dirty && !$v.user.password.required" class="invalid-feedback">Обязательное
-          поле!</p>
-        <p v-if="$v.user.password.$dirty && !$v.user.password.minLength" class="invalid-feedback">Пароль минимум 7
-          символов. Введено : {{ $v.user.password.$model.length }}</p>
+        <p v-if="!isValidPassword" class="invalid-feedback">
+          Пароль минимум 7 символов. Введено : {{ $v.user.password.$model.length }}
+        </p>
 
         <input type="password"
                id="inputPasswordConfirm"
-               class="form-control" placeholder="Повторите пароль" required v-model="user.passwordConfirm"
+               class="form-control"
+               placeholder="Повторите пароль"
+               required
+               v-model="user.passwordConfirm"
                :class="$v.user.passwordConfirm.$error ? 'is-invalid' : ''"
         >
-        <p v-if="$v.user.passwordConfirm.$dirty && !$v.user.passwordConfirm.required" class="invalid-feedback">
-          Обязательное поле!</p>
         <div class="btn">
           <b-button variant="outline-success" class="mt-3" type="submit">
             Зарегистрироваться
@@ -116,7 +107,7 @@
 </template>
 
 <script>
-import {email, required, minLength, maxLength} from 'vuelidate/lib/validators'
+import {email, minLength, maxLength} from 'vuelidate/lib/validators'
 
 export default {
   name: "FormRegister",
@@ -200,16 +191,16 @@ export default {
   },
   validations: {
     user: {
-      username: {required},
-      email: {required, email},
-      password: {required, minLength: minLength(7)},
-      birthday: {required},
-      passwordConfirm: {required},
+      username: {},
+      email: {email},
+      password: {minLength: minLength(7)},
+      birthday: {},
+      passwordConfirm: {},
       profile: {
-        first_name: {required, maxLength: maxLength(10)},
-        last_name: {required, maxLength: maxLength(10)},
-        mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
-        state: {required}
+        first_name: {maxLength: maxLength(10)},
+        last_name: {maxLength: maxLength(10)},
+        mobile: {maxLength: maxLength(11), minLength: minLength(11)},
+        state: {}
       }
     }
   },
@@ -232,16 +223,24 @@ export default {
   computed:{
     currentYear() {
       return new Date().getFullYear()
+    },
+    isValidEmail($v) {
+      return $v.user.email.$dirty && !$v.user.email.email
+    },
+    isValidMobile($v) {
+     return $v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength && !$v.user.profile.mobile.minLength
+    },
+    isValidPassword($v) {
+      return $v.user.password.$dirty && !$v.user.password.minLength
     }
   }
 }
 </script>
 
 <style scoped>
-.form-signin {
+.form {
   width: 100%;
   max-width: 330px;
-
   margin: auto;
 }
 .btn {
