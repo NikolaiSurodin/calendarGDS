@@ -11,7 +11,10 @@
          :key="idx">
 
       <div class="event-block table-hover">{{ event }}</div>
-<b-button @click="add" variant="light">Создать<b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon></b-button>
+      <b-button  class="mt-3" variant="light" type="button" @click="addEvent">
+        Создать
+        <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
+      </b-button>
     </div>
   </div>
 
@@ -31,9 +34,9 @@ export default {
       date: ''
     }
   },
-  methods:{
-    add() {
-      this.$emit('add')
+  methods: {
+    addEvent() {
+      this.$emit('addEvent')
     }
   },
   mounted() {
@@ -50,7 +53,7 @@ export default {
 </script>
 
 <style scoped>
-#events-log div  {
+#events-log div {
   font-size: 14px;
   line-height: 1.1;
   width: 200px;
@@ -58,6 +61,7 @@ export default {
 
 
 }
+
 .event-block {
   background-color: #cacef3;
 }

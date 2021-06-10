@@ -23,7 +23,7 @@
     <div class="row">
       <template class="col-md-9">
         <events-list-on-day :events="events"
-                            @add="add"
+                            @addEvent="addEventOfTableOnDay"
         >
 
         </events-list-on-day>
@@ -134,7 +134,7 @@ export default {
     logout() {
       this.$root.$emit('logout')
     },
-    add() {
+    addEventOfTableOnDay() {
       this.currentStartDate = new Date().toISOString().substring(0, 10)
       this.currentEndDate = new Date().toISOString().substring(0, 10)
       this.show = true
