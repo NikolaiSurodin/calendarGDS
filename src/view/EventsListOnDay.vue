@@ -11,11 +11,11 @@
          :key="idx">
 
       <div class="event-block table-hover">{{ event }}</div>
-      <b-button  class="mt-3" variant="light" type="button" @click="addEvent">
-        Создать
-        <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
-      </b-button>
     </div>
+    <b-button  class="mt-3" variant="light" type="button" @click="addEvent">
+      Создать
+      <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
+    </b-button>
   </div>
 
 </template>

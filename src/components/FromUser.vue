@@ -1,124 +1,116 @@
 <template>
-  <div class="wrapper">
-    <div>
-      <div class="block">
-        <p>Общее</p>
-      </div>
-      <form class="form-signin">
-        <label for="event-name" class="row-sm-2 control-label m-0">Имя пользователя</label>
+      <form class="form" @submit.prevent="updateUser">
+        <label for="inputUserName" class="row-sm-2 control-label m-0">Имя пользователя</label>
         <input type="text"
                id="inputUserName"
                class="form-control"
                placeholder="Имя пользователя"
-               required autofocus v-model="user.username"
+               required
+               autofocus
+               v-model="user.username"
                :class="$v.user.username.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.username.$dirty && !$v.user.username.required" class="invalid-feedback">Ошибка! Обязательное
-          поле</p>
-        <label for="event-name" class="row-sm-2 control-label m-0">Имя</label>
+        <label for="inputName" class="row-sm-2 control-label m-0">Имя</label>
         <input type="text"
                id="inputName"
                class="form-control"
                placeholder="Имя"
-               required v-model="user.profile.first_name"
+               required
+               v-model="user.profile.first_name"
                :class="$v.user.profile.first_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.required" class="invalid-feedback">
-          Обязательное поле</p>
-        <p v-if="$v.user.profile.first_name.$dirty && !$v.user.profile.first_name.maxLength" class="invalid-feedback">Не
-          более 10
-          символов</p>
+        <p v-if="!isValidName" class="invalid-feedback">Не более 10 символов</p>
 
-        <label for="event-name" class="row-sm-2 control-label m-0">Фамилия</label>
+        <label for="inputLastName" class="row-sm-2 control-label m-0">Фамилия</label>
         <input type="text"
                id="inputLastName"
                class="form-control"
                placeholder="Фамилия"
-               required v-model="user.profile.last_name"
+               required
+               v-model="user.profile.last_name"
                :class="$v.user.profile.last_name.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.maxLength" class="invalid-feedback">Не
-          более 10
-          символов</p>
-        <p v-if="$v.user.profile.last_name.$dirty && !$v.user.profile.last_name.required" class="invalid-feedback">
-          Обязательное поле</p>
+        <p v-if="!isValidLastName" class="invalid-feedback">Не более 10 символов</p>
 
-        <label for="event-name" class="row-sm-2 control-label m-0">Почта</label>
+        <label for="inputEmail" class="row-sm-2 control-label m-0">Почта</label>
         <input type="email"
                id="inputEmail"
                class="form-control"
-               placeholder="Email" required autofocus v-model="user.email"
+               placeholder="Email"
+               required autofocus
+               v-model="user.email"
                :class="$v.user.email.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.email.$dirty && !$v.user.email.required" class="invalid-feedback">Обязательное поле</p>
-        <p v-if="$v.user.email.$dirty && !$v.user.email.email" class="invalid-feedback">Некорректный email</p>
 
-        <label for="event-name" class="row-sm-2 control-label m-0">Телефон</label>
+        <p v-if="!isValidEmail" class="invalid-feedback">Некорректный email</p>
+
+        <label for="inputMobile" class="row-sm-2 control-label m-0">Телефон</label>
         <input type="number"
                id="inputMobile"
                class="form-control"
-               placeholder="Телефон" required v-model="user.profile.mobile"
+               placeholder="Телефон"
+               required
+               v-model="user.profile.mobile"
                :class="$v.user.profile.mobile.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.required" class="invalid-feedback">
-          Обязательное поле</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.minLength" class="invalid-feedback">Минимум 11
-          символов</p>
-        <p v-if="$v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength" class="invalid-feedback">Максимум
-          11 символов</p>
+        <p v-if="!isValidMobile" class="invalid-feedback">Неверный номер</p>
 
-        <label for="event-name" class="row-sm-2 control-label m-0">День Рождения</label>
+        <label for="inputBirthday" class="row-sm-2 control-label m-0">День Рождения</label>
         <input type="text"
                id="inputBirthday"
                class="form-control"
-               placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ" required v-model="user.birthday"
+               placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ"
+               required
+               v-model="user.birthday"
                :class="$v.user.birthday.$error ? 'is-invalid' : '' "
         >
-        <p v-if="$v.user.birthday.$dirty && !$v.user.birthday.required" class="invalid-feedback">Обязательное поле</p>
-          <label for="event-name" class="row-sm-2 control-label m-0 control-label">Страна</label>
+
+          <label for="inputCountry" class="row-sm-2 control-label m-0 control-label">Страна</label>
           <input type="text"
                  id="inputCountry"
                  class="form-control"
-                 placeholder="Страна" v-model="user.profile.country"
+                 placeholder="Страна"
+                 v-model="user.profile.country"
           >
         <div class="btn">
           <b-button variant="light" @click="expandedInfoFields">
             {{ expand ? 'Скрыть' : 'Дополнительная информация' }}
           </b-button>
-          <div class="form-signin" v-show="expand">
+          <div v-show="expand">
 
-            <label for="event-name" class="row-sm-2 control-label m-0">Город</label>
+            <label for="inputCity" class="row-sm-2 control-label m-0">Город</label>
             <input type="text"
                    id="inputCity"
                    class="form-control"
-                   placeholder="Город" v-model="user.profile.city"
+                   placeholder="Город"
+                   v-model="user.profile.city"
             >
 
-            <label for="event-name" class="row-sm-2 control-label m-0">Должность</label>
+            <label for="inputState" class="row-sm-2 control-label m-0">Должность</label>
             <input type="text"
                    id="inputState"
                    class="form-control"
-                   placeholder="Должность" v-model="user.profile.state"
+                   placeholder="Должность"
+                   v-model="user.profile.state"
                    :class="$v.user.profile.state.$error ? 'is-invalid' : '' "
             >
-            <p v-if="$v.user.profile.state.$dirty && !$v.user.profile.state.required" class="invalid-feedback">
-              Обязательное поле</p>
+            <p v-if="!isValidState" class="invalid-feedback">Обязательное поле</p>
 
-            <label for="event-name" class="row-sm-2 control-label m-0">Описание</label>
+            <label class="row-sm-2 control-label m-0">Описание</label>
             <textarea type="text"
                       id="description"
                       class="form-control"
-                      placeholder="Описание" v-model="user.profile.description"
+                      placeholder="Описание"
+                      v-model="user.profile.description"
             />
           </div>
           <div class="mt-3">
-            <b-button variant="outline-success" @click="updateUser">Отредактировать</b-button>
-            <b-button variant="outline-danger" class="mb-3" @click="cancel">Отмена</b-button>
+            <b-button variant="outline-success" type="submit">Отредактировать</b-button>
+            <b-button variant="outline-danger" class="mb-3" type="button" @click="cancel">Отмена</b-button>
           </div>
         </div>
       </form>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -191,12 +183,12 @@ export default {
   validations: {
     user: {
       username: {required},
-      email: {required, email},
+      email: {email},
       birthday: {required},
       profile: {
-        first_name: {required, maxLength: maxLength(10)},
-        last_name: {required, maxLength: maxLength(10)},
-        mobile: {required, maxLength: maxLength(11), minLength: minLength(11)},
+        first_name: {maxLength: maxLength(10)},
+        last_name: { maxLength: maxLength(10)},
+        mobile: { maxLength: maxLength(11), minLength: minLength(11)},
         state: {required}
       }
     }
@@ -214,6 +206,23 @@ export default {
     cancel() {
       this.$emit('cancel')
     }
+  },
+  computed:{
+    isValidName($v) {
+      return $v.user.profile.first_name.$dirty && !$v.user.profile.first_name.maxLength
+    },
+    isValidLastName($v) {
+      return $v.user.profile.last_name.$dirty && !$v.user.profile.last_name.maxLength
+    },
+    isValidEmail($v) {
+      return $v.user.email.$dirty && !$v.user.email.email
+    },
+    isValidMobile($v) {
+      return $v.user.profile.mobile.$dirty && !$v.user.profile.mobile.maxLength && !$v.user.profile.mobile.minLength
+    },
+    isValidState($v) {
+      return $v.user.profile.state.$dirty && !$v.user.profile.state.required
+    }
   }
 
 }
@@ -222,29 +231,15 @@ export default {
 </script>
 
 <style scoped>
-.form-signin {
+.form {
   max-width: 350px;
   padding: 15px;
   margin: auto;
+  margin-top: 50px;
 }
-
-label {
-  cursor: default;
-  margin-right: 10px;
-}
-
 .btn {
   margin-bottom: 15px;
   width: 100%;
 }
 
-.block {
-  display: block;
-  height: 54px;
-  line-height: 54px;
-  font-size: 16px;
-  outline: 0;
-  color: black;
-  background-color: slategray;
-}
 </style>
