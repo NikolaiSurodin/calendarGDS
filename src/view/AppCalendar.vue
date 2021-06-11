@@ -6,21 +6,8 @@
           @toProfile="showProfile = !showProfile"
       />
     </template>
-    <div class="mt-5 p-1">
-      <template v-if="!isSuperUser">
 
-        <request-events-table/>
-
-      </template>
-
-      <template>
-
-        <user-events-table/>
-
-      </template>
-    </div>
-
-    <div class="row">
+    <div class="row mt-5 p-1">
       <template class="col-md-9">
         <events-list-on-day :events="events"
                             @addEvent="addEventOfTableOnDay"
@@ -73,8 +60,6 @@ import 'v-year-calendar/locales/v-year-calendar.ru'
 
 import FormEvent from "@/components/FormEvent"
 import TheNavbar from "@/components/TheNavbar"
-import UserEventsTable from "@/view/UserEventsTable"
-import RequestEventsTable from "@/view/RequestEventsTable"
 import EventsListOnDay from "@/view/EventsListOnDay";
 
 
@@ -82,8 +67,6 @@ export default {
   name: "AppCalendar",
   components: {
     EventsListOnDay,
-    RequestEventsTable,
-    UserEventsTable,
     TheNavbar,
     FormEvent,
     Calendar

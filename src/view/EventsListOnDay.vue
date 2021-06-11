@@ -12,18 +12,31 @@
 
       <div class="event-block table-hover">{{ event }}</div>
     </div>
-    <b-button  class="mt-3" variant="light" type="button" @click="addEvent">
-      Создать
-      <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
-    </b-button>
+
+    <div>
+      <div class="button-list">
+        <request-events-table v-if="isSuperUser"/>
+        <div class="p-0">
+        <user-events-table/>
+        <b-button variant="light" size="lg" type="button" @click="addEvent">
+          Создать
+          <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
+        </b-button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
 
 <script>
 
+import UserEventsTable from "@/view/UserEventsTable";
+import RequestEventsTable from "@/view/RequestEventsTable";
+
 export default {
   name: "EventsListOnDay",
+  components: {RequestEventsTable, UserEventsTable},
   props: {
     events: {
       type: Array
@@ -47,6 +60,11 @@ export default {
         "year": "numeric"
       }) + '  ' + new Date().toLocaleTimeString('ru-RU')
     })
+  },
+  computed:{
+    isSuperUser() {
+      return this.$store.getters.isSuperUser
+    }
   }
 
 }
@@ -59,7 +77,18 @@ export default {
   width: 200px;
   padding: 10px;
 }
+
 .event-block {
   background-color: #cacef3;
+}
+
+.button-list {
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  border-radius: 8px;
+  margin-left: 15px;
+
+
 }
 </style>

@@ -4,7 +4,8 @@
       <b-button v-if="pendingEvents.length"
                 v-b-toggle.sidebar-right
                 variant="outline-warning"
-               >
+
+      >
         <b-icon icon="exclamation-circle-fill" variant="warning"></b-icon>
         Новые заявки ({{ pendingEvents.length }})
       </b-button>
@@ -47,6 +48,7 @@
                     <b-col sm="3" class="text-sm-right"><b>Статус</b></b-col>
                     <b-col><input type="text" class="form-control" disabled v-model="row.item.request"></b-col>
                   </b-row>
+
                   <b-button variant="outline-success"
                             size="sm"
                             class="mr-1"
@@ -59,6 +61,7 @@
                       @click="rejected(row.item.id, 'danger')">
                     Отклонить
                   </b-button>
+
                 </b-card>
               </template>
             </b-table>
@@ -70,7 +73,6 @@
 </template>
 
 <script>
-
 export default {
   name: "RequestEventsTable",
   data() {
@@ -97,7 +99,6 @@ export default {
           })
           .catch((error) => {
             this.$bvToast.toast(`${error}`, {
-
               solid: true
             })
           })

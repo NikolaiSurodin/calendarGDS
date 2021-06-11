@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-button v-b-toggle.sidebar-variant variant="light">Мои запросы</b-button>
+    <b-button v-b-toggle.sidebar-variant variant="light">Мои события</b-button>
     <b-sidebar id="sidebar-variant"
                :right = true
-               title="Мои запросы"
+               title="Мои события"
                bg-variant="light"
                text-variant="dark" shadow
                 width="27%"
