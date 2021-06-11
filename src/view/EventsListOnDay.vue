@@ -58,10 +58,7 @@ export default {
   line-height: 1.1;
   width: 200px;
   padding: 10px;
-
-
 }
-
 .event-block {
   background-color: #cacef3;
 }

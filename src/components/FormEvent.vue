@@ -126,17 +126,16 @@ export default {
   },
   methods: {
     fireSaveEvent() {
-      if (this.event.currentStartDate >= new Date().toISOString().substring(0,10) && this.event.currentEndDate >= this.event.currentStartDate ) {
+      if (this.event.currentStartDate >= new Date().toISOString().substring(0, 10) && this.event.currentEndDate >= this.event.currentStartDate) {
         this.$emit('saveEvent', this.event)
-      }else {
+      } else {
         this.$swal.fire({
-          icon: 'error',
-          title: 'Упс...',
-          text: 'Ошибки с датами. Попробуйте еще раз',
+          title: "Проверьте даты!",
+          confirmButtonText: "Исправлюсь!",
+          reverseButtons: true,
+          focusCancel: true,
         })
-
       }
-
     }
   }
 }
@@ -144,7 +143,8 @@ export default {
 
 <style scoped>
 .form-group.required .control-label:after {
-  content:"*";
-  color:red;
+  content: "*";
+  color: red;
 }
+
 </style>
