@@ -10,9 +10,8 @@
          v-for="(event,idx) in events"
          :key="idx">
 
-      <div class="event-block table-hover">{{ event }}</div>
+      <div class="event-block table-hover event-list">{{ event }}</div>
     </div>
-
     <div>
       <div class="button-list">
         <request-events-table v-if="isSuperUser"/>
@@ -83,12 +82,14 @@ export default {
 }
 
 .button-list {
-  padding: 0;
   background: #fff;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   border-radius: 8px;
   margin-left: 15px;
-
-
+}
+.event-list{
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  border-radius: 8px;
 }
 </style>

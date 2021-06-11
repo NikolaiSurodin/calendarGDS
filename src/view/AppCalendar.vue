@@ -232,9 +232,6 @@ export default {
     },
     loggedIn() {
       return this.$store.getters.isLoggedIn
-    },
-    isSuperUser() {
-      return this.$store.getters.isSuperUser
     }
   },
   mounted() {
