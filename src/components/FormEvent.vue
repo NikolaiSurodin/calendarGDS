@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     fireSaveEvent() {
-      if (this.event.currentStartDate >= new Date().toISOString().substring(0, 10) && this.event.currentEndDate >= this.event.currentStartDate) {
+      if (this.event.currentStartDate > new Date().toISOString().substring(0, 10) && this.event.currentEndDate >= this.event.currentStartDate) {
         this.$emit('saveEvent', this.event)
       } else {
         this.$swal.fire({

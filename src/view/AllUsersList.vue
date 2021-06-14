@@ -7,7 +7,7 @@
     </div>
     <h3 class="title">Сотрудники компании.</h3>
     <img class="mb-4"
-         src="../assets/2017679.png"
+         src="../assets/logoGDS.png"
          alt width="240"
          height="105">
     <hr>

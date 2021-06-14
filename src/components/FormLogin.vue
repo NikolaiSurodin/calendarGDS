@@ -1,7 +1,7 @@
 <template>
   <div>
     <form class="form" @submit.prevent="submitLogin">
-      <img class="mb-4" src="../assets/2017679.png" alt width="240" height="105">
+      <img class="mb-4" src="../assets/logoGDS.png" alt width="240" height="105">
       <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
       <p>Введите данные для входа и нажмите Войти:</p>
       <b-input-group size="md" class="mb-3">
@@ -19,7 +19,7 @@
 
       </b-input-group>
 
-      <b-input-group size="md" >
+      <b-input-group size="md">
         <b-input-group-prepend is-text>
           <b-icon icon="lock"></b-icon>
         </b-input-group-prepend>
@@ -30,12 +30,15 @@
                       v-model.trim="user.password"
                       :class="$v.user.password.$error ? 'is-invalid' : ''"
         />
-        <p v-if="!isValidPassword" class="invalid-feedback">Пароль минимум 7
-          символов</p>
+        <p v-if="!isValidPassword" class="invalid-feedback">Пароль минимум 7 символов</p>
       </b-input-group>
 
       <div class="btn">
-        <b-button class="mt-3" variant="outline-success" type="submit">Войти</b-button>
+        <b-button class="mt-3"
+                  variant="outline-success"
+                  type="submit">
+          Войти
+        </b-button>
 
         <router-link to="/">Регистрация</router-link>
         <p class="mt-5 mb-3 text-muted">© GDS - {{ currentYear }}</p>
@@ -70,8 +73,8 @@ export default {
   },
   validations: {
     user: {
-      email: { email },
-      password: { minLength: minLength(7) }
+      email: {email},
+      password: {minLength: minLength(7)}
     }
   },
   methods: {
@@ -82,15 +85,15 @@ export default {
       }
     }
   },
-  computed:{
+  computed: {
     currentYear() {
       return new Date().getFullYear()
     },
     //$v - vuelidate library (проверка на валидность)
-    isValidEmail ($v) {
+    isValidEmail($v) {
       return $v.user.email.$dirty && !$v.user.email.email
     },
-    isValidPassword ($v) {
+    isValidPassword($v) {
       return $v.user.password.$dirty && !$v.user.password.minLength
     }
   }
@@ -106,11 +109,11 @@ export default {
   padding: 15px;
   margin: auto;
 }
+
 .btn {
   margin-bottom: 50px;
   width: 100%;
 }
-
 
 
 </style>

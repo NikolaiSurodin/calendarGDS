@@ -33,6 +33,7 @@
         </table>
       </div>
     </b-sidebar>
+
   </div>
 </template>
 
@@ -52,6 +53,7 @@ export default {
       }))
     }
   }
+
 }
 </script>
 
@@ -67,5 +69,4 @@ export default {
 .rejected {
   color: #d91b29;
 }
-
 </style>
