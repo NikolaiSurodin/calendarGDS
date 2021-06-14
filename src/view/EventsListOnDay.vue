@@ -18,7 +18,6 @@
       <div class="button-list">
         <request-events-table v-if="isSuperUser"/>
         <div class="p-0">
-        <user-events-table/>
         <b-button variant="light" size="lg" type="button" @click="addEvent">
           Создать
           <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
@@ -31,13 +30,11 @@
 </template>
 
 <script>
-
-import UserEventsTable from "@/view/UserEventsTable";
 import RequestEventsTable from "@/view/RequestEventsTable";
 
 export default {
   name: "EventsListOnDay",
-  components: {RequestEventsTable, UserEventsTable},
+  components: {RequestEventsTable},
   props: {
     events: {
       type: Array

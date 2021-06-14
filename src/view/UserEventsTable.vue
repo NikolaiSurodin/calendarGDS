@@ -15,6 +15,7 @@
             <th>Тип</th>
             <th>Даты</th>
             <th>Статус</th>
+            <th>Удалить</th>
           </tr>
           </thead>
           <tbody v-for="(event, id) in events" :key="id">
@@ -28,6 +29,7 @@
              }">
               {{ event.status }}
             </td>
+            <td><b-button @click="deleteEvent(event.id)">Удалить</b-button></td>
           </tr>
           </tbody>
         </table>
@@ -43,9 +45,16 @@ export default {
   data() {
     return {}
   },
+  methods:{
+    deleteEvent(id) {
+      this.$store.dispatch('deleteRecords', {id:id})
+    }
+  },
+
   computed: {
     events() {
       return this.$store.getters.getEvents.map((r) => ({
+        id:r.id,
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
         date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
         date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),

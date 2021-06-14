@@ -16,8 +16,8 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name: 'register',
-            component: Register,
+            name: 'login',
+            component: Login,
             //редирект с '/' если залогинен на '/calendar'
             beforeEnter: (to, from, next) => {
                 if (!store.getters.isLoggedIn) {
@@ -28,9 +28,16 @@ const router = new Router({
             },
         },
         {
-            path: '/login',
-            name: 'login',
-            component: Login
+            path: '/register',
+            name: 'register',
+            component: Register,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.isLoggedIn) {
+                    next()
+                } else {
+                    next('/calendar')
+                }
+            },
         },
         {
             path: '/calendar',

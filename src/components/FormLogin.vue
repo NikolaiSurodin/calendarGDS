@@ -40,7 +40,7 @@
           Войти
         </b-button>
 
-        <router-link to="/">Регистрация</router-link>
+        <router-link to="/register">Регистрация</router-link>
         <p class="mt-5 mb-3 text-muted">© GDS - {{ currentYear }}</p>
       </div>
     </form>

@@ -98,7 +98,7 @@
           <b-button variant="outline-success" class="mt-3" type="submit">
             Зарегистрироваться
           </b-button>
-          <router-link to="/login">Есть аккаунт!</router-link>
+          <router-link to="/">Есть аккаунт!</router-link>
           <p class="mt-5 mb-3 text-muted">© GDS - {{currentYear}}</p>
         </div>
       </form>

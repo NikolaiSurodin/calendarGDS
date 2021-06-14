@@ -6,50 +6,54 @@
           @toProfile="showProfile = !showProfile"
       />
     </template>
+    <div class="row mt-5">
+      <div class="col-6 col-md-2">
+        <template class="col-md-9">
+          <events-list-on-day :events="events"
+                              @addEvent="addEventOfTableOnDay"
+          >
 
-    <div class="row mt-5 p-1">
-      <template class="col-md-9">
-        <events-list-on-day :events="events"
-                            @addEvent="addEventOfTableOnDay"
-        >
+          </events-list-on-day>
 
-        </events-list-on-day>
-      </template>
+        </template>
+      </div>
 
-      <template>
-        <Calendar v-if="loggedIn"
-                  id="calendar"
-                  language="ru"
-                  class="col-md-7 ml-5"
-                  :enable-range-selection="true"
-                  :data-source="calendarRecords"
-                  :enable-context-menu="true"
-                  :context-menu-items="contextMenuItems"
-                  :display-week-number="displayWeekNumber"
-                  :render-style="style"
-                  @select-range="selectRange"
-                  @render-end="renderEnd"
-                  @day-context-menu="dayContextMenu"
+      <div class="col-6 col-md-6">
+        <template>
+          <Calendar v-if="loggedIn"
+                    id="calendar"
+                    language="ru"
+                    :enable-range-selection="true"
+                    :data-source="calendarRecords"
+                    :enable-context-menu="true"
+                    :context-menu-items="contextMenuItems"
+                    :display-week-number="displayWeekNumber"
+                    :render-style="style"
+                    @select-range="dayContextMenu"
+                    @render-end="renderEnd"
+                    @day-context-menu="dayContextMenu"
 
-        />
+          />
 
-      </template>
-    </div>
-    <b-modal v-model="show"
-             :title="titleModalEvent"
-             ok-title="Сохранить"
-             cancel-title="Отмена"
-             @ok="fireFormSave">
-      <form-event
-          :id="currentId"
-          :start-date="currentStartDate"
-          :end-date="currentEndDate"
-          :description="currentDescription"
-          @saveEvent="saveEvent"
-          ref="form"
-      />
-    </b-modal>
-    <div>
+        </template>
+        <b-modal v-model="show"
+                 :title="titleModalEvent"
+                 ok-title="Сохранить"
+                 cancel-title="Отмена"
+                 @ok="fireFormSave">
+          <form-event
+              :id="currentId"
+              :start-date="currentStartDate"
+              :end-date="currentEndDate"
+              :description="currentDescription"
+              @saveEvent="saveEvent"
+              ref="form"
+          />
+        </b-modal>
+      </div>
+      <div class="col-6 col-md-4">
+        <events-table/>
+      </div>
     </div>
   </div>
 </template>
@@ -57,15 +61,15 @@
 <script>
 import Calendar from "v-year-calendar"
 import 'v-year-calendar/locales/v-year-calendar.ru'
-
 import FormEvent from "@/components/FormEvent"
 import TheNavbar from "@/components/TheNavbar"
 import EventsListOnDay from "@/view/EventsListOnDay";
-
+import EventsTable from "@/view/EventsTable";
 
 export default {
   name: "AppCalendar",
   components: {
+    EventsTable,
     EventsListOnDay,
     TheNavbar,
     FormEvent,
@@ -98,18 +102,18 @@ export default {
         //     this.show = true;
         //   }
         // },
-        {
-          text: "Удалить",
-          click: evt => {
-            this.$store.dispatch('deleteRecords', {id: evt.id})
-                .catch((error) => {
-                  this.$bvToast.toast('Ошибка! Невозможно удалить событие', {
-                    title: `${error}`,
-                    solid: true
-                  })
-                })
-          }
-        }
+        // {
+        //   text: "Удалить",
+        //   click: evt => {
+        //     this.$store.dispatch('deleteRecords', {id: evt.id})
+        //         .catch((error) => {
+        //           this.$bvToast.toast('Ошибка! Невозможно удалить событие', {
+        //             title: `${error}`,
+        //             solid: true
+        //           })
+        //         })
+        //   }
+        // }
       ]
     }
   },
@@ -197,7 +201,7 @@ export default {
     dayContextMenu(event) {
       let events = event.events
       this.events = []
-      let date = new Date(event.date).toLocaleDateString('ru-RU')
+      let date = new Date(event.startDate).toLocaleDateString('ru-RU')
       if (!this.events.length) {
         for (let event of events) {
           this.events.push(` ${date}  - ${event.user} ${event.name} `)
@@ -247,5 +251,4 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>
