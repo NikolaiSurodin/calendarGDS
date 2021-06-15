@@ -52,15 +52,23 @@
                :class="$v.user.profile.mobile.$error ? 'is-invalid' : ''"
         >
         <p v-if="isValidMobile" class="invalid-feedback">Ошибка! Неверный номер</p>
-
-        <input type="text"
-               id="inputBirthday"
-               class="form-control"
-               placeholder="День Рождения. Формат: ГГГГ-ММ-ЧЧ"
-               required
-               v-model="user.birthday"
-               :class="$v.user.birthday.$error ? 'is-invalid' : ''"
-        >
+        <b-input-group class="mb-3">
+          <b-form-input
+              id="example-input"
+              v-model="user.birthday"
+              type="text"
+              placeholder="День Рождения. ГГГГ-ММ-ЧЧ"
+              autocomplete="on"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-form-datepicker
+                v-model="user.birthday"
+                button-only
+                right
+                locale="ru-RU"
+            ></b-form-datepicker>
+          </b-input-group-append>
+        </b-input-group>
         <input type="text"
                id="inputState"
                class="form-control"

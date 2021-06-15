@@ -3,15 +3,16 @@
     <div class="px-3 py-2">
       <div class="filtered">
         <p class="mr-2">Одобренные</p>
-        <b-form-checkbox v-model="approve" name="check-button" switch>
+        <b-form-checkbox v-model="eventsOfStatus" id="check1" value="Одобрено" name="check-button" switch>
 
         </b-form-checkbox>
         <p class="mr-2">Прошлый год</p>
-        <b-form-checkbox v-model="lastYear" name="check-button" switch>
+        <b-form-checkbox v-model="eventsOfStatus" id="check2" :value="date" name="check-button"
+                         switch>
 
         </b-form-checkbox>
         <p class="mr-2">Отказано</p>
-        <b-form-checkbox v-model="reject" name="check-button" switch>
+        <b-form-checkbox v-model="eventsOfStatus" id="check3" value="Отклонено" name="check-button" switch>
 
         </b-form-checkbox>
       </div>
@@ -21,10 +22,10 @@
           <th>Тип</th>
           <th>Даты</th>
           <th>Статус</th>
-          <th>Удалить</th>
+          <th></th>
         </tr>
         </thead>
-        <tbody v-for="(event, id) in events" :key="id">
+        <tbody v-for="(event, id) in filteredEventsOfStatus" :key="id">
         <tr>
           <th>{{ event.kind }}</th>
           <td>{{ event.date_from }} - {{ event.date_to }}</td>
@@ -36,11 +37,7 @@
             {{ event.status }}
           </td>
           <td>
-            <b-button type="submit"
-                      variant="light"
-                      @click="deleteEvent(event.id)">
-              <b-icon icon="x-circle" scale="1" variant="danger"></b-icon>
-            </b-button>
+            <b-icon icon="x-circle" scale="2" variant="danger" class="icon" @click="deleteEvent(event.id)"></b-icon>
           </td>
         </tr>
         </tbody>
@@ -55,9 +52,9 @@ export default {
   name: "EventsTable",
   data() {
     return {
-      approve: false,
-      reject: false,
-      lastYear: false
+      eventsOfStatus: [],
+      date:new Date().getFullYear() - 1
+
     }
   },
   methods: {
@@ -72,24 +69,29 @@ export default {
     }
   },
   computed: {
+    filteredEventsOfStatus() {
+      let filteredEvents = []
+      // если есть выбранные чекбоксы
+      if (this.eventsOfStatus.length) {
+        //фильтруем данные
+        filteredEvents = this.events.filter((el) => this.eventsOfStatus.indexOf(el.status) !== -1 || new Date(el.date_from).getFullYear() < new Date().getFullYear())
+      }
+       else {
+        //иначе отдаем все данные из массива
+        filteredEvents = this.events
+      }
+      return filteredEvents
+    },
     events() {
-        return this.$store.getters.getEvents.map((r) => ({
-          id: r.id,
-          kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
-          date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
-          date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),
-          status: (r.status === 'approved') ? 'Одобрено' : (r.status === 'pending') ? 'На рассмотрении' : (r.status === 'rejected') ? 'Отклонено' : ''
-        }))
+      return this.$store.getters.getEvents.map((r) => ({
+        id: r.id,
+        kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
+        date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
+        date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),
+        status: (r.status === 'approved') ? 'Одобрено' : (r.status === 'pending') ? 'На рассмотрении' : (r.status === 'rejected') ? 'Отклонено' : ''
+      }))
     },
-    approvedEvents() {
-      return this.events.filter((el) => el.status === 'Одобрено')
-    },
-    rejectedEvents() {
-      return this.events.filter((el) => el.status === 'Отказано')
-    },
-    eventLastYear() {
-      return this.events.filter((el) => new Date(el.date_from).getFullYear() < new Date().getFullYear())
-    }
+
   }
 
 }
@@ -109,8 +111,13 @@ export default {
 }
 
 .filtered {
-  text-align: left;
   display: flex;
   padding: 1px;
 }
+
+.icon {
+  cursor: pointer;
+  height: 30px;
+}
+
 </style>

@@ -16,9 +16,9 @@
     </div>
     <div>
       <div class="button-list">
-        <request-events-table v-if="isSuperUser"/>
+        <request-events-table v-if="!isSuperUser"/>
         <div class="p-0">
-        <b-button variant="light" size="lg" type="button" @click="addEvent">
+        <b-button variant="outline-success" type="button" @click="addEvent">
           Создать
           <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
         </b-button>
@@ -72,7 +72,7 @@ export default {
 #events-log div {
   font-size: 14px;
   line-height: 1.1;
-  width: 200px;
+  max-width: 200px;
   padding: 10px;
 }
 
@@ -84,7 +84,9 @@ export default {
   background: #fff;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   border-radius: 8px;
-  margin-left: 15px;
+
+  text-align: center;
+  width: 200px;
 }
 .event-list{
   background: #fff;

@@ -6,9 +6,10 @@
           @toProfile="showProfile = !showProfile"
       />
     </template>
+
     <div class="row mt-5">
       <div class="col-6 col-md-2">
-        <template class="col-md-9">
+        <template class="col-md-7">
           <events-list-on-day :events="events"
                               @addEvent="addEventOfTableOnDay"
           >
