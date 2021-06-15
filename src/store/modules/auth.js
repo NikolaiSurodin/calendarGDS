@@ -65,22 +65,19 @@ export default {
             })
         },
         checkAuth({dispatch}) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve,reject) => {
                 if (this.getters.isLoggedIn) {
                     dispatch('setAuthHeader')
                         .then(() => {
-                            axios({url: 'https://vacation-api.thirty3.tools/api/v1/frontend/auth/me', method: 'GET'})
+                            axios({url: 'https://vacation-api.thirty3.tools/api/v1/admin/auth/me', method: 'GET'})
                                 .then(response => resolve(response))
+                                .catch((error) => {
+                                    if (Error.response.status === 401) {
+                                        dispatch('logout')
+                                    }
+                                    reject(error)
+                                })
                         })
-                        .catch((error) => {
-                            if (error.status === 401 && error.status === 404) {
-                                console.log(error)
-                                dispatch('logout')
-
-                            }
-                        })
-                } else {
-                    reject()
                 }
             })
         }

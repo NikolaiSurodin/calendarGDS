@@ -11,18 +11,16 @@ export default {
   methods: {
     check() {
       this.$store.dispatch('checkAuth')
-          .then(() => {
-          })
-          .catch((err) => {
-            console.log(err)
-            this.$router.push('/')
-          })
+      .catch(() => {
+        this.$router.push('/')
+      })
     }
   },
   beforeMount() {
     this.check()
   },
   mounted() {
+    this.check()
     this.$root.$on('logout', () => {
       this.$store.dispatch('logout')
           .then(() => {

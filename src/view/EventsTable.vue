@@ -1,18 +1,29 @@
 <template>
   <div>
     <div class="px-3 py-2">
-      <div class="filtered">
+      <div class="filtered px-lg-5 py-2">
         <p class="mr-2">Одобренные</p>
-        <b-form-checkbox v-model="eventsOfStatus" id="check1" value="Одобрено" name="check-button" switch>
+        <b-form-checkbox v-model="eventsOfStatus"
+                         id="check1"
+                         value="Одобрено"
+                         name="check-button"
+                         switch>
 
         </b-form-checkbox>
         <p class="mr-2">Прошлый год</p>
-        <b-form-checkbox v-model="eventsOfStatus" id="check2" :value="date" name="check-button"
+        <b-form-checkbox v-model="eventsOfStatus"
+                         id="check2"
+                         :value="date"
+                         name="check-button"
                          switch>
 
         </b-form-checkbox>
         <p class="mr-2">Отказано</p>
-        <b-form-checkbox v-model="eventsOfStatus" id="check3" value="Отклонено" name="check-button" switch>
+        <b-form-checkbox v-model="eventsOfStatus"
+                         id="check3"
+                         value="Отклонено"
+                         name="check-button"
+                         switch>
 
         </b-form-checkbox>
       </div>
@@ -90,10 +101,8 @@ export default {
         date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),
         status: (r.status === 'approved') ? 'Одобрено' : (r.status === 'pending') ? 'На рассмотрении' : (r.status === 'rejected') ? 'Отклонено' : ''
       }))
-    },
-
+    }
   }
-
 }
 </script>
 
@@ -113,6 +122,7 @@ export default {
 .filtered {
   display: flex;
   padding: 1px;
+
 }
 
 .icon {
