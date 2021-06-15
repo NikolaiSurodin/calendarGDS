@@ -126,8 +126,8 @@ export default {
       return this.$store.getters.getFilteredEvents.map((r) => ({
         last_name: r.user.profile.last_name,
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
-        date_from: r.date_from,
-        date_to: r.date_to,
+        date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
+        date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),
         id: r.id,
         busy: r.busy === true ? 'Недоступен для связи' : 'Доступен для связи',
         comment: r.comment,
