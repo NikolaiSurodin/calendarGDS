@@ -13,7 +13,6 @@
           <events-list-on-day :events="events"
                               @addEvent="addEventOfTableOnDay"
           >
-
           </events-list-on-day>
 
         </template>

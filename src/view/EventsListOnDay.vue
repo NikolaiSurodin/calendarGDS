@@ -3,25 +3,24 @@
     <div class="ml-3">
       <img src="../assets/logoGDS.png" height="70" width="150"/>
     </div>
-
     <div class="ml-3">
       <b>{{ date }}</b>
     </div>
-    <div class="ml-3"
+    <div class="ml-3 event-block table-hover event-list"
          v-for="(event,idx) in events"
          :key="idx"
     >
+      {{ event }}
 
-      <div class="event-block table-hover event-list">{{ event }}</div>
     </div>
     <div>
       <div class="button-list">
         <request-events-table v-if="!isSuperUser"/>
         <div class="p-0">
-        <b-button variant="outline-success" type="button" @click="addEvent">
-          Создать
-          <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
-        </b-button>
+          <b-button variant="outline-success" type="button" @click="addEvent">
+            Создать
+            <b-icon icon="circle-fill" animation="throb" font-scale="1"></b-icon>
+          </b-button>
         </div>
       </div>
     </div>
@@ -59,7 +58,7 @@ export default {
       }) + '  ' + new Date().toLocaleTimeString('ru-RU')
     })
   },
-  computed:{
+  computed: {
     isSuperUser() {
       return this.$store.getters.isSuperUser
     }
@@ -88,7 +87,8 @@ export default {
   text-align: center;
   width: 200px;
 }
-.event-list{
+
+.event-list {
   background: #fff;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   border-radius: 8px;
