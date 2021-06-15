@@ -71,13 +71,16 @@ export default {
                         .then(() => {
                             axios({url: 'https://vacation-api.thirty3.tools/api/v1/admin/auth/me', method: 'GET'})
                                 .then(response => resolve(response))
-                                .catch((error) => {
+                                .catch((Error) => {
                                     if (Error.response.status === 401) {
                                         dispatch('logout')
                                     }
-                                    reject(error)
+                                    reject(Error)
+
                                 })
                         })
+
+
                 }
             })
         }
