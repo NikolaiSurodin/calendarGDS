@@ -16,9 +16,10 @@ export default {
       })
     }
   },
-  mounted() {
+  beforeMount() {
     this.check()
-    console.log('a')
+  },
+  mounted() {
     this.$root.$on('logout', () => {
       this.$store.dispatch('logout')
           .then(() => {

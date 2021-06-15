@@ -2,11 +2,11 @@
   <div>
     <b-button v-b-toggle.sidebar-variant variant="light">Мои события</b-button>
     <b-sidebar id="sidebar-variant"
-               :right = true
+               :right=true
                title="Мои события"
                bg-variant="light"
                text-variant="dark" shadow
-                width="27%"
+               width="27%"
     >
       <div class="px-3 py-2">
         <table class="table table-sm">
@@ -29,7 +29,9 @@
              }">
               {{ event.status }}
             </td>
-            <td><b-button @click="deleteEvent(event.id)">Удалить</b-button></td>
+            <td>
+              <b-button @click="deleteEvent(event.id)">Удалить</b-button>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -45,16 +47,16 @@ export default {
   data() {
     return {}
   },
-  methods:{
+  methods: {
     deleteEvent(id) {
-      this.$store.dispatch('deleteRecords', {id:id})
+      this.$store.dispatch('deleteRecords', {id: id})
     }
   },
 
   computed: {
     events() {
       return this.$store.getters.getEvents.map((r) => ({
-        id:r.id,
+        id: r.id,
         kind: r.kind === 'vacation' ? 'Отпуск' : 'Отгул',
         date_from: new Date(r.date_from).toLocaleDateString('ru-RU'),
         date_to: new Date(r.date_to).toLocaleDateString('ru-RU'),

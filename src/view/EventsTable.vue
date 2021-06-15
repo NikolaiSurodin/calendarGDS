@@ -85,7 +85,8 @@ export default {
       // если есть выбранные чекбоксы
       if (this.eventsOfStatus.length) {
         //фильтруем данные
-        filteredEvents = this.events.filter((el) => this.eventsOfStatus.indexOf(el.status) !== -1 || new Date(el.date_from).getFullYear() < new Date().getFullYear())
+        filteredEvents = this.events.filter((el) => new Date(el.date_from).getFullYear() === this.date )
+        filteredEvents = this.events.filter((el) => this.eventsOfStatus.indexOf(el.status) !== -1)
       }
        else {
         //иначе отдаем все данные из массива
@@ -102,6 +103,11 @@ export default {
         status: (r.status === 'approved') ? 'Одобрено' : (r.status === 'pending') ? 'На рассмотрении' : (r.status === 'rejected') ? 'Отклонено' : ''
       }))
     }
+  },
+  mounted() {
+    let a = this.events.filter((el) => new Date(el.date_from).toLocaleDateString('ru-RU') > new Date().toLocaleDateString('ru-RU'))
+    console.log(a)
+   console.log(new Date().toLocaleDateString('ru-RU'))
   }
 }
 </script>
